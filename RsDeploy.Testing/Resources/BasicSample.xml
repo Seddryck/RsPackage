@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Projet>
+  <Folder name="Analysis">
+    <Report name="Company sales">
+      <Path>Company Sales.rdl</Path>
+    </Report>
+  </Folder>
+</Projet>
