@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseService.cs" />
+    <Compile Include="Execution\RoleService.cs" />
     <Compile Include="Execution\ReportService.cs" />
     <Compile Include="Execution\FolderService.cs" />
     <Compile Include="MessageEventArgs.cs" />
