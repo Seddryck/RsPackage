@@ -22,6 +22,11 @@ namespace RsDeploy.Testing.Execution
             return rs;
         }
 
+        protected string GetUserName()
+        {
+            return System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+        }
+
         [SetUp]
         public void SetUp()
         {
@@ -51,7 +56,7 @@ namespace RsDeploy.Testing.Execution
             rs.CreateRole("*Test* My First Role", "My First Role description", new[] { "Manage all subscriptions", "View reports" });
 
             var service = new PolicyService(rs);
-            var newPolicy = new Tuple<string, string[]>("*Test* My First Role", new[] { @"BELGRID\GHL255" });
+            var newPolicy = new Tuple<string, string[]>("*Test* My First Role", new[] { GetUserName() });
             service.Create("/ReportFolder", Enumerable.Repeat(newPolicy, 1));
 
             var inherit = true;
@@ -62,19 +67,26 @@ namespace RsDeploy.Testing.Execution
         }
 
         [Test]
-        public void CreateExistingRoleAndUpdateItByRemovingTasks()
+        public void CreateNewPolicyWithTwoRoles()
         {
             var rs = GetReportingService();
-            rs.CreateRole("*Test* My First Role", "My First Role description", new[] { "Manage all subscriptions", "View reports" });
+            rs.CreateRole("*Test* My First Role", "My First Role description", new[] { "View reports" });
+            rs.CreateRole("*Test* My Second Role", "My Second Role description", new[] { "Manage all subscriptions" });
 
-            var service = new RoleService(rs);
-            service.Create("*Test* My First Role", "My First Role description 2", new[] { "Manage all subscriptions" });
+            var service = new PolicyService(rs);
+            var newPolicy1 = new Tuple<string, string[]>("*Test* My First Role", new[] { GetUserName() });
+            var newPolicy2 = new Tuple<string, string[]>("*Test* My Second Role", new[] { GetUserName() });
+            var newPolicies = new List<Tuple<string, string[]>>();
+            newPolicies.Add(newPolicy1);
+            newPolicies.Add(newPolicy2);
+            service.Create("/ReportFolder", newPolicies);
 
-            var descr = string.Empty;
-            var tasks = rs.GetRoleProperties("*Test* My First Role", null, out descr);
+            var inherit = true;
+            var policies = rs.GetPolicies("*Test* My First Role", out inherit);
 
-            Assert.That(tasks, Has.Count.EqualTo(1));
-            Assert.That(descr, Is.EqualTo("My First Role description 2"));
+            Assert.That(inherit, Is.False);
+            Assert.That(policies, Has.Count.EqualTo(1));
         }
+
     }
 }

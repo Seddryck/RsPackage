@@ -10,6 +10,7 @@ using RsDeploy.Execution;
 namespace RsDeploy.Testing.Execution
 {
     [TestFixture]
+    [Category("NotAdvancedServices ")]
     public class RoleServiceTest
     {
         private string ProductCatalogPath { get; set; }
