@@ -39,7 +39,7 @@
     <Reference Include="System.Web.Services" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Execution\RoleServiceTest - Copy.cs" />
+    <Compile Include="Execution\PolicyServiceTest.cs" />
     <Compile Include="Execution\RoleServiceTest.cs" />
     <Compile Include="FileOnDisk.cs" />
     <Compile Include="Execution\ReportServiceTest.cs" />

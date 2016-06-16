@@ -35,21 +35,21 @@ namespace RsDeploy.Parser
         protected void GetPolicy(XmlNode node, string parent)
         {
             var membershipNodes = node.SelectNodes("Membership");
-            if (membershipNodes.Count>0)
-            { 
-                var securities = new List<Tuple<string, string[]>>();
-                foreach (XmlNode membershipNode in membershipNodes)
-                {
-                    var role = membershipNode.Attributes["Role"].Value;
-                    var members = new List<string>();
-                    foreach (XmlNode memberNode in membershipNode.SelectNodes("Task"))
-                        members.Add(memberNode.Value);
-                    var security = new Tuple<string, string[]>(role, members.ToArray());
-                    securities.Add(security);
-                }
+            if (membershipNodes.Count == 0)
+                return;
 
-                policyService.Create(parent, securities);
+            var securities = new List<Tuple<string, string[]>>();
+            foreach (XmlNode membershipNode in membershipNodes)
+            {
+                var role = membershipNode.Attributes["Role"].Value;
+                var members = new List<string>();
+                foreach (XmlNode memberNode in membershipNode.SelectNodes("Task"))
+                    members.Add(memberNode.Value);
+                var security = new Tuple<string, string[]>(role, members.ToArray());
+                securities.Add(security);
             }
+
+            policyService.Create(parent, securities);
         }
 
         protected void GetFolders(XmlNode node, string parent)
