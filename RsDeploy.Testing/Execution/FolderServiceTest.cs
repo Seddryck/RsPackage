@@ -12,6 +12,13 @@ namespace RsDeploy.Testing.Execution
     [TestFixture]
     public class FolderServiceTest
     {
+        protected ReportingService.ReportingService2010 GetReportingService()
+        {
+            var rs = new ReportingService.ReportingService2010();
+            rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            return rs;
+        }
+
         [SetUp]
         public void SetUp()
         {
@@ -26,8 +33,7 @@ namespace RsDeploy.Testing.Execution
 
         private void Cleanup()
         {
-            var rs = new ReportingService.ReportingService2010();
-            rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            var rs = GetReportingService();
 
             if (rs.GetItemType("/ChildFolder") == "Folder")
                 rs.DeleteItem("/ChildFolder");
@@ -39,8 +45,7 @@ namespace RsDeploy.Testing.Execution
         [Test]
         public void CreateFolderAtRootLevel()
         {
-            var rs = new ReportingService.ReportingService2010();
-            rs.Credentials = System.Net.CredentialCache.DefaultCredentials;   
+            var rs = GetReportingService();
 
             var service = new FolderService(rs);
             service.Create("ChildFolder", "/");
@@ -51,8 +56,7 @@ namespace RsDeploy.Testing.Execution
         [Test]
         public void CreateFolderAtSecondLevel()
         {
-            var rs = new ReportingService.ReportingService2010();
-            rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            var rs = GetReportingService();
 
             rs.CreateFolder("FirstFolder", "/", null);
 
@@ -65,8 +69,7 @@ namespace RsDeploy.Testing.Execution
         [Test]
         public void CreateAlreadyExistingFolder()
         {
-            var rs = new ReportingService.ReportingService2010();
-            rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            var rs = GetReportingService();
 
             rs.CreateFolder("ChildFolder", "/", null);
 
