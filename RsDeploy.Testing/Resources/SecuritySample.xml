@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Projet>
+  <Role Name="Reader">
+    <Task>Consume reports</Task>
+    <Task>View reports</Task>
+  </Role>
+  <Role Name="Content Manager">
+    <Task>Manage reports</Task>
+    <Task>Consume reports</Task>
+  </Role>
+  <Folder name="Analysis">
+    <Membership Role="Reader">
+      <Member>Domain\User1</Member>
+      <Member>Domain\User2</Member>
+    </Membership>
+    <Report name="Company sales">
+      <Path>Company Sales.rdl</Path>
+      <Membership Role="Advanced Reader">
+        <Member>Domain\User3</Member>
+      </Membership>
+      <Membership Role="Browser">
+        <Member>Domain\User3</Member>
+      </Membership>
+    </Report>
+  </Folder>
+</Projet>

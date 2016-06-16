@@ -13,25 +13,64 @@ namespace RsDeploy.Parser
         private XmlDocument doc;
         private FolderService folderService;
         private ReportService reportService;
+        private RoleService roleService;
+        private PolicyService policyService;
+
+        protected void GetRoles(XmlNode node)
+        {
+            var roleNodes = node.SelectNodes("Role");
+            foreach (XmlNode roleNode in roleNodes)
+            {
+                var name = roleNode.Attributes["Name"].Value;
+                var description = roleNode.SelectSingleNode("Description")?.Value;
+                var tasks = new List<string>();
+                var taskNodes = roleNode.SelectNodes("Task");
+                foreach (XmlNode taskNode in taskNodes)
+                    tasks.Add(taskNode.Value);
+
+                roleService.Create(name, description, tasks.ToArray());
+            }
+        }
+
+        protected void GetPolicy(XmlNode node, string parent)
+        {
+            var membershipNodes = node.SelectNodes("Membership");
+            if (membershipNodes.Count>0)
+            { 
+                var securities = new List<Tuple<string, string[]>>();
+                foreach (XmlNode membershipNode in membershipNodes)
+                {
+                    var role = membershipNode.Attributes["Role"].Value;
+                    var members = new List<string>();
+                    foreach (XmlNode memberNode in membershipNode.SelectNodes("Task"))
+                        members.Add(memberNode.Value);
+                    var security = new Tuple<string, string[]>(role, members.ToArray());
+                    securities.Add(security);
+                }
+
+                policyService.Create(parent, securities);
+            }
+        }
 
         protected void GetFolders(XmlNode node, string parent)
         {
-            var folders = node.SelectNodes("Folder");
-            foreach (XmlNode folder in folders)
+            var folderNodes = node.SelectNodes("Folder");
+            foreach (XmlNode folderNode in folderNodes)
             {
-                var name = folder.Attributes["Name"].Value;
+                var name = folderNode.Attributes["Name"].Value;
                 folderService.Create(name, parent);
                 GetReports(node, parent);
                 GetFolders(node, $"{parent}/{name}");
             }
         }
+
         protected void GetReports(XmlNode node, string parent)
         {
-            var reports = node.SelectNodes("Report");
-            foreach (XmlNode report in reports)
+            var reportNodes = node.SelectNodes("Report");
+            foreach (XmlNode reportNode in reportNodes)
             {
-                var name = report.Attributes["Name"].Value;
-                var path = report.Attributes["Path"]?.Value;
+                var name = reportNode.Attributes["Name"].Value;
+                var path = reportNode.Attributes["Path"]?.Value;
                 reportService.Create(name, parent, path);
             }
         }
