@@ -15,6 +15,9 @@ namespace RsDeploy
 
         protected ReportingService2010 reportingService { get; }
 
+        public BaseService()
+        { }
+
         public BaseService(ReportingService2010 reportingService)
         {
             this.reportingService = reportingService;
@@ -36,6 +39,7 @@ namespace RsDeploy
         {
             var e = MessageEventArgs.Error(message);
             MessageSent?.Invoke(this, e);
+            throw new InvalidOperationException();
         }
     }
 }

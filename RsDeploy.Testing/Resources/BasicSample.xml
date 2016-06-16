@@ -1,8 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Projet>
-  <Folder name="Analysis">
-    <Report name="Company sales">
+  <Folder Name="Analysis">
+    <Report Name="Company sales">
       <Path>Company Sales.rdl</Path>
     </Report>
   </Folder>
+  <Report Name="Department sales"/>
+  <Report Name="Team sales">
+    <Path>Team Sales.rdl</Path>
+  </Report>
 </Projet>

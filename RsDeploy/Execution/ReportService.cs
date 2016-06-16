@@ -11,11 +11,14 @@ namespace RsDeploy.Execution
 {
     public class ReportService : BaseService
     {
+        public ReportService()
+        {}
+
         public ReportService(ReportingService2010 reportingService) 
             : base(reportingService)
         {}
 
-        public void Create(string name, string parent, string path)
+        public virtual void Create(string name, string parent, string path)
         {
             if (!File.Exists(path))
             {
