@@ -17,7 +17,7 @@ namespace RsDeploy.Testing.Execution
         protected ReportingService.ReportingService2010 GetReportingService()
         {
             var rs = new ReportingService.ReportingService2010();
-            rs.Url = "http://localhost/ReportServer_SQL2014/ReportService2010.asmx";
+            rs.Url = ConnectionStringReader.GetReportingServiceUrl();
             rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
             return rs;
         }

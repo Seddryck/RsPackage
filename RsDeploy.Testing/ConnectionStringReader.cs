@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using System.IO;
 
 namespace RsDeploy.Testing
 {
@@ -19,16 +20,19 @@ namespace RsDeploy.Testing
 
         private static string GetFilename()
         {
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var path = Path.GetDirectoryName(assembly.Location);
+
             //If available use the user file
-            if (System.IO.File.Exists("ConnectionString.user.config"))
-            {
-                return "ConnectionString.user.config";
-            }
-            else if (System.IO.File.Exists("ConnectionString.config"))
-            {
-                return "ConnectionString.config";
-            }
-            return "";
+            var fullPath = Path.Combine(path, "ConnectionString.user.config");
+            if (File.Exists(fullPath))
+                return fullPath;
+
+            fullPath = Path.Combine(path, "ConnectionString.config");
+            if (File.Exists(fullPath))
+                return fullPath;
+
+            throw new InvalidProgramException("No configuration file found");
         }
 
         internal static string GetReportingServiceUrl()
