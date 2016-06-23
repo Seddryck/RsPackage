@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Projet>
   <Folder Name="Analysis">
-    <Report Name="Company sales">
+    <Report Name="Company sales" Hidden="True">
       <Path>Company Sales.rdl</Path>
     </Report>
   </Folder>
