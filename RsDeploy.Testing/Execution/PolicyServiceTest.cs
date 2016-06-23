@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Services;
 using RsDeploy.Execution;
+using RsDeploy.ReportingService;
 
 namespace RsDeploy.Testing.Execution
 {
@@ -42,8 +43,20 @@ namespace RsDeploy.Testing.Execution
         {
             var rs = GetReportingService();
 
+            
+
             if (rs.GetItemType("/ReportFolder") == "Folder")
+            {
+                var policy = new Policy()
+                {
+                    GroupUserName = GetUserName(),
+                    Roles = rs.ListRoles("All", null).Where(r => r.Name== "Content Manager").ToArray()
+                };
+
+                rs.SetPolicies("/ReportFolder", Enumerable.Repeat(policy, 1).ToArray());
                 rs.DeleteItem("/ReportFolder");
+            }
+                
 
             var testRoles = rs.ListRoles("All", null).Where(r => r.Name.StartsWith("*Test*")).Select(r => r.Name);
             foreach (var testRole in testRoles)
@@ -54,25 +67,38 @@ namespace RsDeploy.Testing.Execution
         public void CreateNewPolicy()
         {
             var rs = GetReportingService();
-            rs.CreateRole("*Test* My First Role", "My First Role description", new[] { "Manage all subscriptions", "View reports" });
+            var taskIDs = new List<string>();
+            taskIDs.AddRange(
+                rs.ListTasks("All")
+                    .Where(t => new[] { "Manage all subscriptions", "View reports" }.Contains(t.Name))
+                    .Select(t => t.TaskID)
+            );
+            rs.CreateRole("*Test* My First Role", "My First Role description", taskIDs.ToArray());
 
             var service = new PolicyService(rs);
             var newPolicy = new Tuple<string, string[]>("*Test* My First Role", new[] { GetUserName() });
             service.Create("/ReportFolder", Enumerable.Repeat(newPolicy, 1));
 
             var inherit = true;
-            var policies = rs.GetPolicies("*Test* My First Role", out inherit);
+            var policies = rs.GetPolicies("/ReportFolder", out inherit);
 
+            Assert.That(policies.Count, Is.EqualTo(1));
             Assert.That(inherit, Is.False);
-            Assert.That(policies, Has.Count.EqualTo(1));
+            
         }
 
         [Test]
         public void CreateNewPolicyWithTwoRoles()
         {
             var rs = GetReportingService();
-            rs.CreateRole("*Test* My First Role", "My First Role description", new[] { "View reports" });
-            rs.CreateRole("*Test* My Second Role", "My Second Role description", new[] { "Manage all subscriptions" });
+            var taskIDs = new List<string>();
+            taskIDs.AddRange(
+                rs.ListTasks("All")
+                    .Where(t => new[] { "Manage all subscriptions", "View reports" }.Contains(t.Name))
+                    .Select(t => t.TaskID)
+            );
+            rs.CreateRole("*Test* My First Role", "My First Role description", taskIDs.Take(1).ToArray());
+            rs.CreateRole("*Test* My Second Role", "My Second Role description", taskIDs.Skip(1).ToArray());
 
             var service = new PolicyService(rs);
             var newPolicy1 = new Tuple<string, string[]>("*Test* My First Role", new[] { GetUserName() });
@@ -83,10 +109,10 @@ namespace RsDeploy.Testing.Execution
             service.Create("/ReportFolder", newPolicies);
 
             var inherit = true;
-            var policies = rs.GetPolicies("*Test* My First Role", out inherit);
+            var policies = rs.GetPolicies("/ReportFolder", out inherit);
 
+            Assert.That(policies.Count, Is.EqualTo(1));
             Assert.That(inherit, Is.False);
-            Assert.That(policies, Has.Count.EqualTo(1));
         }
 
     }
