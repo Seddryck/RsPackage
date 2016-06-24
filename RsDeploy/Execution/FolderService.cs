@@ -11,11 +11,14 @@ namespace RsDeploy.Execution
 {
     public class FolderService : BaseService
     {
+        public FolderService()
+        { }
+
         public FolderService(ReportingService2010 reportingService) 
             : base(reportingService)
         {}
 
-        public void Create(string folder, string parent)
+        public virtual void Create(string folder, string parent)
         {
             if (reportingService.GetItemType($"{parent}{folder}") == "Folder")
                 OnInformation($"Folder '{folder}' already existing");

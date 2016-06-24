@@ -8,17 +8,19 @@ using System.Xml;
 
 namespace RsDeploy.Parser.Xml
 {
-    class FolderParser : IParser
+    public class FolderParser : IParser
     {
         private FolderService folderService;
         private IList<IParser> ChildrenParsers;
 
-        public FolderParser()
+        public FolderParser(FolderService folderService)
         {
             ChildrenParsers = new List<IParser>();
             //ChildrenParsers.Add(new ReportParser());
             //ChildrenParsers.Add(new PolicyParser());
+            this.folderService = folderService;
         }
+        
 
         public void Execute(XmlNode node, string parent)
         {

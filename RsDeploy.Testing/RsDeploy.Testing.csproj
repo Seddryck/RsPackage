@@ -54,6 +54,7 @@
     <Compile Include="FileOnDisk.cs" />
     <Compile Include="Execution\ReportServiceTest.cs" />
     <Compile Include="Execution\FolderServiceTest.cs" />
+    <Compile Include="Parser\FolderParserTest.cs" />
     <Compile Include="Parser\ReportParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
