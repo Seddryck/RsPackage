@@ -11,7 +11,7 @@ namespace RsDeploy.Parser.Xml
     public class FolderParser : IParser
     {
         private FolderService folderService;
-        private IList<IParser> ChildrenParsers;
+        private List<IParser> ChildrenParsers;
 
         public FolderParser(FolderService folderService)
         {
@@ -20,7 +20,14 @@ namespace RsDeploy.Parser.Xml
             //ChildrenParsers.Add(new PolicyParser());
             this.folderService = folderService;
         }
-        
+
+        public FolderParser(FolderService folderService, IEnumerable<IParser> childParsers)
+        {
+            ChildrenParsers = new List<IParser>();
+            ChildrenParsers.AddRange(childParsers);
+            this.folderService = folderService;
+        }
+
 
         public void Execute(XmlNode node, string parent)
         {

@@ -59,5 +59,34 @@ namespace RsDeploy.Testing.Parser
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(4));
         }
 
+        [Test]
+        public void ParseReportsMultipleFolderNode()
+        {
+            var stubFolderService = new Mock<FolderService>();
+            stubFolderService.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            var folderService = stubFolderService.Object;
+
+            var stubReportService = new Mock<ReportService>();
+            stubReportService.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
+            var reportService = stubReportService.Object;
+
+            var mockReportParser = new Mock<ReportParser>(reportService);
+            mockReportParser.Setup(s => s.Execute(It.IsAny<XmlNode>(), It.IsAny<string>())).Verifiable();
+            var childParser = (IParser)mockReportParser.Object;
+
+            var parser = new FolderParser(folderService, Enumerable.Repeat(childParser, 1));
+
+            var xmlDoc = new XmlDocument();
+            using (Stream stream = Assembly.GetExecutingAssembly()
+                        .GetManifestResourceStream("RsDeploy.Testing.Resources.MultiLevelSample.xml"))
+            using (StreamReader reader = new StreamReader(stream))
+                xmlDoc.Load(reader);
+
+            var root = xmlDoc.FirstChild.NextSibling;
+            parser.Execute(root, "parent");
+
+            Mock.Get(childParser).Verify(s => s.Execute(It.IsAny<XmlNode>(), It.IsAny<string>()), Times.Exactly(4));
+        }
+
     }
 }

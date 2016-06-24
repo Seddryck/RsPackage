@@ -13,13 +13,15 @@ namespace RsDeploy.Parser.Xml
         private ReportService reportService;
         private IEnumerable<IParser> ChildrenParsers;
 
+
+
         public ReportParser(ReportService reportService)
         {
             this.reportService = reportService;
             ChildrenParsers = new List<IParser>();
         }
 
-        public void Execute(XmlNode node, string parent)
+        public virtual void Execute(XmlNode node, string parent)
         {
             var reportNodes = node.SelectNodes("./Report");
             foreach (XmlNode reportNode in reportNodes)
