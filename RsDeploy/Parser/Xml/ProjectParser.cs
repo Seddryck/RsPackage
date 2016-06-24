@@ -29,8 +29,6 @@ namespace RsDeploy.Parser.Xml
 
         public void Execute(Stream stream)
         {
-
-
             var xmlDoc = new XmlDocument();
             using (StreamReader reader = new StreamReader(stream))
                 xmlDoc.Load(reader);

@@ -7,7 +7,7 @@ using RsDeploy.ReportingService;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 
-namespace RsDeploy
+namespace RsDeploy.Execution
 {
     public class BaseService
     {
