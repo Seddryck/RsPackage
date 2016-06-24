@@ -26,6 +26,7 @@
     <xs:sequence>
       <xs:element maxOccurs="1" name="Path"/>
       <xs:element maxOccurs="1" name="Description"/>
+      <xs:element name="Parameter" type="Parameter-type"/>
       <xs:element maxOccurs="1" name="Membership" type="Membership-Type"/>
     </xs:sequence>
     <xs:attribute name="Name" use="required"/>
@@ -42,5 +43,12 @@
       <xs:element minOccurs="1" name="Member"/>
     </xs:sequence>
     <xs:attribute name="Role" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="Parameter-Type">
+    <xs:sequence>
+      <xs:element minOccurs="1" name="Value"/>
+    </xs:sequence>
+    <xs:attribute name="Name" use="required"/>
+    <xs:attribute name="Hidden"/>
   </xs:complexType>
 </xs:schema>
