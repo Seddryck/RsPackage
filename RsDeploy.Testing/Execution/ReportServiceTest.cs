@@ -35,6 +35,9 @@ namespace RsDeploy.Testing.Execution
 
             ProductCatalogPath = FileOnDisk.CreatePhysicalFile("ProductCatalog.rdl", "RsDeploy.Testing.Resources.Product Catalog.rdl");
 
+            if (rs.GetItemType("/Data Sources") != "Folder")
+                rs.CreateFolder("Data Sources", "/", null);
+
             if (rs.GetItemType("/Data Sources/AdventureWorks") != "DataSource")
             {
                 var ds = new DataSourceDefinition()
