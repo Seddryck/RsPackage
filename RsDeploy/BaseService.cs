@@ -11,7 +11,7 @@ namespace RsDeploy
 {
     public class BaseService
     {
-        public event EventHandler MessageSent;
+        public event EventHandler<MessageEventArgs> MessageSent;
 
         protected ReportingService2010 reportingService { get; }
 

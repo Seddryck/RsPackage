@@ -60,11 +60,11 @@ namespace RsDeploy.Execution
                 OnWarning(warning.Message);
         }
 
-        public virtual void Create(string name, string parent, string path, Dictionary<string, string> dataSources)
+        public virtual void Create(string name, string parent, string path, string description, bool hidden, Dictionary<string, string> dataSources)
         {
-            Create(name, parent, path);
+            Create(name, parent, path, description, hidden);
 
-            var reportDataSources = reportingService.GetItemDataSources(path);
+            var reportDataSources = reportingService.GetItemDataSources($"{parent}/{name}");
             OnInformation($"Referencing {reportDataSources.Count()} data sources for report '{name}' in '{parent}'");
             
             foreach (var reportDataSource in reportDataSources)
@@ -72,17 +72,17 @@ namespace RsDeploy.Execution
                 if (dataSources.ContainsKey(reportDataSource.Name))
                 {
                     var dsRef = new DataSourceReference();
-                    var reference = string.Empty;
-                    dataSources.TryGetValue("reportDataSource.Name", out reference);
-                    dsRef.Reference = reference;
-
+                    dsRef.Reference = dataSources[reportDataSource.Name];
                     reportDataSource.Item = dsRef;
                 }
                 else
                     OnWarning($"The data source '{reportDataSource.Name}' of the report '{name}' has not been overridden because this data source is not defined in the deployment manifest.");
             }
 
-            reportingService.SetItemDataSources(path, reportDataSources);
+            if (reportDataSources!=null && !reportDataSources.Any(ds => ds.Item is InvalidDataSourceReference))
+                reportingService.SetItemDataSources($"{parent}/{name}", reportDataSources);
+            else
+                OnError($"The data sources of report '{name}' have not been redirected because some of them are not available in the manifest.");
         }
     }
 }

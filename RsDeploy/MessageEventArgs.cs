@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RsDeploy
 {
-    class MessageEventArgs : EventArgs
+    public class MessageEventArgs : EventArgs
     {
         private DateTime time;
         private string message;

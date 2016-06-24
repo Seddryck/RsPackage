@@ -96,5 +96,37 @@ namespace RsDeploy.Testing.Execution
             Assert.That(properties[0].Value, Is.EqualTo(true.ToString()));
         }
 
+        [Test]
+        public void CreateReportRedirectDataSource()
+        {
+            var rs = GetReportingService();
+
+            var ds = new Dictionary<string, string>();
+            ds.Add("AdventureWorks", "/Data Sources/AdventureWorks");
+
+            var service = new ReportService(rs);
+            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds);
+
+            var dsRef = rs.GetItemDataSources("/ReportFolder/My First Report");
+            Assert.That(dsRef.Count(), Is.EqualTo(1));
+            Assert.That(dsRef[0].Item, Is.TypeOf<DataSourceReference>());
+            Assert.That((dsRef[0].Item as DataSourceReference).Reference, Is.EqualTo("/Data Sources/AdventureWorks"));
+        }
+
+        [Test]
+        public void CreateReportRedirectMissingDataSource()
+        {
+            var rs = GetReportingService();
+
+            var ds = new Dictionary<string, string>();
+
+            var service = new ReportService(rs);
+            var error = false;
+            service.MessageSent += (o, e) => error |= e.Level == MessageEventArgs.LevelOption.Error;
+            
+            Assert.Catch<InvalidOperationException>(() => service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds));
+            Assert.That(error, Is.True);
+        }
+
     }
 }
