@@ -60,9 +60,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ConnectionString.user.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <MyOptionalItems Include="ConnectionString.user.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </MyOptionalItems>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="ConnectionString.AppVeyor.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -109,11 +111,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="CopyOptionalFiles" AfterTargets="Build">
+    <Message Text="Copy optional files" />
+    <CreateItem Include="@(MyOptionalItems)">
+      <Output ItemName="ItemsThatNeedToBeCopied" TaskParameter="Include" />
+    </CreateItem>
+    <Copy SourceFiles="@(ItemsThatNeedToBeCopied)" DestinationFolder="$(OutputPath)" Condition="Exists('%(RootDir)%(Directory)%(Filename)%(Extension)')" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
