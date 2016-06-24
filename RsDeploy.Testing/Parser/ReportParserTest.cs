@@ -21,7 +21,7 @@ namespace RsDeploy.Testing.Parser
         public void ParseReportNode()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -35,14 +35,14 @@ namespace RsDeploy.Testing.Parser
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
             parser.Execute(root, "parent");
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Once);
         }
 
         [Test]
         public void ParseTwoReportNodes()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -56,14 +56,14 @@ namespace RsDeploy.Testing.Parser
             var root = xmlDoc.FirstChild.NextSibling;
             parser.Execute(root, "parent");
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Exactly(2));
         }
 
         [Test]
         public void ParseCorrectName()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -77,14 +77,14 @@ namespace RsDeploy.Testing.Parser
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
             parser.Execute(root, "parent");
 
-            Mock.Get(service).Verify(s => s.Create("Company sales", It.IsAny<string>(), It.IsAny<string>()));
+            Mock.Get(service).Verify(s => s.Create("Company sales", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
         }
 
         [Test]
         public void ParseCorrectParent()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -98,14 +98,14 @@ namespace RsDeploy.Testing.Parser
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
             parser.Execute(root, "parent");
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(),"parent", It.IsAny<string>()));
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(),"parent", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
         }
 
         [Test]
         public void ParseCorrectPathWhenUnspecified()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -119,7 +119,49 @@ namespace RsDeploy.Testing.Parser
             var root = xmlDoc.FirstChild.NextSibling;
             parser.Execute(root, "parent");
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), "DepartmentSales.rdl"));
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), "DepartmentSales.rdl", It.IsAny<string>(), It.IsAny<bool>()));
+        }
+
+        [Test]
+        public void ParseCorrectHiddenWhenUnspecified()
+        {
+            var mock = new Mock<ReportService>();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
+            var service = mock.Object;
+
+            var parser = new ReportParser(service);
+
+            var xmlDoc = new XmlDocument();
+            using (Stream stream = Assembly.GetExecutingAssembly()
+                        .GetManifestResourceStream("RsDeploy.Testing.Resources.BasicSample.xml"))
+            using (StreamReader reader = new StreamReader(stream))
+                xmlDoc.Load(reader);
+
+            var root = xmlDoc.FirstChild.NextSibling;
+            parser.Execute(root, "parent");
+
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), false));
+        }
+
+        [Test]
+        public void ParseCorrectHiddenWhenSpecified()
+        {
+            var mock = new Mock<ReportService>();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
+            var service = mock.Object;
+
+            var parser = new ReportParser(service);
+
+            var xmlDoc = new XmlDocument();
+            using (Stream stream = Assembly.GetExecutingAssembly()
+                        .GetManifestResourceStream("RsDeploy.Testing.Resources.BasicSample.xml"))
+            using (StreamReader reader = new StreamReader(stream))
+                xmlDoc.Load(reader);
+
+            var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
+            parser.Execute(root, "parent");
+
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), true));
         }
     }
 }

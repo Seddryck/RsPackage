@@ -28,7 +28,10 @@ namespace RsDeploy.Parser.Xml
                 var path = reportNode.SelectSingleNode("./Path")?.InnerXml;
                 path = path ?? $"{Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(name.ToLower()).Replace(" ", string.Empty)}.rdl";
 
-                reportService.Create(name, parent, path);
+                var description = reportNode.SelectSingleNode("./Description")?.InnerXml;
+                var hidden = bool.Parse(reportNode.Attributes["Hidden"]?.Value ?? bool.FalseString);
+
+                reportService.Create(name, parent, path, description, hidden);
             }
         }
     }

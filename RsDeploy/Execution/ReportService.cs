@@ -20,6 +20,11 @@ namespace RsDeploy.Execution
 
         public virtual void Create(string name, string parent, string path)
         {
+            Create(name, parent, path, string.Empty, false);
+        }
+
+        public virtual void Create(string name, string parent, string path, string description, bool hidden)
+        {
             if (!File.Exists(path))
             {
                 OnError($"File '{path}' doesn't exist!");
@@ -43,7 +48,13 @@ namespace RsDeploy.Execution
 
             Warning[] warnings = null;
             OnInformation($"Creating report '{name}' in '{parent}'");
-            reportingService.CreateCatalogItem("Report", name, parent, true, definition, null, out warnings);
+
+            var properties = new List<Property>();
+            properties.Add(new Property() { Name = "Description", Value = description });
+            properties.Add(new Property() { Name = "Hidden", Value = hidden.ToString() });
+
+
+            reportingService.CreateCatalogItem("Report", name, parent, true, definition, properties.ToArray(), out warnings);
 
             foreach (var warning in warnings)
                 OnWarning(warning.Message);

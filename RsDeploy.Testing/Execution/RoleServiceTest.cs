@@ -50,7 +50,7 @@ namespace RsDeploy.Testing.Execution
             var descr = string.Empty;
             var tasks = rs.GetRoleProperties("*Test* My First Role", null, out descr);
 
-            Assert.That(tasks, Has.Count.EqualTo(2));
+            Assert.That(tasks.Count, Is.EqualTo(2));
             Assert.That(descr, Is.EqualTo("My First Role description"));
         }
 
@@ -58,7 +58,14 @@ namespace RsDeploy.Testing.Execution
         public void CreateExistingRole()
         {
             var rs = GetReportingService();
-            rs.CreateRole("*Test* My First Role", "My First Role description", new[] { "Manage all subscriptions", "View reports" });
+            var taskIDs = new List<string>();
+            taskIDs.AddRange(
+                rs.ListTasks("All")
+                    .Where(t => new[] { "Manage all subscriptions", "View reports" }.Contains(t.Name))
+                    .Select(t => t.TaskID)
+            );
+
+            rs.CreateRole("*Test* My First Role", "My First Role description", taskIDs.ToArray());
 
             var service = new RoleService(rs);
             service.Create("*Test* My First Role", "My First Role description", new[] { "Manage all subscriptions", "View reports" });
@@ -66,7 +73,7 @@ namespace RsDeploy.Testing.Execution
             var descr = string.Empty;
             var tasks = rs.GetRoleProperties("*Test* My First Role", null, out descr);
 
-            Assert.That(tasks, Has.Count.EqualTo(2));
+            Assert.That(tasks.Count(), Is.EqualTo(2));
             Assert.That(descr, Is.EqualTo("My First Role description"));
         }
 
@@ -74,7 +81,14 @@ namespace RsDeploy.Testing.Execution
         public void CreateExistingRoleAndUpdateItByAddingTasks()
         {
             var rs = GetReportingService();
-            rs.CreateRole("*Test* My First Role", "My First Role description", new[] { "Manage all subscriptions" });
+            var taskIDs = new List<string>();
+            taskIDs.AddRange(
+                rs.ListTasks("All")
+                    .Where(t => new[] { "Manage all subscriptions", "View reports" }.Contains(t.Name))
+                    .Select(t => t.TaskID)
+            );
+
+            rs.CreateRole("*Test* My First Role", "My First Role description", taskIDs.Take(1).ToArray());
 
             var service = new RoleService(rs);
             service.Create("*Test* My First Role", "My First Role description 2", new[] { "Manage all subscriptions", "View reports" });
@@ -82,7 +96,7 @@ namespace RsDeploy.Testing.Execution
             var descr = string.Empty;
             var tasks = rs.GetRoleProperties("*Test* My First Role", null, out descr);
 
-            Assert.That(tasks, Has.Count.EqualTo(2));
+            Assert.That(tasks.Count, Is.EqualTo(2));
             Assert.That(descr, Is.EqualTo("My First Role description 2"));
         }
 
@@ -90,7 +104,14 @@ namespace RsDeploy.Testing.Execution
         public void CreateExistingRoleAndUpdateItByRemovingTasks()
         {
             var rs = GetReportingService();
-            rs.CreateRole("*Test* My First Role", "My First Role description", new[] { "Manage all subscriptions", "View reports" });
+            var taskIDs = new List<string>();
+            taskIDs.AddRange(
+                rs.ListTasks("All")
+                    .Where(t => new[] { "Manage all subscriptions", "View reports" }.Contains(t.Name))
+                    .Select(t => t.TaskID)
+            );
+
+            rs.CreateRole("*Test* My First Role", "My First Role description", taskIDs.ToArray());
 
             var service = new RoleService(rs);
             service.Create("*Test* My First Role", "My First Role description 2", new[] { "Manage all subscriptions" });
@@ -98,7 +119,7 @@ namespace RsDeploy.Testing.Execution
             var descr = string.Empty;
             var tasks = rs.GetRoleProperties("*Test* My First Role", null, out descr);
 
-            Assert.That(tasks, Has.Count.EqualTo(1));
+            Assert.That(tasks.Count, Is.EqualTo(1));
             Assert.That(descr, Is.EqualTo("My First Role description 2"));
         }
 
