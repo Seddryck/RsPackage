@@ -29,7 +29,7 @@ namespace RsDeploy.Parser.Xml
         }
 
 
-        public void Execute(XmlNode node, string parent)
+        public virtual void Execute(XmlNode node, string parent)
         {
             var folderNodes = node.SelectNodes("./Folder");
             foreach (XmlNode folderNode in folderNodes)

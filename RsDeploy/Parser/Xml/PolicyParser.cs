@@ -18,7 +18,7 @@ namespace RsDeploy.Parser.Xml
             ChildrenParsers = new List<IParser>();
         }
 
-        public void Execute(XmlNode node, string parent)
+        public virtual void Execute(XmlNode node, string parent)
         {
             var membershipNodes = node.SelectNodes("Membership");
             if (membershipNodes.Count == 0)

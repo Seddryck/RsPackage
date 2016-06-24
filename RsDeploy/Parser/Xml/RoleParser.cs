@@ -19,7 +19,7 @@ namespace RsDeploy.Parser.Xml
             ChildrenParsers = new List<IParser>();
         }
 
-        public void Execute(XmlNode node, string parent)
+        public virtual void Execute(XmlNode node, string parent)
         {
             var roleNodes = node.SelectNodes("Role");
             foreach (XmlNode roleNode in roleNodes)
