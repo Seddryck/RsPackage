@@ -48,5 +48,30 @@ namespace RsDeploy.Execution
             foreach (var warning in warnings)
                 OnWarning(warning.Message);
         }
+
+        public virtual void Create(string name, string parent, string path, Dictionary<string, string> dataSources)
+        {
+            Create(name, parent, path);
+
+            var reportDataSources = reportingService.GetItemDataSources(path);
+            OnInformation($"Referencing {reportDataSources.Count()} data sources for report '{name}' in '{parent}'");
+            
+            foreach (var reportDataSource in reportDataSources)
+            {
+                if (dataSources.ContainsKey(reportDataSource.Name))
+                {
+                    var dsRef = new DataSourceReference();
+                    var reference = string.Empty;
+                    dataSources.TryGetValue("reportDataSource.Name", out reference);
+                    dsRef.Reference = reference;
+
+                    reportDataSource.Item = dsRef;
+                }
+                else
+                    OnWarning($"The data source '{reportDataSource.Name}' of the report '{name}' has not been overridden because this data source is not defined in the deployment manifest.");
+            }
+
+            reportingService.SetItemDataSources(path, reportDataSources);
+        }
     }
 }
