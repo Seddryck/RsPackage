@@ -37,6 +37,27 @@ namespace RsDeploy.Testing.Parser
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
-        
+
+        [Test]
+        public void ParseMultipleFolderNode()
+        {
+            var mock = new Mock<FolderService>();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            var service = mock.Object;
+
+            var parser = new FolderParser(service);
+
+            var xmlDoc = new XmlDocument();
+            using (Stream stream = Assembly.GetExecutingAssembly()
+                        .GetManifestResourceStream("RsDeploy.Testing.Resources.MultiLevelSample.xml"))
+            using (StreamReader reader = new StreamReader(stream))
+                xmlDoc.Load(reader);
+
+            var root = xmlDoc.FirstChild.NextSibling;
+            parser.Execute(root, "parent");
+
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(4));
+        }
+
     }
 }

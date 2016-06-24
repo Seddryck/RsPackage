@@ -24,14 +24,14 @@ namespace RsDeploy.Parser.Xml
 
         public void Execute(XmlNode node, string parent)
         {
-            var folderNodes = node.SelectNodes("Folder");
+            var folderNodes = node.SelectNodes("./Folder");
             foreach (XmlNode folderNode in folderNodes)
             {
                 var name = folderNode.Attributes["Name"].Value;
                 folderService.Create(name, parent);
                 foreach (var parser in ChildrenParsers)
                     parser.Execute(node, parent);
-                Execute(node, $"{parent}/{name}");
+                Execute(folderNode, $"{parent}/{name}");
             }
         }
     }
