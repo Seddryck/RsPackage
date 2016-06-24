@@ -13,13 +13,16 @@ namespace RsDeploy.Parser.Xml
         private RoleService roleService;
 
         private IEnumerable<IParser> ChildrenParsers;
+        public ProjectParser Root { get; set; }
+        public IParser Parent { get; set; }
+        public string ParentPath { get; set; }
 
         public RoleParser()
         {
             ChildrenParsers = new List<IParser>();
         }
 
-        public virtual void Execute(XmlNode node, string parent)
+        public virtual void Execute(XmlNode node)
         {
             var roleNodes = node.SelectNodes("Role");
             foreach (XmlNode roleNode in roleNodes)

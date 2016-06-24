@@ -33,7 +33,7 @@ namespace RsDeploy.Testing.Parser
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
-            parser.Execute(root, "parent");
+            parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Once);
         }
@@ -54,7 +54,7 @@ namespace RsDeploy.Testing.Parser
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling;
-            parser.Execute(root, "parent");
+            parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Exactly(2));
         }
@@ -75,7 +75,7 @@ namespace RsDeploy.Testing.Parser
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
-            parser.Execute(root, "parent");
+            parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create("Company sales", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
         }
@@ -88,6 +88,7 @@ namespace RsDeploy.Testing.Parser
             var service = mock.Object;
 
             var parser = new ReportParser(service);
+            parser.ParentPath = "/Root/First-Child";
 
             var xmlDoc = new XmlDocument();
             using (Stream stream = Assembly.GetExecutingAssembly()
@@ -96,9 +97,9 @@ namespace RsDeploy.Testing.Parser
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
-            parser.Execute(root, "parent");
+            parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(),"parent", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(),"/Root/First-Child", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
         }
 
         [Test]
@@ -117,7 +118,7 @@ namespace RsDeploy.Testing.Parser
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling;
-            parser.Execute(root, "parent");
+            parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), "DepartmentSales.rdl", It.IsAny<string>(), It.IsAny<bool>()));
         }
@@ -138,7 +139,7 @@ namespace RsDeploy.Testing.Parser
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling;
-            parser.Execute(root, "parent");
+            parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), false));
         }
@@ -159,7 +160,7 @@ namespace RsDeploy.Testing.Parser
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
-            parser.Execute(root, "parent");
+            parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), true));
         }

@@ -13,12 +13,16 @@ namespace RsDeploy.Parser.Xml
         private PolicyService policyService;
         private IEnumerable<IParser> ChildrenParsers;
 
+        public ProjectParser Root { get; set; }
+        public IParser Parent { get; set; }
+        public string ParentPath { get; set; }
+
         public PolicyParser()
         {
             ChildrenParsers = new List<IParser>();
         }
 
-        public virtual void Execute(XmlNode node, string parent)
+        public virtual void Execute(XmlNode node)
         {
             var membershipNodes = node.SelectNodes("Membership");
             if (membershipNodes.Count == 0)
@@ -35,7 +39,7 @@ namespace RsDeploy.Parser.Xml
                 securities.Add(security);
             }
 
-            policyService.Create(parent, securities);
+            policyService.Create(ParentPath, securities);
         }
     }
 }

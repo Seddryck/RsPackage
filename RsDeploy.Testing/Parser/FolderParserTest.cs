@@ -33,7 +33,7 @@ namespace RsDeploy.Testing.Parser
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling;
-            parser.Execute(root, "parent");
+            parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
@@ -54,7 +54,7 @@ namespace RsDeploy.Testing.Parser
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling;
-            parser.Execute(root, "parent");
+            parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(4));
         }
@@ -71,7 +71,7 @@ namespace RsDeploy.Testing.Parser
             var reportService = stubReportService.Object;
 
             var mockReportParser = new Mock<ReportParser>(reportService);
-            mockReportParser.Setup(s => s.Execute(It.IsAny<XmlNode>(), It.IsAny<string>())).Verifiable();
+            mockReportParser.Setup(s => s.Execute(It.IsAny<XmlNode>())).Verifiable();
             var childParser = (IParser)mockReportParser.Object;
 
             var parser = new FolderParser(folderService, Enumerable.Repeat(childParser, 1));
@@ -83,9 +83,9 @@ namespace RsDeploy.Testing.Parser
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling;
-            parser.Execute(root, "parent");
+            parser.Execute(root);
 
-            Mock.Get(childParser).Verify(s => s.Execute(It.IsAny<XmlNode>(), It.IsAny<string>()), Times.Exactly(4));
+            Mock.Get(childParser).Verify(s => s.Execute(It.IsAny<XmlNode>()), Times.Exactly(4));
         }
 
     }

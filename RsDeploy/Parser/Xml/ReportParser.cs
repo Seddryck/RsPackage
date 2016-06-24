@@ -13,7 +13,9 @@ namespace RsDeploy.Parser.Xml
         private ReportService reportService;
         private IEnumerable<IParser> ChildrenParsers;
 
-
+        public ProjectParser Root { get; set; }
+        public IParser Parent { get; set; }
+        public string ParentPath { get; set; }
 
         public ReportParser(ReportService reportService)
         {
@@ -21,7 +23,7 @@ namespace RsDeploy.Parser.Xml
             ChildrenParsers = new List<IParser>();
         }
 
-        public virtual void Execute(XmlNode node, string parent)
+        public virtual void Execute(XmlNode node)
         {
             var reportNodes = node.SelectNodes("./Report");
             foreach (XmlNode reportNode in reportNodes)
@@ -33,7 +35,7 @@ namespace RsDeploy.Parser.Xml
                 var description = reportNode.SelectSingleNode("./Description")?.InnerXml;
                 var hidden = bool.Parse(reportNode.Attributes["Hidden"]?.Value ?? bool.FalseString);
 
-                reportService.Create(name, parent, path, description, hidden);
+                reportService.Create(name, ParentPath, path, description, hidden);
             }
         }
     }

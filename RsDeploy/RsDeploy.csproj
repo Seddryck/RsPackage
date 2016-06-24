@@ -64,7 +64,7 @@
     <Compile Include="Parser\Xml\RoleParser.cs" />
     <Compile Include="Parser\Xml\PolicyParser.cs" />
     <Compile Include="Parser\Xml\FolderParser.cs" />
-    <Compile Include="Parser\Xml\XmlParser.cs" />
+    <Compile Include="Parser\Xml\ProjectParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

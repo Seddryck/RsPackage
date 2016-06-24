@@ -13,13 +13,17 @@ namespace RsDeploy.Parser.Xml
         private DataSourceService DataSourceService;
         private IEnumerable<IParser> ChildrenParsers;
 
+        public ProjectParser Root { get; set; }
+        public IParser Parent { get; set; }
+        public string ParentPath { get; set; }
+
         public DataSourceParser(DataSourceService DataSourceService)
         {
             this.DataSourceService = DataSourceService;
             ChildrenParsers = new List<IParser>();
         }
 
-        public virtual void Execute(XmlNode node, string parent)
+        public virtual void Execute(XmlNode node)
         {
             var DataSourceNodes = node.SelectNodes("./DataSource");
             foreach (XmlNode DataSourceNode in DataSourceNodes)
@@ -28,8 +32,10 @@ namespace RsDeploy.Parser.Xml
                 var path = DataSourceNode.SelectSingleNode("./Path")?.InnerXml;
                 path = path ?? $"{Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(name.ToLower()).Replace(" ", string.Empty)}.rds";
 
-                DataSourceService.Create(name, parent, path);
+                DataSourceService.Create(name, ParentPath, path);
+                Root.DataSources.Add(name, $"{ParentPath}/{name}");
             }
         }
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RsDeploy.Parser.Xml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,10 @@ namespace RsDeploy.Parser
 {
     public interface IParser
     {
-        void Execute(XmlNode node, string parent);
+        ProjectParser Root { get; set; }
+        IParser Parent { get; set; }
+        string ParentPath { get; set; }
+
+        void Execute(XmlNode node);
     }
 }

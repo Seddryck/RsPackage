@@ -13,6 +13,10 @@ namespace RsDeploy.Parser.Xml
         private FolderService folderService;
         private List<IParser> ChildrenParsers;
 
+        public ProjectParser Root { get; set; }
+        public IParser Parent { get; set; }
+        public string ParentPath { get; set; }
+
         public FolderParser(FolderService folderService)
         {
             ChildrenParsers = new List<IParser>();
@@ -29,16 +33,21 @@ namespace RsDeploy.Parser.Xml
         }
 
 
-        public virtual void Execute(XmlNode node, string parent)
+        public virtual void Execute(XmlNode node)
         {
             var folderNodes = node.SelectNodes("./Folder");
             foreach (XmlNode folderNode in folderNodes)
             {
                 var name = folderNode.Attributes["Name"].Value;
-                folderService.Create(name, parent);
+                folderService.Create(name, ParentPath);
                 foreach (var parser in ChildrenParsers)
-                    parser.Execute(node, parent);
-                Execute(folderNode, $"{parent}/{name}");
+                {
+                    parser.ParentPath = $"{ParentPath}/{name}";
+                    parser.Execute(node);
+                }
+
+                this.ParentPath = $"{ParentPath}/{name}";
+                Execute(folderNode);
             }
         }
     }
