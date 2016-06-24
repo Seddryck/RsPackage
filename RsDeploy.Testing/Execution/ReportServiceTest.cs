@@ -34,6 +34,15 @@ namespace RsDeploy.Testing.Execution
             rs.CreateFolder("ReportFolder", "/", null);
 
             ProductCatalogPath = FileOnDisk.CreatePhysicalFile("ProductCatalog.rdl", "RsDeploy.Testing.Resources.Product Catalog.rdl");
+
+            if (rs.GetItemType("/Data Sources/AdventureWorks") != "DataSource")
+            {
+                var ds = new DataSourceDefinition()
+                {
+                    ConnectString = "Data Source=localhost;Initial Catalog=msdb;Integreted Security=SSPI"
+                };
+                rs.CreateDataSource("AdventureWorks", "/Data Sources", false, ds, null);
+            }
         }
 
         [TearDown]
@@ -92,7 +101,7 @@ namespace RsDeploy.Testing.Execution
             service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", true);
 
             Assert.That(rs.GetItemType("/ReportFolder/My First Report"), Is.EqualTo("Report"));
-            var properties = rs.GetProperties("/ReportFolder/My First Report", new[] { new Property(){ Name = "Hidden" }});
+            var properties = rs.GetProperties("/ReportFolder/My First Report", new[] { new Property() { Name = "Hidden" } });
             Assert.That(properties[0].Value, Is.EqualTo(true.ToString()));
         }
 
@@ -123,7 +132,7 @@ namespace RsDeploy.Testing.Execution
             var service = new ReportService(rs);
             var error = false;
             service.MessageSent += (o, e) => error |= e.Level == MessageEventArgs.LevelOption.Error;
-            
+
             Assert.Catch<InvalidOperationException>(() => service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds));
             Assert.That(error, Is.True);
         }
