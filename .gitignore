@@ -243,5 +243,5 @@ _Pvt_Extensions
 
 # Mergefiles
 *.orig
-.user.config
-RsDeploy.Testing/ConnectionString.user.config
+*.user.config
+
