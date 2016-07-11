@@ -45,8 +45,9 @@ namespace RsDeploy.Execution
             OnInformation($"Creating DataSource '{name}' in '{parent}'");
             reportingService.CreateCatalogItem("DataSource", name, parent, true, definition, null, out warnings);
 
-            foreach (var warning in warnings)
-                OnWarning(warning.Message);
+            if (warnings != null)
+                foreach (var warning in warnings)
+                    OnWarning(warning.Message);
         }
     }
 }

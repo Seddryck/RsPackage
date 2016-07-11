@@ -56,8 +56,9 @@ namespace RsDeploy.Execution
 
             reportingService.CreateCatalogItem("Report", name, parent, true, definition, properties.ToArray(), out warnings);
 
-            foreach (var warning in warnings)
-                OnWarning(warning.Message);
+            if (warnings != null)
+                foreach (var warning in warnings)
+                    OnWarning(warning.Message);
         }
 
         public virtual void Create(string name, string parent, string path, string description, bool hidden, Dictionary<string, string> dataSources)
