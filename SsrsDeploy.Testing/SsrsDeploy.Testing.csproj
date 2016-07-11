@@ -59,6 +59,7 @@
     <Compile Include="Parser\Xml\DataSourceParserTest.cs" />
     <Compile Include="Parser\Xml\FolderParserTest.cs" />
     <Compile Include="Parser\Xml\ReportParserTest.cs" />
+    <Compile Include="ProgramTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

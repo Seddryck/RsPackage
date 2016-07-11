@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SsrsDeploy
 {
-    class Options
+    public class Options
     {
         [Option('u', "url", Required = true,
           HelpText = "Url of the webservice where to deploy the reports.")]

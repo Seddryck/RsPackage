@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SsrsDeploy
 {
-    class Program
+    public class Program
     {
         static int Main(string[] args)
         {
@@ -23,7 +23,7 @@ namespace SsrsDeploy
             var argsValue = ((Parsed<Options>)result).Value;
 
             var rs = new ReportingService.ReportingService2010();
-            rs.Url = argsValue.Url;
+            rs.Url = GetUrl(argsValue);
             rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
 
             var rootPath = argsValue.Root ?? Path.GetDirectoryName(argsValue.Source);
@@ -37,6 +37,29 @@ namespace SsrsDeploy
                 parser.Execute(stream);
 
             return exitCode;
+        }
+
+        public static string GetUrl(Options options)
+        {
+            var baseUrl = options.Url;
+            var builder = new UriBuilder(baseUrl);
+
+            if (string.IsNullOrEmpty(builder.Scheme))
+                builder.Scheme = Uri.UriSchemeHttp;
+
+            if (builder.Scheme != Uri.UriSchemeHttp && builder.Scheme != Uri.UriSchemeHttps)
+                throw new ArgumentException();
+
+            if (!builder.Path.EndsWith("/ReportService2010.asmx"))
+                builder.Path += (builder.Path.EndsWith("/") ? "" : "/") + "ReportService2010.asmx";
+
+            if (builder.Path.Equals("/ReportService2010.asmx"))
+                builder.Path = "/ReportServer" + builder.Path;
+
+            if (builder.Uri.IsDefaultPort)
+                return builder.Uri.GetComponents(UriComponents.AbsoluteUri & ~UriComponents.Port, UriFormat.UriEscaped);
+
+            return builder.ToString();
         }
     }
 }
