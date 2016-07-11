@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RsDeploy.Parser.NamingConventions
 {
-    class TitleToUnderscoreWord : INamingConvention
+    public class TitleToUnderscoreWord : INamingConvention
     {
         public string Apply(string value)
         {

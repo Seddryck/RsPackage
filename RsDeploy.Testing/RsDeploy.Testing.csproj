@@ -54,9 +54,11 @@
     <Compile Include="FileOnDisk.cs" />
     <Compile Include="Execution\ReportServiceTest.cs" />
     <Compile Include="Execution\FolderServiceTest.cs" />
-    <Compile Include="Parser\DataSourceParserTest.cs" />
-    <Compile Include="Parser\FolderParserTest.cs" />
-    <Compile Include="Parser\ReportParserTest.cs" />
+    <Compile Include="Parser\NamingConventions\TitleToUnderscoreWordTest.cs" />
+    <Compile Include="Parser\NamingConventions\TitleToCamelCaseTest.cs" />
+    <Compile Include="Parser\Xml\DataSourceParserTest.cs" />
+    <Compile Include="Parser\Xml\FolderParserTest.cs" />
+    <Compile Include="Parser\Xml\ReportParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

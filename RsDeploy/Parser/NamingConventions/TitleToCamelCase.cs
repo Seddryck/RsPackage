@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RsDeploy.Parser.NamingConventions
 {
-    class TitleToCamelCase : INamingConvention
+    public class TitleToCamelCase : INamingConvention
     {
         public string Apply(string value)
         {

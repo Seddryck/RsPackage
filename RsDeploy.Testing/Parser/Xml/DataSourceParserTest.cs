@@ -12,7 +12,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 
-namespace RsDeploy.Testing.Parser
+namespace RsDeploy.Testing.Parser.Xml
 {
     [TestFixture]
     public class DataSourceParserTest
