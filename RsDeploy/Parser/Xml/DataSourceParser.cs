@@ -5,15 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Xml;
+using System.IO;
 
 namespace RsDeploy.Parser.Xml
 {
-    public class DataSourceParser : IParser
+    public class DataSourceParser : IParser, IParserPathable
     {
         private DataSourceService DataSourceService;
         private IEnumerable<IParser> ChildrenParsers;
 
         public ProjectParser Root { get; set; }
+        public string RootPath { get; set; }
         public IParser Parent { get; set; }
         public string ParentPath { get; set; }
 
@@ -29,8 +31,11 @@ namespace RsDeploy.Parser.Xml
             foreach (XmlNode DataSourceNode in DataSourceNodes)
             {
                 var name = DataSourceNode.Attributes["Name"].Value;
+
                 var path = DataSourceNode.SelectSingleNode("./Path")?.InnerXml;
-                path = path ?? $"{Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(name.ToLower()).Replace(" ", string.Empty)}.rds";
+                path = path ?? $"{Root.NamingConvention.Apply(name)}.rds";
+                if (!Path.IsPathRooted(path))
+                    path = Path.Combine(RootPath ?? string.Empty, path);
 
                 DataSourceService.Create(name, ParentPath, path);
                 Root.DataSources.Add(name, $"{ParentPath}/{name}");

@@ -20,7 +20,8 @@ namespace RsDeploy.Execution
 
         public virtual void Create(string folder, string parent)
         {
-            if (reportingService.GetItemType($"{parent}{folder}") == "Folder")
+            var fullPath = parent == "/" ? $"/{folder}" : $"{parent}/{folder}";
+            if (reportingService.GetItemType(fullPath) == "Folder")
                 OnInformation($"Folder '{folder}' already existing");
             else
             {

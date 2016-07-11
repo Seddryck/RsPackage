@@ -8,13 +8,9 @@ using System.Xml;
 
 namespace RsDeploy.Parser
 {
-    public interface IParser
+    public interface IParserPathable
     {
-        ProjectParser Root { get; set; }
-        
-        IParser Parent { get; set; }
-        string ParentPath { get; set; }
+        string RootPath { get; set; }
 
-        void Execute(XmlNode node);
     }
 }

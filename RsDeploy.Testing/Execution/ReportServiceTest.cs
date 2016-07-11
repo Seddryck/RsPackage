@@ -42,7 +42,8 @@ namespace RsDeploy.Testing.Execution
             {
                 var ds = new DataSourceDefinition()
                 {
-                    ConnectString = "Data Source=localhost;Initial Catalog=msdb;Integreted Security=SSPI"
+                    ConnectString = "Data Source=localhost;Initial Catalog=msdb;Integreted Security=SSPI",
+                    Extension="SQL"
                 };
                 rs.CreateDataSource("AdventureWorks", "/Data Sources", false, ds, null);
             }

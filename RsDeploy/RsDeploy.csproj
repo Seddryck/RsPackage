@@ -58,7 +58,12 @@
     <Compile Include="Execution\ReportService.cs" />
     <Compile Include="Execution\FolderService.cs" />
     <Compile Include="MessageEventArgs.cs" />
+    <Compile Include="Options.cs" />
+    <Compile Include="Parser\IParserPathable.cs" />
     <Compile Include="Parser\IParser.cs" />
+    <Compile Include="Parser\NamingConventions\INamingConvention.cs" />
+    <Compile Include="Parser\NamingConventions\TitleToUnderscoreWord.cs" />
+    <Compile Include="Parser\NamingConventions\TitleToCamelCase.cs" />
     <Compile Include="Parser\Xml\DataSourceParser.cs" />
     <Compile Include="Parser\Xml\ReportParser.cs" />
     <Compile Include="Parser\Xml\RoleParser.cs" />

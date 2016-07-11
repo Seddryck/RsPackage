@@ -1,6 +1,8 @@
 ﻿using RsDeploy.Execution;
+using RsDeploy.Parser.NamingConventions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -8,12 +10,22 @@ using System.Xml;
 
 namespace RsDeploy.Parser.Xml
 {
-    public class ReportParser : IParser
+    public class ReportParser : IParser, IParserPathable
     {
         private ReportService reportService;
         private IEnumerable<IParser> ChildrenParsers;
 
         public ProjectParser Root { get; set; }
+
+        public INamingConvention NamingConvention
+        {
+            get
+            {
+                return (Root?.NamingConvention) ?? new TitleToCamelCase();
+            }
+        }
+
+        public string RootPath { get; set; }
         public IParser Parent { get; set; }
         public string ParentPath { get; set; }
 
@@ -29,8 +41,11 @@ namespace RsDeploy.Parser.Xml
             foreach (XmlNode reportNode in reportNodes)
             {
                 var name = reportNode.Attributes["Name"].Value;
+
                 var path = reportNode.SelectSingleNode("./Path")?.InnerXml;
-                path = path ?? $"{Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(name.ToLower()).Replace(" ", string.Empty)}.rdl";
+                path = path ?? $"{NamingConvention.Apply(name)}.rdl";
+                if (!Path.IsPathRooted(path))
+                    path = Path.Combine(RootPath ?? string.Empty, path);
 
                 var description = reportNode.SelectSingleNode("./Description")?.InnerXml;
                 var hidden = bool.Parse(reportNode.Attributes["Hidden"]?.Value ?? bool.FalseString);
