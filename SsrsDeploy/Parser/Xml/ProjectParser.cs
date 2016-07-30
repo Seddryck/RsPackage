@@ -30,13 +30,21 @@ namespace SsrsDeploy.Parser.Xml
         public ProjectParser(ReportingService.ReportingService2010 rs, string parentFolder, string rootPath, INamingConvention namingConvention)
         {
             var childParsers = new List<IParser>();
-            var dataSourceParser = new DataSourceParser(new DataSourceService(rs));
+            var dataSourceService = new DataSourceService(rs);
+            dataSourceService.MessageSent += WriteMessageToConsole;
+            var dataSourceParser = new DataSourceParser(dataSourceService);
             dataSourceParser.Root = this;
-            var reportParser = new ReportParser(new ReportService(rs));
+
+            var reportService = new ReportService(rs);
+            reportService.MessageSent += WriteMessageToConsole;
+            var reportParser = new ReportParser(reportService);
             reportParser.Root = this;
+
             childParsers.Add(dataSourceParser);
             childParsers.Add(reportParser);
-            childParsers.Add(new FolderParser(new FolderService(rs), new IParser[] { dataSourceParser, reportParser}));
+            var folderService = new FolderService(rs);
+            folderService.MessageSent += WriteMessageToConsole;
+            childParsers.Add(new FolderParser(folderService, new IParser[] { dataSourceParser, reportParser}));
             ChildParsers = childParsers;
 
             ParentFolder = parentFolder;
@@ -74,6 +82,28 @@ namespace SsrsDeploy.Parser.Xml
                 childParser.Execute(root);
             }
                 
+        }
+
+        public void WriteMessageToConsole(object sender, MessageEventArgs eventArgs)
+        {
+            switch (eventArgs.Level)
+            {
+                case MessageEventArgs.LevelOption.Information:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    break;
+                case MessageEventArgs.LevelOption.Warning:
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    break;
+                case MessageEventArgs.LevelOption.Error:
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    break;
+                default:
+                    break;
+            }
+            Console.WriteLine(eventArgs.Message);
         }
     }
 }
