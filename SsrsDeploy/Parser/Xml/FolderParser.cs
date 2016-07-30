@@ -43,7 +43,7 @@ namespace SsrsDeploy.Parser.Xml
                 foreach (var parser in ChildrenParsers)
                 {
                     parser.ParentPath = $"{ParentPath}/{name}";
-                    parser.Execute(node);
+                    parser.Execute(folderNode);
                 }
 
                 var childFolderParser = (FolderParser)this.MemberwiseClone();
