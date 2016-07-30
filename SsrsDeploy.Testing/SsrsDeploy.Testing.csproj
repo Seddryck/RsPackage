@@ -78,6 +78,9 @@
     <EmbeddedResource Include="Resources\Product Catalog.rdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AdventureWorks.rds">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\BasicSample.xml">

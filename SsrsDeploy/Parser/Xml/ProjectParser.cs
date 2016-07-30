@@ -30,10 +30,13 @@ namespace SsrsDeploy.Parser.Xml
         public ProjectParser(ReportingService.ReportingService2010 rs, string parentFolder, string rootPath, INamingConvention namingConvention)
         {
             var childParsers = new List<IParser>();
-            childParsers.Add(new DataSourceParser(new DataSourceService(rs)));
-            folderService = new FolderService(rs);
-            childParsers.Add(new FolderParser(folderService));
-            childParsers.Add(new ReportParser(new ReportService(rs)));
+            var dataSourceParser = new DataSourceParser(new DataSourceService(rs));
+            dataSourceParser.Root = this;
+            var reportParser = new ReportParser(new ReportService(rs));
+            reportParser.Root = this;
+            childParsers.Add(dataSourceParser);
+            childParsers.Add(reportParser);
+            childParsers.Add(new FolderParser(new FolderService(rs), new IParser[] { dataSourceParser, reportParser}));
             ChildParsers = childParsers;
 
             ParentFolder = parentFolder;
