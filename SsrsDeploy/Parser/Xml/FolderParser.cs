@@ -46,8 +46,9 @@ namespace SsrsDeploy.Parser.Xml
                     parser.Execute(node);
                 }
 
-                this.ParentPath = $"{ParentPath}/{name}";
-                Execute(folderNode);
+                var childFolderParser = (FolderParser)this.MemberwiseClone();
+                childFolderParser.ParentPath = this.ParentPath=="/" ? $"/{name}" : $"{ParentPath}/{name}";
+                childFolderParser.Execute(folderNode);
             }
         }
     }
