@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <Folder Name="Hello">
+    <DataSource Name="AdventureWorks"/>
+    <Folder Name="World">
+      <Report Name="Product Catalog">
+        <Path>Product Catalog.rdl</Path>
+      </Report>
+    </Folder>
+  </Folder>
+  <Folder Name="My">
+    <Folder Name="FirstName">
+      <Report Name="Product Catalog">
+        <Path>Product Catalog.rdl</Path>
+      </Report>
+      <Folder Name="MiddleName">
+        <Report Name="Product Catalog">
+          <Path>Product Catalog.rdl</Path>
+        </Report>
+      </Folder>
+    </Folder>
+    <Folder Name="LastName">
+      <Report Name="Product Catalog">
+        <Path>Product Catalog.rdl</Path>
+      </Report>
+    </Folder>
+  </Folder>
+  <Folder Name="BirthDate">
+    <Folder Name="Day">
+      <Report Name="Product Catalog">
+        <Path>Product Catalog.rdl</Path>
+      </Report>
+    </Folder>
+    <Folder Name="Month">
+      <Report Name="Product Catalog">
+        <Path>Product Catalog.rdl</Path>
+      </Report>
+    </Folder>
+    <Folder Name="Year">
+      <Report Name="Product Catalog">
+        <Path>Product Catalog.rdl</Path>
+      </Report>
+    </Folder>
+  </Folder>
+</Project>
