@@ -21,7 +21,7 @@ namespace SsrsDeploy.Testing.Parser.Xml
         public void ParseReportNode()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -35,14 +35,14 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Once);
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>()), Times.Once);
         }
 
         [Test]
         public void ParseTwoReportNodes()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -56,14 +56,14 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var root = xmlDoc.FirstChild.NextSibling;
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Exactly(2));
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>()), Times.Exactly(2));
         }
 
         [Test]
         public void ParseCorrectName()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -77,14 +77,14 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create("Company sales", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>()));
         }
 
         [Test]
         public void ParseCorrectParent()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -99,14 +99,14 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(),"/Root/First-Child", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(),"/Root/First-Child", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>()));
         }
 
         [Test]
         public void ParseCorrectPathWhenUnspecified()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -120,14 +120,14 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var root = xmlDoc.FirstChild.NextSibling;
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), "DepartmentSales.rdl", It.IsAny<string>(), It.IsAny<bool>()));
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), "DepartmentSales.rdl", It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>()));
         }
 
         [Test]
         public void ParseCorrectHiddenWhenUnspecified()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -141,14 +141,14 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var root = xmlDoc.FirstChild.NextSibling;
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), false));
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), false, It.IsAny<IDictionary<string, string>>()));
         }
 
         [Test]
         public void ParseCorrectHiddenWhenSpecified()
         {
             var mock = new Mock<ReportService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>())).Verifiable();
             var service = mock.Object;
 
             var parser = new ReportParser(service);
@@ -162,7 +162,7 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), true));
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), true, It.IsAny<IDictionary<string, string>>()));
         }
 
 
@@ -174,7 +174,7 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var folderService = stubFolderService.Object;
 
             var stubReportService = new Mock<ReportService>();
-            stubReportService.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
+            stubReportService.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>())).Verifiable();
             var reportService = stubReportService.Object;
 
             var mockReportParser = new Mock<ReportParser>(reportService);

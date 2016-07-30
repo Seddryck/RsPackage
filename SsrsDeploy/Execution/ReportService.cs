@@ -61,7 +61,7 @@ namespace SsrsDeploy.Execution
                     OnWarning(warning.Message);
         }
 
-        public virtual void Create(string name, string parent, string path, string description, bool hidden, Dictionary<string, string> dataSources)
+        public virtual void Create(string name, string parent, string path, string description, bool hidden, IDictionary<string, string> dataSources)
         {
             Create(name, parent, path, description, hidden);
 
@@ -70,7 +70,7 @@ namespace SsrsDeploy.Execution
             
             foreach (var reportDataSource in reportDataSources)
             {
-                if (dataSources.ContainsKey(reportDataSource.Name))
+                if (dataSources!=null && dataSources.ContainsKey(reportDataSource.Name))
                 {
                     var dsRef = new DataSourceReference();
                     dsRef.Reference = dataSources[reportDataSource.Name];

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataSourceDefinition xmlns="http://schemas.microsoft.com/sqlserver/reporting/2006/03/reportdatasource">
+  <Extension>SQL</Extension>
+  <ConnectString>Data Source=.\sql2016;Initial Catalog=AdventureWorks2012</ConnectString>
+  <CredentialRetrieval>Integrated</CredentialRetrieval>
+  <Enabled>True</Enabled>
+</DataSourceDefinition>

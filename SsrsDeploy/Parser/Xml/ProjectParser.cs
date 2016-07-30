@@ -31,7 +31,9 @@ namespace SsrsDeploy.Parser.Xml
         {
             var childParsers = new List<IParser>();
             var dataSourceParser = new DataSourceParser(new DataSourceService(rs));
+            dataSourceParser.Root = this;
             var reportParser = new ReportParser(new ReportService(rs));
+            reportParser.Root = this;
             childParsers.Add(dataSourceParser);
             childParsers.Add(reportParser);
             childParsers.Add(new FolderParser(new FolderService(rs), new IParser[] { dataSourceParser, reportParser}));
