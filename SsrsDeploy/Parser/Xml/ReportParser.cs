@@ -50,7 +50,7 @@ namespace SsrsDeploy.Parser.Xml
                 var description = reportNode.SelectSingleNode("./Description")?.InnerXml;
                 var hidden = bool.Parse(reportNode.Attributes["Hidden"]?.Value ?? bool.FalseString);
 
-                reportService.Create(name, ParentPath, path, description, hidden);
+                reportService.Create(name, ParentPath, path, description, hidden, Root?.DataSources);
             }
         }
     }

@@ -60,21 +60,21 @@ namespace SsrsDeploy.Testing.Parser.Xml
         }
 
         [Test]
-        public void ParseReportsMultipleFolderNode()
+        public void ParseFoldersWhenMultipleFolderNodeAndCreateThem()
         {
-            var stubFolderService = new Mock<FolderService>();
-            stubFolderService.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
-            var folderService = stubFolderService.Object;
+            var mockFolderService = new Mock<FolderService>();
+            mockFolderService.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            var folderService = mockFolderService.Object;
 
             var stubReportService = new Mock<ReportService>();
             stubReportService.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
             var reportService = stubReportService.Object;
 
-            var mockReportParser = new Mock<ReportParser>(reportService);
-            mockReportParser.Setup(s => s.Execute(It.IsAny<XmlNode>())).Verifiable();
-            var childParser = (IParser)mockReportParser.Object;
+            var stubReportParser = new Mock<ReportParser>(reportService);
+            stubReportParser.Setup(s => s.Execute(It.IsAny<XmlNode>())).Verifiable();
+            var childParser = (IParser)stubReportParser.Object;
 
-            var parser = new FolderParser(folderService, Enumerable.Repeat(childParser, 1));
+            var folderParser = new FolderParser(folderService, Enumerable.Repeat(childParser, 1));
 
             var xmlDoc = new XmlDocument();
             using (Stream stream = Assembly.GetExecutingAssembly()
@@ -83,9 +83,12 @@ namespace SsrsDeploy.Testing.Parser.Xml
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling;
-            parser.Execute(root);
+            folderParser.Execute(root);
 
-            Mock.Get(childParser).Verify(s => s.Execute(It.IsAny<XmlNode>()), Times.Exactly(4));
+            Mock.Get(folderService).Verify(s => s.Create( "Analysis", null));
+            Mock.Get(folderService).Verify(s => s.Create( "Low-level", null));
+            Mock.Get(folderService).Verify(s => s.Create( "Realtime", "/Analysis"));
+            Mock.Get(folderService).Verify(s => s.Create( "Confidential", "/Analysis/Realtime"));
         }
 
     }

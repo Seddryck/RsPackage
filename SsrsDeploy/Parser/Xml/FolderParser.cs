@@ -29,6 +29,7 @@ namespace SsrsDeploy.Parser.Xml
         {
             ChildrenParsers = new List<IParser>();
             ChildrenParsers.AddRange(childParsers);
+            ChildrenParsers.ForEach(p => p.Parent = this);
             this.folderService = folderService;
         }
 
@@ -42,12 +43,13 @@ namespace SsrsDeploy.Parser.Xml
                 folderService.Create(name, ParentPath);
                 foreach (var parser in ChildrenParsers)
                 {
-                    parser.ParentPath = $"{ParentPath}/{name}";
-                    parser.Execute(node);
+                    parser.ParentPath = this.ParentPath == "/" ? $"/{name}" : $"{this.ParentPath}/{name}";
+                    parser.Execute(folderNode);
                 }
 
-                this.ParentPath = $"{ParentPath}/{name}";
-                Execute(folderNode);
+                var childFolderParser = (FolderParser)this.MemberwiseClone();
+                childFolderParser.ParentPath = this.ParentPath=="/" ? $"/{name}" : $"{ParentPath}/{name}";
+                childFolderParser.Execute(folderNode);
             }
         }
     }
