@@ -18,17 +18,17 @@ namespace SsrsDeploy.Execution
             : base(reportingService)
         {}
 
-        public virtual void Create(string name, string parent, string path)
+        public virtual Warning[] Create(string name, string parent, string path)
         {
-            Create(name, parent, path, string.Empty, false);
+            return Create(name, parent, path, string.Empty, false);
         }
 
-        public virtual void Create(string name, string parent, string path, string description, bool hidden)
+        public virtual Warning[] Create(string name, string parent, string path, string description, bool hidden)
         {
             if (!File.Exists(path))
             {
                 OnError($"File '{path}' doesn't exist!");
-                return;
+                return null;
             }
                 
 
@@ -56,17 +56,25 @@ namespace SsrsDeploy.Execution
 
             reportingService.CreateCatalogItem("Report", name, parent, true, definition, properties.ToArray(), out warnings);
 
-            if (warnings != null)
-                foreach (var warning in warnings)
-                    OnWarning(warning.Message);
+            return warnings;
         }
 
         public virtual void Create(string name, string parent, string path, string description, bool hidden, IDictionary<string, string> dataSources)
         {
-            Create(name, parent, path, description, hidden);
+            var warnings = Create(name, parent, path, description, hidden);
+            if (warnings != null)
+            {
+                foreach (var warning in warnings)
+                {
+                    if (!(warning.Code == "rsDataSourceReferenceNotPublished"  && dataSources.ContainsKey(warning.ObjectName)))
+                        OnWarning(warning.Message);
+                }
+            }
+                
 
             var reportDataSources = reportingService.GetItemDataSources($"{parent}/{name}");
-            OnInformation($"Referencing {reportDataSources.Count()} data sources for report '{name}' in '{parent}'");
+            if (reportDataSources.Count()>1)
+                OnInformation($"Trying to reference {reportDataSources.Count()} data sources for report '{name}' in '{parent}'");
             
             foreach (var reportDataSource in reportDataSources)
             {
@@ -75,9 +83,10 @@ namespace SsrsDeploy.Execution
                     var dsRef = new DataSourceReference();
                     dsRef.Reference = dataSources[reportDataSource.Name];
                     reportDataSource.Item = dsRef;
+                    OnInformation($"Reference for data source '{reportDataSource.Name}' of report '{name}' found and re-assigned.");
                 }
                 else
-                    OnWarning($"The data source '{reportDataSource.Name}' of the report '{name}' has not been overridden because this data source is not defined in the deployment manifest.");
+                    OnWarning($"The data source '{reportDataSource.Name}' of the report '{name}' has not been re-assigned because this data source is not defined in the deployment manifest.");
             }
 
             if (reportDataSources!=null && !reportDataSources.Any(ds => ds.Item is InvalidDataSourceReference))
