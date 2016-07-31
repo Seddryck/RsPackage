@@ -1,3 +1,4 @@
+<img src="https://github.com/Seddryck/ssrsdeploy/raw/master/ssrsdeploy-title.png" width="160px">
 # SsrsDeploy
 
 SsrsDeploy is a tool to facilitate the automation of the deployment of reports, data sources and other artefacts to SQL Server Reporting Service (SSRS).
@@ -11,10 +12,10 @@ SsrsDeploy is a tool to facilitate the automation of the deployment of reports, 
 
 ## Command line arguments
 
-* ```-u``` or ```-url``` specifies the url of the target server for the deployment
-* ```-f``` or ```-folder``` specifies the folder of the target server as the top-level folder for this deployment
-* ```-s``` or ```-source``` specifies the path to the file containing the manifest for this deployment
-* ```-r``` or ```-root``` specifies the folder containing all the artefacts (rdl, rds and other files)
+* ```-u``` or ```/url``` specifies the url of the target server for the deployment
+* ```-f``` or ```/folder``` specifies the folder of the target server as the top-level folder for this deployment
+* ```-s``` or ```/source``` specifies the path to the file containing the manifest for this deployment
+* ```-r``` or ```/root``` specifies the folder containing all the artefacts (rdl, rds and other files)
 
 ## Elements in the manifest of deployment
 
