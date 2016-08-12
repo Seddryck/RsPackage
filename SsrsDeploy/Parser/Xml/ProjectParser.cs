@@ -12,19 +12,19 @@ namespace SsrsDeploy.Parser.Xml
 {
     public class ProjectParser
     {
-        public string RootPath { get; private set; }
-        public string ParentFolder { get; private set; }
+        public string RootPath { get; internal set; }
+        public string ParentFolder { get; internal set; }
 
-        public INamingConvention NamingConvention { get; private set; }
+        public INamingConvention NamingConvention { get; internal set; }
 
         private FolderService folderService;
 
-        private IEnumerable<IParser> ChildParsers { get; set; }
+        internal IList<IParser> ChildParsers { get; set; }
         public IDictionary<string, string> DataSources { get; } = new Dictionary<string, string>();
 
         public ProjectParser(IEnumerable<IParser> childParsers)
         {
-            ChildParsers = childParsers;
+            ChildParsers = childParsers.ToList();
         }
 
         public ProjectParser(ReportingService.ReportingService2010 rs, string parentFolder, string rootPath, INamingConvention namingConvention)
