@@ -40,7 +40,7 @@ namespace SsrsDeploy.Factory
 
         protected virtual string GetRootPath(Options options)
         {
-            var rootPath = options.ResourcePath ?? Path.GetDirectoryName(options.Source);
+            var rootPath = options.ResourcePath ?? Path.GetDirectoryName(options.SourceFile);
             rootPath = rootPath.EndsWith(Path.DirectorySeparatorChar.ToString()) ? rootPath : rootPath + Path.DirectorySeparatorChar;
             return rootPath;
         }

@@ -17,7 +17,7 @@ namespace SsrsDeploy
         {
             var result = CommandLine.Parser.Default.ParseArguments<Options>(args);
             var exitCode = result.MapResult(
-                o => { Console.WriteLine($"deploying to {o.Url} based on {o.Source}."); return 0; },
+                o => { Console.WriteLine($"deploying to {o.Url} based on {o.SourceFile}."); return 0; },
                 e => { return 1; }
                 );
 
@@ -26,7 +26,7 @@ namespace SsrsDeploy
             var factory = new ParserFactory();
             var parser = factory.GetXmlParser(argsValue);
 
-            using(var stream = File.OpenRead(argsValue.Source))
+            using(var stream = File.OpenRead(argsValue.SourceFile))
                 parser.Execute(stream);
 
             return exitCode;

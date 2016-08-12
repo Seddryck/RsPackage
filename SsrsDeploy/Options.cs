@@ -14,16 +14,17 @@ namespace SsrsDeploy
         public string Url { get; set; }
 
         // Omitting long name, default --verbose
-        [Option('s', "source", Required = true,
+        [Option('s', "solution", Required = true,
           HelpText = "File containing the definition of artefacts to deploy.")]
-        public string Source { get; set; }
+        public string SourceFile { get; set; }
 
         [Option('f', "folder", Required = true,
           HelpText = "Parent folder on SSRS where the reports and data sources are deployed.")]
         public string ParentFolder { get; set; }
 
         [Option('r', "resources", Required = false,
-          HelpText = "Path of the local folder containing all the resources (reports, data sources, shared datasets)")]
+          HelpText = "Path of the local folder containing all the resources (reports, data sources, shared datasets). If missing the path of the solution will be assumed.")]
         public string ResourcePath { get; set; }
+
     }
 }
