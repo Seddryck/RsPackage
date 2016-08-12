@@ -22,8 +22,8 @@ namespace SsrsDeploy
           HelpText = "Parent folder on SSRS where the reports and data sources are deployed.")]
         public string ParentFolder { get; set; }
 
-        [Option('r', "root", Required = false,
-          HelpText = "Root path of the folder containing all the artefacts")]
-        public string Root { get; set; }
+        [Option('r', "resources", Required = false,
+          HelpText = "Path of the local folder containing all the resources (reports, data sources, shared datasets)")]
+        public string ResourcePath { get; set; }
     }
 }
