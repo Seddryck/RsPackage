@@ -26,5 +26,8 @@ namespace SsrsDeploy
           HelpText = "Path of the local folder containing all the resources (reports, data sources, shared datasets). If missing the path of the solution will be assumed.")]
         public string ResourcePath { get; set; }
 
+        [Option('l', "log", Required = false,
+          HelpText = "Path of the local folder to redirect all the logs. If missing the logs will be displayed on the console.")]
+        public string LogPath { get; set; }
     }
 }
