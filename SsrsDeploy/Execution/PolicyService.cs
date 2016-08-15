@@ -11,13 +11,17 @@ namespace SsrsDeploy.Execution
 {
     public class PolicyService : BaseService
     {
+        public PolicyService()
+        { }
+
         public PolicyService(ReportingService2010 reportingService)
             : base(reportingService)
         { }
 
-        public void Create(string parent, IEnumerable<Tuple<string, string[]>> securities)
+        public virtual void Create(string parent, IEnumerable<Tuple<string, string[]>> securities, bool inherit=true)
         {
-            OnInformation($"Configuring policies for '{parent}'");
+            var inheritString = inherit ? "inheritance" : "override";
+            OnInformation($"Configuring policies by {inheritString} for '{parent}'");
 
             var existingRoles = reportingService.ListRoles("All", null);
 
@@ -27,6 +31,11 @@ namespace SsrsDeploy.Execution
 
             var userNames = securities.SelectMany(p => p.Item2).Distinct();
 
+            bool boolParam;
+            var grandParent = parent=="/" ? "/" : string.Join("/", parent.Split('/').Reverse().Skip(1).Reverse());
+            grandParent = string.IsNullOrEmpty(grandParent) ? "/" : grandParent;
+            var inheritedPolicies = inherit ? reportingService.GetPolicies(grandParent, out boolParam) : new Policy[0];
+
             var policies = new List<Policy>();
             foreach (var userName in userNames)
             {
@@ -35,12 +44,50 @@ namespace SsrsDeploy.Execution
                     GroupUserName = userName,
                     Roles = existingRoles.Where(r => securities.Where(s => s.Item2.Contains(userName)).Select(s => s.Item1).Contains(r.Name)).ToArray()
                 };
-                OnInformation($"Defining policy for {userName} with {policy.Roles.Count()} roles");
+
                 policies.Add(policy);
             }
-            OnInformation($"Assigning {policies.Count} policies for '{parent}'");
 
-            reportingService.SetPolicies(parent, policies.ToArray());
+            foreach (var policy in policies)
+            {
+                var inheritedPolicy = inheritedPolicies.FirstOrDefault(p => p.GroupUserName == policy.GroupUserName);
+                if (inheritedPolicy != null)
+                    policy.Roles = policy.Roles.ToList().Union(inheritedPolicy.Roles, new RoleEqualityComparer()).Distinct().ToArray();
+
+                var pluralRole = policy.Roles.Count() > 1 ? "s" : string.Empty;
+                var rolesString = string.Join(", ", policy.Roles.Select(r => r.Name));
+                var verb = inheritedPolicy == null ? "Defining new" : inherit ? "Overloading" : "Overriding";
+                OnInformation($"{verb} policy for {policy.GroupUserName} with {policy.Roles.Count()} role{pluralRole}: {rolesString}");
+            }
+
+            foreach (var inheritedPolicy in inheritedPolicies)
+            {
+                var policy = policies.FirstOrDefault(p => p.GroupUserName == inheritedPolicy.GroupUserName);
+                if (policy == null)
+                {
+                    policies.Add(inheritedPolicy);
+
+                    var pluralRole = inheritedPolicy.Roles.Count() > 1 ? "s" : string.Empty;
+                    var rolesString = string.Join(", ", inheritedPolicy.Roles.Select(r => r.Name));
+                    OnInformation($"Using pre-existing policy for {inheritedPolicy.GroupUserName} with {inheritedPolicy.Roles.Count()} role{pluralRole}: {rolesString}");
+                }
+            }
+            
+            var pluralPolicy = policies.Count() > 1 ? "ies" : "y";
+            OnInformation($"Assigning {policies.Count} polic{pluralPolicy} for '{parent}'");
+
+            try
+            {
+                reportingService.SetPolicies(parent, policies.ToArray());
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("The user or group name") && ex.Message.Contains("is not recognized."))
+                    OnWarning($"{ex.Message.Split(':')[1].Split('.')[0].Trim()}. Policies for the folder/report '{parent}' have been skipped.");
+                else
+                    throw;
+            }
+
         }
     }
 }

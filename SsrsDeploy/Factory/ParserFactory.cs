@@ -1,4 +1,5 @@
 ﻿using SsrDeploy.Factory;
+using SsrsDeploy.Parser;
 using SsrsDeploy.Parser.NamingConventions;
 using SsrsDeploy.Parser.Xml;
 using System;
@@ -27,14 +28,15 @@ namespace SsrsDeploy.Factory
                 NamingConvention = namingConvention
             };
 
-            var reportParser = new ReportParser(serviceFactory.GetReportService());
-            var folderParser = new FolderParser(serviceFactory.GetFolderService());
+            var policyParser = new PolicyParser(serviceFactory.GetPolicyService());
             var dataSourceParser = new DataSourceParser(serviceFactory.GetDataSourceService());
-
+            var reportParser = new ReportParser(serviceFactory.GetReportService(), new[] { policyParser });
+            var folderParser = new FolderParser(serviceFactory.GetFolderService(), new IParser[] { policyParser, dataSourceParser, reportParser });
+            
+            parser.ChildParsers.Add(dataSourceParser);
             parser.ChildParsers.Add(reportParser);
             parser.ChildParsers.Add(folderParser);
-            parser.ChildParsers.Add(dataSourceParser);
-
+            
             return parser;
         }
 

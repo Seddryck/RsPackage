@@ -53,8 +53,16 @@ namespace SsrsDeploy.Execution
             properties.Add(new Property() { Name = "Description", Value = description });
             properties.Add(new Property() { Name = "Hidden", Value = hidden.ToString() });
 
+            try
+            {
+                reportingService.CreateCatalogItem("Report", name, parent, true, definition, properties.ToArray(), out warnings);
+            }
+            catch (Exception ex)
+            {
 
-            reportingService.CreateCatalogItem("Report", name, parent, true, definition, properties.ToArray(), out warnings);
+                OnError(ex.Message);
+            }
+            
 
             return warnings;
         }

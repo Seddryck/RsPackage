@@ -35,6 +35,12 @@ namespace SsrsDeploy.Parser.Xml
             ChildrenParsers = new List<IParser>();
         }
 
+        public ReportParser(ReportService reportService, IEnumerable<IParser> children)
+        {
+            this.reportService = reportService;
+            ChildrenParsers = children.ToList();
+        }
+
         public virtual void Execute(XmlNode node)
         {
             var reportNodes = node.SelectNodes("./Report");
@@ -51,6 +57,13 @@ namespace SsrsDeploy.Parser.Xml
                 var hidden = bool.Parse(reportNode.Attributes["Hidden"]?.Value ?? bool.FalseString);
 
                 reportService.Create(name, ParentPath, path, description, hidden, Root?.DataSources);
+
+                foreach (var childParser in ChildrenParsers)
+                {
+                    childParser.ParentPath = $"{ParentPath}/{name}";
+                    childParser.Execute(reportNode);
+                }
+                    
             }
         }
     }

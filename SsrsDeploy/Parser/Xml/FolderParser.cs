@@ -20,8 +20,6 @@ namespace SsrsDeploy.Parser.Xml
         public FolderParser(FolderService folderService)
         {
             ChildrenParsers = new List<IParser>();
-            //ChildrenParsers.Add(new ReportParser());
-            //ChildrenParsers.Add(new PolicyParser());
             this.folderService = folderService;
         }
 
