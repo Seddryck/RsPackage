@@ -58,6 +58,7 @@
     <Compile Include="Parser\NamingConventions\TitleToCamelCaseTest.cs" />
     <Compile Include="Parser\Xml\DataSourceParserTest.cs" />
     <Compile Include="Parser\Xml\FolderParserTest.cs" />
+    <Compile Include="Parser\Xml\PolicyParserTest.cs" />
     <Compile Include="Parser\Xml\ReportParserTest.cs" />
     <Compile Include="Factory\UrlBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

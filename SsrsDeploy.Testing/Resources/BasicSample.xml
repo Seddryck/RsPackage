@@ -9,5 +9,9 @@
   <Report Name="Department sales"/>
   <Report Name="Team sales">
     <Path>Team Sales.rdl</Path>
+    <Membership Role="Browser">
+      <Member>Domain\User1</Member>
+      <Member>Domain\User2</Member>
+    </Membership>
   </Report>
 </Projet>

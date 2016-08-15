@@ -11,11 +11,14 @@ namespace SsrsDeploy.Execution
 {
     public class PolicyService : BaseService
     {
+        public PolicyService()
+        {}
+
         public PolicyService(ReportingService2010 reportingService)
             : base(reportingService)
         { }
 
-        public void Create(string parent, IEnumerable<Tuple<string, string[]>> securities)
+        public virtual void Create(string parent, IEnumerable<Tuple<string, string[]>> securities)
         {
             OnInformation($"Configuring policies for '{parent}'");
 
