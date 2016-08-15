@@ -82,9 +82,8 @@ namespace SsrsDeploy.Testing.Execution
             var inherit = true;
             var policies = rs.GetPolicies("/ReportFolder", out inherit);
 
-            Assert.That(policies.Count, Is.EqualTo(1));
+            Assert.That(policies.Where(p => p.GroupUserName== GetUserName()).Count(), Is.EqualTo(1));
             Assert.That(inherit, Is.False);
-            
         }
 
         [Test]
@@ -111,7 +110,9 @@ namespace SsrsDeploy.Testing.Execution
             var inherit = true;
             var policies = rs.GetPolicies("/ReportFolder", out inherit);
 
-            Assert.That(policies.Count, Is.EqualTo(1));
+            Assert.That(policies.Where(p => p.GroupUserName == GetUserName()).Count(), Is.EqualTo(1));
+            Assert.That(policies.ElementAt(0).Roles.Any(r => r.Name== "*Test* My First Role"), Is.True);
+            Assert.That(policies.ElementAt(0).Roles.Any(r => r.Name == "*Test* My Second Role"), Is.True);
             Assert.That(inherit, Is.False);
         }
 

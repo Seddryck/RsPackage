@@ -59,7 +59,11 @@ namespace SsrsDeploy.Parser.Xml
                 reportService.Create(name, ParentPath, path, description, hidden, Root?.DataSources);
 
                 foreach (var childParser in ChildrenParsers)
+                {
+                    childParser.ParentPath = $"{ParentPath}/{name}";
                     childParser.Execute(reportNode);
+                }
+                    
             }
         }
     }

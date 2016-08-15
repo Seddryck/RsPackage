@@ -21,7 +21,7 @@ namespace SsrsDeploy.Testing.Parser.Xml
         public void ParsePolicyNode()
         {
             var mock = new Mock<PolicyService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>(), It.IsAny<bool>())).Verifiable();
             var service = mock.Object;
 
             var parser = new PolicyParser(service);
@@ -35,14 +35,14 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Report[@Name='Team sales']");
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>()), Times.Once);
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>(), It.IsAny<bool>()), Times.Once);
         }
 
         [Test]
         public void ParseCorrectMembership()
         {
             var mock = new Mock<PolicyService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>(), It.IsAny<bool>())).Verifiable();
             var service = mock.Object;
 
             var parser = new PolicyParser(service);
@@ -56,14 +56,14 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Report[@Name='Team sales']");
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.Is<IEnumerable<Tuple<string, string[]>>>(r => r.Count() == 1)), Times.Once);
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.Is<IEnumerable<Tuple<string, string[]>>>(r => r.Count() == 1), It.IsAny<bool>()), Times.Once);
         }
 
         [Test]
         public void ParseCorrectRole()
         {
             var mock = new Mock<PolicyService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>(), It.IsAny<bool>())).Verifiable();
             var service = mock.Object;
 
             var parser = new PolicyParser(service);
@@ -77,14 +77,14 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Report[@Name='Team sales']");
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.Is<IEnumerable<Tuple<string, string[]>>>(r => r.ElementAt(0).Item1=="Browser")), Times.Once);
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.Is<IEnumerable<Tuple<string, string[]>>>(r => r.ElementAt(0).Item1=="Browser"), It.IsAny<bool>()), Times.Once);
         }
 
         [Test]
         public void ParseCorrectMembers()
         {
             var mock = new Mock<PolicyService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>(), It.IsAny<bool>())).Verifiable();
             var service = mock.Object;
 
             var parser = new PolicyParser(service);
@@ -101,7 +101,8 @@ namespace SsrsDeploy.Testing.Parser.Xml
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.Is<IEnumerable<Tuple<string, string[]>>>(
                 r => r.ElementAt(0).Item2.Contains("Domain\\User1")
                 && r.ElementAt(0).Item2.Contains("Domain\\User2")
-                && r.ElementAt(0).Item2.Count()==2))
+                && r.ElementAt(0).Item2.Count()==2)
+                , It.IsAny<bool>())
                 , Times.Once);
         }
 
@@ -109,7 +110,7 @@ namespace SsrsDeploy.Testing.Parser.Xml
         public void ParseCorrectParent()
         {
             var mock = new Mock<PolicyService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<IEnumerable<Tuple<string, string[]>>>(), It.IsAny<bool>())).Verifiable();
             var service = mock.Object;
 
             var parser = new PolicyParser(service);
@@ -124,7 +125,7 @@ namespace SsrsDeploy.Testing.Parser.Xml
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Report[@Name='Team sales']");
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create("/Root/First-Child", It.IsAny<IEnumerable<Tuple<string, string[]>>>()), Times.Once);
+            Mock.Get(service).Verify(s => s.Create("/Root/First-Child", It.IsAny<IEnumerable<Tuple<string, string[]>>>(), It.IsAny<bool>()), Times.Once);
         }
     }
 }
