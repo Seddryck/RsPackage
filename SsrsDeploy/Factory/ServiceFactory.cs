@@ -57,9 +57,6 @@ namespace SsrsDeploy.Factory
             return service;
         }
 
-        
-        }
-
 
         public void WriteMessageToConsole(object sender, MessageEventArgs eventArgs)
         {
@@ -81,5 +78,6 @@ namespace SsrsDeploy.Factory
                     break;
             }
             Console.WriteLine(eventArgs.Message);
+        }
     }
 }

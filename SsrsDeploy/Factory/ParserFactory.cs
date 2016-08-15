@@ -1,5 +1,4 @@
-﻿using SsrDeploy.Factory;
-using SsrsDeploy.Parser;
+﻿using SsrsDeploy.Parser;
 using SsrsDeploy.Parser.NamingConventions;
 using SsrsDeploy.Parser.Xml;
 using System;
