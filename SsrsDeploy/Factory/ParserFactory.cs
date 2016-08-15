@@ -27,10 +27,12 @@ namespace SsrsDeploy.Factory
                 NamingConvention = namingConvention
             };
 
-            var reportParser = new ReportParser(serviceFactory.GetReportService());
-            var folderParser = new FolderParser(serviceFactory.GetFolderService());
-            var dataSourceParser = new DataSourceParser(serviceFactory.GetDataSourceService());
+            var policyParser = new PolicyParser(serviceFactory.GetPolicyService());
 
+            var reportParser = new ReportParser(serviceFactory.GetReportService(), new[] { policyParser });
+            var folderParser = new FolderParser(serviceFactory.GetFolderService(), new[] { policyParser });
+            var dataSourceParser = new DataSourceParser(serviceFactory.GetDataSourceService());
+            
             parser.ChildParsers.Add(reportParser);
             parser.ChildParsers.Add(folderParser);
             parser.ChildParsers.Add(dataSourceParser);

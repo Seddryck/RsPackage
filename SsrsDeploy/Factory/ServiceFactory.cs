@@ -41,6 +41,11 @@ namespace SsrDeploy.Factory
             return new DataSourceService(rs);
         }
 
+        public PolicyService GetPolicyService()
+        {
+            return new PolicyService(rs);
+        }
+
         public static string GetUrl(Options options)
         {
             var baseUrl = options.Url;
