@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SsrDeploy.Factory
+namespace SsrsDeploy.Factory
 {
     class ServiceFactory
     {
@@ -21,7 +21,10 @@ namespace SsrDeploy.Factory
         protected virtual ReportingService2010 GetReportingService(Options options)
         {
             var rs = new ReportingService2010();
-            rs.Url = GetUrl(options);
+            var urlBuilder = new UrlBuilder();
+            urlBuilder.Setup(options);
+            urlBuilder.Build();
+            rs.Url = urlBuilder.GetUrl();
             rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
             return rs;
         }
@@ -41,27 +44,6 @@ namespace SsrDeploy.Factory
             return new DataSourceService(rs);
         }
 
-        public static string GetUrl(Options options)
-        {
-            var baseUrl = options.Url;
-            var builder = new UriBuilder(baseUrl);
-
-            if (string.IsNullOrEmpty(builder.Scheme))
-                builder.Scheme = Uri.UriSchemeHttp;
-
-            if (builder.Scheme != Uri.UriSchemeHttp && builder.Scheme != Uri.UriSchemeHttps)
-                throw new ArgumentException();
-
-            if (!builder.Path.EndsWith("/ReportService2010.asmx"))
-                builder.Path += (builder.Path.EndsWith("/") ? "" : "/") + "ReportService2010.asmx";
-
-            if (builder.Path.Equals("/ReportService2010.asmx"))
-                builder.Path = "/ReportServer" + builder.Path;
-
-            if (builder.Uri.IsDefaultPort)
-                return builder.Uri.GetComponents(UriComponents.AbsoluteUri & ~UriComponents.Port, UriFormat.UriEscaped);
-
-            return builder.ToString();
-        }
+        
     }
 }
