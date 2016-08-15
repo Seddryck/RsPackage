@@ -28,22 +28,30 @@ namespace SsrDeploy.Factory
 
         public ReportService GetReportService()
         {
-            return new ReportService(rs);
+            var service = new ReportService(rs);
+            service.MessageSent += WriteMessageToConsole;
+            return service;
         }
 
         public FolderService GetFolderService()
         {
-            return new FolderService(rs);
+            var service = new FolderService(rs);
+            service.MessageSent += WriteMessageToConsole;
+            return service;
         }
 
         public DataSourceService GetDataSourceService()
         {
-            return new DataSourceService(rs);
+            var service = new DataSourceService(rs);
+            service.MessageSent += WriteMessageToConsole;
+            return service;
         }
 
         public PolicyService GetPolicyService()
         {
-            return new PolicyService(rs);
+            var service = new PolicyService(rs);
+            service.MessageSent += WriteMessageToConsole;
+            return service;
         }
 
         public static string GetUrl(Options options)
@@ -67,6 +75,29 @@ namespace SsrDeploy.Factory
                 return builder.Uri.GetComponents(UriComponents.AbsoluteUri & ~UriComponents.Port, UriFormat.UriEscaped);
 
             return builder.ToString();
+        }
+
+
+        public void WriteMessageToConsole(object sender, MessageEventArgs eventArgs)
+        {
+            switch (eventArgs.Level)
+            {
+                case MessageEventArgs.LevelOption.Information:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    break;
+                case MessageEventArgs.LevelOption.Warning:
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    break;
+                case MessageEventArgs.LevelOption.Error:
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    break;
+                default:
+                    break;
+            }
+            Console.WriteLine(eventArgs.Message);
         }
     }
 }
