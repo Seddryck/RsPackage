@@ -5,6 +5,9 @@
     <Report Name="Company sales" Hidden="True">
       <Path>Company Sales.rdl</Path>
     </Report>
+    <Membership Role="Browser">
+      <Member>Domain\User3</Member>
+    </Membership>
   </Folder>
   <Report Name="Department sales"/>
   <Report Name="Team sales">

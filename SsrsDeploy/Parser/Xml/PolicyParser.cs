@@ -17,6 +17,9 @@ namespace SsrsDeploy.Parser.Xml
         public IParser Parent { get; set; }
         public string ParentPath { get; set; }
 
+        public PolicyParser()
+        { }
+
         public PolicyParser(PolicyService policyService)
         {
             this.policyService = policyService;
