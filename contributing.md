@@ -1,6 +1,6 @@
 # How to contribute
 
-Third-party patches are essential for keeping **RsDeploy** great. We want to keep it as easy as possible to contribute changes. There are a few guidelines that we need contributors to follow so that we can have a chance of keeping on top of things.
+Third-party patches are essential for keeping **RsPackage** great. We want to keep it as easy as possible to contribute changes. There are a few guidelines that we need contributors to follow so that we can have a chance of keeping on top of things.
 
 We love pull requests from everyone. By participating in this project, you agree to abide by the thoughtbot [code of conduct].
 
@@ -43,7 +43,7 @@ appropriate to start the first line of a commit with '(doc)'.
 ## Submitting Changes
 
 * Push your changes to a topic branch in your fork of the repository.
-* Submit a pull request to the repository RsDeploy (Seddryck/RsDeploy).
+* Submit a pull request to the repository RsPackage (Seddryck/RsPackage).
 * Update your issue to mark that you have submitted code and are ready for it to be reviewed (Status: ready-for-merge).
   * Include a link to the pull request in the ticket.
 * At this point, you're waiting on us. We like to, at least, comment on pull requests within a few business days. We may suggest some changes or improvements or alternatives.
@@ -53,7 +53,7 @@ appropriate to start the first line of a commit with '(doc)'.
 ## Your issue will be quickly answered:
 
 * Write a good description of your problem in the issue ticket
-  * If you've a problem using RsDeploy, post your test (not a screen capture) and explain what you're trying to achieve. Don't forget to post the error (full stack) that you're receiving!
+  * If you've a problem using RsPackage, post your test (not a screen capture) and explain what you're trying to achieve. Don't forget to post the error (full stack) that you're receiving!
   * If you'd like to suggest a feature, explain why you think it will be valuable and suggest a syntax.
 
 ## Your pull request is accepted:
