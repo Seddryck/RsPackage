@@ -17,7 +17,7 @@ namespace SsrsDeploy
         {
             var result = CommandLine.Parser.Default.ParseArguments<Options>(args);
             var exitCode = result.MapResult(
-                o => { Console.WriteLine($"deploying to {o.Url} based on {o.SourceFile}."); return 0; },
+                o => { Console.WriteLine($"deploying to {o.Url} based on {o.SourceFile}."); if (!string.IsNullOrEmpty(o.LogPath)) { Console.WriteLine($"Redirecting logs to {o.LogPath}"); } return 0; },
                 e => { return 1; }
                 );
 

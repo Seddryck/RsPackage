@@ -7,8 +7,8 @@
         <Path>Product Catalog.rdl</Path>
       </Report>
       <Membership Role="Browser">
-        <Member>ATLANTIS\cedri</Member>
-        <Member>ATLANTIS\helen</Member>
+        <Member>belgrid\ghl255</Member>
+        <Member>belgrid\hbi757</Member>
       </Membership>
     </Folder>
   </Folder>
@@ -17,10 +17,10 @@
       <Report Name="Product Catalog">
         <Path>Product Catalog.rdl</Path>
         <Membership Role="Browser">
-          <Member>ATLANTIS\cedri</Member>
+          <Member>belgrid\ghl255</Member>
         </Membership>
         <Membership Role="Content Manager">
-          <Member>ATLANTIS\cedri</Member>
+          <Member>belgrid\ghl255</Member>
         </Membership>
       </Report>
       <Folder Name="MiddleName">
