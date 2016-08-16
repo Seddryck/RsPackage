@@ -69,6 +69,7 @@
     <Compile Include="Logging\LoggerFactory.cs" />
     <Compile Include="Logging\NullLogger.cs" />
     <Compile Include="MessageEventArgs.cs" />
+    <Compile Include="PublishOptions.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Parser\IParserPathable.cs" />
     <Compile Include="Parser\IParser.cs" />

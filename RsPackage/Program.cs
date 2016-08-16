@@ -15,21 +15,28 @@ namespace RsPackage
     {
         static int Main(string[] args)
         {
-            var result = CommandLine.Parser.Default.ParseArguments<Options>(args);
+            var result = CommandLine.Parser.Default.ParseArguments<PublishOptions>(args);
             var exitCode = result.MapResult(
-                o => { Console.WriteLine($"deploying to {o.Url} based on {o.SourceFile}."); if (!string.IsNullOrEmpty(o.LogPath)) { Console.WriteLine($"Redirecting logs to {o.LogPath}"); } return 0; },
+                o => { return Publish(o); },
                 e => { return 1; }
                 );
 
-            var argsValue = ((Parsed<Options>)result).Value;
+            return exitCode;
+        }
+
+        protected static int Publish(PublishOptions options)
+        {
+            Console.WriteLine($"Publishing to {options.Url} based on {options.SourceFile}.");
+            if (!string.IsNullOrEmpty(options.LogPath))
+                { Console.WriteLine($"Redirecting logs to {options.LogPath}"); }
 
             var factory = new ParserFactory();
-            var parser = factory.GetXmlParser(argsValue);
+            var parser = factory.GetXmlParser(options);
 
-            using(var stream = File.OpenRead(argsValue.SourceFile))
+            using (var stream = File.OpenRead(options.SourceFile))
                 parser.Execute(stream);
 
-            return exitCode;
+            return 0;
         }
     }
 }
