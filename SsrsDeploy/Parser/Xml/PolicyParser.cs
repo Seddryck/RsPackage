@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace SsrsDeploy.Parser.Xml
 {
-    class PolicyParser : IParser
+    public class PolicyParser : IParser
     {
         private PolicyService policyService;
         private IEnumerable<IParser> ChildrenParsers;
@@ -18,7 +18,11 @@ namespace SsrsDeploy.Parser.Xml
         public string ParentPath { get; set; }
 
         public PolicyParser()
+        { }
+
+        public PolicyParser(PolicyService policyService)
         {
+            this.policyService = policyService;
             ChildrenParsers = new List<IParser>();
         }
 
@@ -33,8 +37,8 @@ namespace SsrsDeploy.Parser.Xml
             {
                 var role = membershipNode.Attributes["Role"].Value;
                 var members = new List<string>();
-                foreach (XmlNode memberNode in membershipNode.SelectNodes("Task"))
-                    members.Add(memberNode.Value);
+                foreach (XmlNode memberNode in membershipNode.SelectNodes("Member"))
+                    members.Add(memberNode.InnerText);
                 var security = new Tuple<string, string[]>(role, members.ToArray());
                 securities.Add(security);
             }

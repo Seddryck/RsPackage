@@ -56,6 +56,7 @@
     <Compile Include="Execution\BaseService.cs" />
     <Compile Include="Execution\PolicyService.cs" />
     <Compile Include="Execution\DataSourceService.cs" />
+    <Compile Include="Execution\RoleEqualityComparer.cs" />
     <Compile Include="Execution\RoleService.cs" />
     <Compile Include="Execution\ReportService.cs" />
     <Compile Include="Execution\FolderService.cs" />

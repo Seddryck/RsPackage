@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SsrDeploy.Factory
+namespace SsrsDeploy.Factory
 {
     class ServiceFactory
     {
@@ -21,47 +21,63 @@ namespace SsrDeploy.Factory
         protected virtual ReportingService2010 GetReportingService(Options options)
         {
             var rs = new ReportingService2010();
-            rs.Url = GetUrl(options);
+            var urlBuilder = new UrlBuilder();
+            urlBuilder.Setup(options);
+            urlBuilder.Build();
+            rs.Url = urlBuilder.GetUrl();
             rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
             return rs;
         }
 
         public ReportService GetReportService()
         {
-            return new ReportService(rs);
+            var service = new ReportService(rs);
+            service.MessageSent += WriteMessageToConsole;
+            return service;
         }
 
         public FolderService GetFolderService()
         {
-            return new FolderService(rs);
+            var service = new FolderService(rs);
+            service.MessageSent += WriteMessageToConsole;
+            return service;
         }
 
         public DataSourceService GetDataSourceService()
         {
-            return new DataSourceService(rs);
+            var service = new DataSourceService(rs);
+            service.MessageSent += WriteMessageToConsole;
+            return service;
         }
 
-        public static string GetUrl(Options options)
+        public PolicyService GetPolicyService()
         {
-            var baseUrl = options.Url;
-            var builder = new UriBuilder(baseUrl);
+            var service = new PolicyService(rs);
+            service.MessageSent += WriteMessageToConsole;
+            return service;
+        }
 
-            if (string.IsNullOrEmpty(builder.Scheme))
-                builder.Scheme = Uri.UriSchemeHttp;
 
-            if (builder.Scheme != Uri.UriSchemeHttp && builder.Scheme != Uri.UriSchemeHttps)
-                throw new ArgumentException();
-
-            if (!builder.Path.EndsWith("/ReportService2010.asmx"))
-                builder.Path += (builder.Path.EndsWith("/") ? "" : "/") + "ReportService2010.asmx";
-
-            if (builder.Path.Equals("/ReportService2010.asmx"))
-                builder.Path = "/ReportServer" + builder.Path;
-
-            if (builder.Uri.IsDefaultPort)
-                return builder.Uri.GetComponents(UriComponents.AbsoluteUri & ~UriComponents.Port, UriFormat.UriEscaped);
-
-            return builder.ToString();
+        public void WriteMessageToConsole(object sender, MessageEventArgs eventArgs)
+        {
+            switch (eventArgs.Level)
+            {
+                case MessageEventArgs.LevelOption.Information:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    break;
+                case MessageEventArgs.LevelOption.Warning:
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    break;
+                case MessageEventArgs.LevelOption.Error:
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    break;
+                default:
+                    break;
+            }
+            Console.WriteLine(eventArgs.Message);
         }
     }
 }

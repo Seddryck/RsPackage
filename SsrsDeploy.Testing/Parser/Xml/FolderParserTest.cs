@@ -91,5 +91,30 @@ namespace SsrsDeploy.Testing.Parser.Xml
             Mock.Get(folderService).Verify(s => s.Create( "Confidential", "/Analysis/Realtime"));
         }
 
+        [Test]
+        public void ParseFolderWithPolicy()
+        {
+            var stubFolderService = new Mock<FolderService>();
+            stubFolderService.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>()));
+            var folderService = stubFolderService.Object;
+
+            var mockPolicyParser = new Mock<PolicyParser>();
+            mockPolicyParser.Setup(p => p.Execute(It.IsAny<XmlNode>())).Verifiable();
+            var policyParser = mockPolicyParser.Object;
+
+            var parser = new FolderParser(folderService, new[] { policyParser });
+
+            var xmlDoc = new XmlDocument();
+            using (Stream stream = Assembly.GetExecutingAssembly()
+                        .GetManifestResourceStream("SsrsDeploy.Testing.Resources.MultiLevelSample.xml"))
+            using (StreamReader reader = new StreamReader(stream))
+                xmlDoc.Load(reader);
+
+            var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
+            parser.Execute(root);
+
+            Mock.Get(policyParser).Verify(p => p.Execute(It.IsAny<XmlNode>()), Times.Exactly(2));
+        }
+
     }
 }

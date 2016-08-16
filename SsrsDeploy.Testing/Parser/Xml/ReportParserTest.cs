@@ -194,5 +194,30 @@ namespace SsrsDeploy.Testing.Parser.Xml
 
             Mock.Get(childParser).Verify(s => s.Execute(It.IsAny<XmlNode>()), Times.Exactly(4));
         }
+
+        [Test]
+        public void ParseReportWithPolicy()
+        {
+            var stubReportService = new Mock<ReportService>();
+            stubReportService.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IDictionary<string, string>>())).Verifiable();
+            var reportService = stubReportService.Object;
+
+            var mockPolicyParser = new Mock<PolicyParser>();
+            mockPolicyParser.Setup(p => p.Execute(It.IsAny<XmlNode>())).Verifiable();
+            var policyParser = mockPolicyParser.Object;
+
+            var parser = new ReportParser(reportService, new[] { policyParser });
+            
+            var xmlDoc = new XmlDocument();
+            using (Stream stream = Assembly.GetExecutingAssembly()
+                        .GetManifestResourceStream("SsrsDeploy.Testing.Resources.MultiLevelSample.xml"))
+            using (StreamReader reader = new StreamReader(stream))
+                xmlDoc.Load(reader);
+
+            var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder[@Name='Analysis']");
+            parser.Execute(root);
+
+            Mock.Get(policyParser).Verify(p => p.Execute(It.IsAny<XmlNode>()), Times.Once);
+        }
     }
 }
