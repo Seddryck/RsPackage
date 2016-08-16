@@ -1,16 +1,16 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
-    <id>SsrsDeploy</id>
+    <id>RsPackage</id>
     <version>$version$</version>
-    <title>SsrsDeploy</title>
+    <title>RsPackage</title>
     <authors>Cédric L. Charlier</authors>
     <owners>Cédric L. Charlier</owners>
-    <licenseUrl>http://github.com/Seddryck/SsrsDeploy/blob/master/LICENSE</licenseUrl>
-    <projectUrl>http://github.com/Seddryck/SsrsDeploy</projectUrl>
+    <licenseUrl>http://github.com/Seddryck/RsPackage/blob/master/LICENSE</licenseUrl>
+    <projectUrl>http://github.com/Seddryck/RsPackage</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Utility to deploy SSRS reports</description>
-    <releaseNotes>First release of SsrsDeploy</releaseNotes>
+    <releaseNotes>First release of RsPackage</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>SSRS Deployment</tags>
   </metadata>
