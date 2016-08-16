@@ -22,7 +22,7 @@ namespace SsrsDeploy.Logging
             if (writer == null)
                 BuildWriter();
 
-            writer.Write(eventArgs.Time);
+            writer.Write(eventArgs.Time.ToString("dd-MM-yyyy hh:mm:ss.fff"));
             writer.Write('\t');
             writer.Write(eventArgs.Level);
             writer.Write('\t');
