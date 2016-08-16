@@ -51,6 +51,7 @@
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="Execution\PolicyServiceTest.cs" />
     <Compile Include="Execution\RoleServiceTest.cs" />
+    <Compile Include="Factory\ServiceBuilderTest.cs" />
     <Compile Include="FileOnDisk.cs" />
     <Compile Include="Execution\ReportServiceTest.cs" />
     <Compile Include="Execution\FolderServiceTest.cs" />

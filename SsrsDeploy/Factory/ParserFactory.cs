@@ -14,7 +14,10 @@ namespace SsrsDeploy.Factory
     {
         public ProjectParser GetXmlParser(Options options)
         {
-            var serviceFactory = new ServiceFactory(options);
+            var serviceBuilder = new ServiceBuilder();
+            serviceBuilder.Setup(options);
+            serviceBuilder.Build();
+
             var rootPath = GetRootPath(options);
             var parentFolder = GetParentFolder(options);
             var namingConvention = GetNamingConvention(options);
@@ -27,10 +30,10 @@ namespace SsrsDeploy.Factory
                 NamingConvention = namingConvention
             };
 
-            var policyParser = new PolicyParser(serviceFactory.GetPolicyService());
-            var dataSourceParser = new DataSourceParser(serviceFactory.GetDataSourceService());
-            var reportParser = new ReportParser(serviceFactory.GetReportService(), new[] { policyParser });
-            var folderParser = new FolderParser(serviceFactory.GetFolderService(), new IParser[] { policyParser, dataSourceParser, reportParser });
+            var policyParser = new PolicyParser(serviceBuilder.GetPolicyService());
+            var dataSourceParser = new DataSourceParser(serviceBuilder.GetDataSourceService());
+            var reportParser = new ReportParser(serviceBuilder.GetReportService(), new[] { policyParser });
+            var folderParser = new FolderParser(serviceBuilder.GetFolderService(), new IParser[] { policyParser, dataSourceParser, reportParser });
             
             parser.ChildParsers.Add(dataSourceParser);
             parser.ChildParsers.Add(reportParser);
