@@ -62,6 +62,10 @@
     <Compile Include="Factory\ParserFactory.cs" />
     <Compile Include="Factory\ServiceFactory.cs" />
     <Compile Include="Factory\UrlBuilder.cs" />
+    <Compile Include="Logging\ConsoleLogger.cs" />
+    <Compile Include="Logging\FileLogger.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\NullLogger.cs" />
     <Compile Include="MessageEventArgs.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Parser\IParserPathable.cs" />
