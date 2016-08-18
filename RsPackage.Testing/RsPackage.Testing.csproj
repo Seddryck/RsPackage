@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionStringReader.cs" />
+    <Compile Include="Transform\DataSourceTransformTest.cs" />
     <Compile Include="Execution\PolicyServiceTest.cs" />
     <Compile Include="Execution\RoleServiceTest.cs" />
     <Compile Include="Factory\ServiceBuilderTest.cs" />
@@ -83,6 +84,9 @@
     <EmbeddedResource Include="Resources\AdventureWorks.rds">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Resources\AdventureWorks.rsds">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\BasicSample.xml">

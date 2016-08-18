@@ -33,7 +33,7 @@ namespace RsPackage.Parser.Xml
                 var name = DataSourceNode.Attributes["Name"].Value;
 
                 var path = DataSourceNode.SelectSingleNode("./Path")?.InnerXml;
-                path = path ?? $"{Root.NamingConvention.Apply(name)}.rsds";
+                path = path ?? $"{Root.NamingConvention.Apply(name)}";
                 if (!Path.IsPathRooted(path))
                     path = Path.Combine(RootPath ?? string.Empty, path);
 
