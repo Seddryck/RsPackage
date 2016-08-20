@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="Execution\PolicyServiceTest.cs" />
+    <Compile Include="Execution\SharedDatasetServiceTest.cs" />
     <Compile Include="Execution\RoleServiceTest.cs" />
     <Compile Include="Factory\ServiceBuilderTest.cs" />
     <Compile Include="FileOnDisk.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Execution\FolderServiceTest.cs" />
     <Compile Include="Parser\NamingConventions\TitleToUnderscoreWordTest.cs" />
     <Compile Include="Parser\NamingConventions\TitleToCamelCaseTest.cs" />
+    <Compile Include="Parser\Xml\SharedDatasetParserTest.cs" />
     <Compile Include="Parser\Xml\DataSourceParserTest.cs" />
     <Compile Include="Parser\Xml\FolderParserTest.cs" />
     <Compile Include="Parser\Xml\PolicyParserTest.cs" />
@@ -83,6 +85,21 @@
     <EmbeddedResource Include="Resources\AdventureWorks.rds">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\EmployeeSalesDetail.rsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\EmployeeSalesYearOverYear.rsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Employee_Sales_Summary.rdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\EmpSalesMonth.rsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SalesEmployees.rsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\BasicSample.xml">
@@ -107,6 +124,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MultiLevelSample.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SharedDatasetSample.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

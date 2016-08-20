@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Projet>
+<Project>
   <DataSource Name="MyDataSource"/>
   <Folder Name="Analysis">
     <Report Name="Company sales" Hidden="True">
@@ -17,4 +17,4 @@
       <Member>Domain\User2</Member>
     </Membership>
   </Report>
-</Projet>
+</Project>

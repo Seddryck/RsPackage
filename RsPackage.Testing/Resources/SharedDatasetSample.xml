@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <DataSource Name="AdventureWorks"/>
+  <Folder Name="Shared">
+    <Report Name="Employee sales summary">
+      <Path>Employee_Sales_Summary.rdl</Path>
+    </Report>
+    <Dataset Name="EmployeeSalesDetail" Hidden="true" DataSource="AdventureWorks">
+      <Path>EmployeeSalesDetail.rsd</Path>
+    </Dataset>
+    <Dataset Name="EmployeeSalesYearOverYear">
+      <Path>EmployeeSalesYearOverYear.rsd</Path>
+      <Description>My description</Description>
+    </Dataset>
+    <Dataset Name="EmpSalesMonth">
+      <Path>EmpSalesMonth.rsd</Path>
+    </Dataset>
+    <Dataset Name="SalesEmployees">
+      <Path>SalesEmployees.rsd</Path>
+    </Dataset>
+  </Folder>
+</Project>

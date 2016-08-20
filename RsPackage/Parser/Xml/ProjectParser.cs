@@ -21,6 +21,7 @@ namespace RsPackage.Parser.Xml
 
         internal IList<IParser> ChildParsers { get; set; }
         public IDictionary<string, string> DataSources { get; } = new Dictionary<string, string>();
+        public IDictionary<string, string> SharedDatasets { get; } = new Dictionary<string, string>();
 
         public ProjectParser()
         {

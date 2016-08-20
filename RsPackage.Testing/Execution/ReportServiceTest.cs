@@ -64,7 +64,7 @@ namespace RsPackage.Testing.Execution
             var rs = GetReportingService();
 
             var service = new ReportService(rs);
-            service.Create("My First Report", "/ReportFolder", ProductCatalogPath);
+            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, string.Empty, false);
 
             Assert.That(rs.GetItemType("/ReportFolder/My First Report"), Is.EqualTo("Report"));
 
@@ -118,7 +118,7 @@ namespace RsPackage.Testing.Execution
             ds.Add("AdventureWorks", "/Data Sources/AdventureWorks");
 
             var service = new ReportService(rs);
-            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds);
+            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds, new Dictionary<string, string>());
 
             var dsRef = rs.GetItemDataSources("/ReportFolder/My First Report");
             Assert.That(dsRef.Count(), Is.EqualTo(1));
@@ -137,7 +137,7 @@ namespace RsPackage.Testing.Execution
             var error = false;
             service.MessageSent += (o, e) => error |= e.Level == MessageEventArgs.LevelOption.Error;
 
-            Assert.Catch<InvalidOperationException>(() => service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds));
+            Assert.Catch<InvalidOperationException>(() => service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds, new Dictionary<string, string>()));
             Assert.That(error, Is.True);
         }
 
