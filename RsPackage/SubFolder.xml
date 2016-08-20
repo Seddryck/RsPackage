@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project>
   <Folder Name="Hello">
-    <DataSource Name="AdventureWorks"/>
+    <DataSource Name="AdventureWorks">
+      <Path>AdventureWorks.rds</Path>
+    </DataSource>
     <Folder Name="World">
       <Report Name="Product Catalog">
         <Path>Product Catalog.rdl</Path>

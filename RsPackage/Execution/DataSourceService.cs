@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using System.IO;
 using RsPackage.ReportingService;
+using RsPackage.Transform;
+using System.Xml;
 
 namespace RsPackage.Execution
 {
@@ -20,12 +22,49 @@ namespace RsPackage.Execution
 
         public virtual void Create(string name, string parent, string path)
         {
+            //If file extension is not specied we need to check the existence of both
+            if (Path.GetExtension(path)!=".rsds" && Path.GetExtension(path) != ".rds")
+            {
+                if (File.Exists($"{path}.rsds"))
+                    path = $"{path}.rsds";
+                else
+                    path = $"{path}.rds";
+            }
+
+            //If file is not found then we must throw an error
             if (!File.Exists(path))
             {
                 OnError($"File '{path}' doesn't exist!");
                 return;
             }
-                
+
+            // If file is a Visual Studio connection-string then we need to transform it
+            if (Path.GetExtension(path) == ".rds")
+            {
+                var document = new XmlDocument();
+                document.Load(path);
+
+                var transformer = new DataSourceTransformer();
+                if (transformer.IsVisualStudio(document))
+                {
+                    var newDocument = transformer.ToReportingService(document);
+                    path = Path.ChangeExtension(path, ".rsds");
+                    newDocument.Save(path);
+                }
+                else
+                    throw new InvalidOperationException();
+            }
+
+            //If it's a rsds file we need to ensure it's a valid Reporting Server connection string
+            if (Path.GetExtension(path) == ".rsds")
+            {
+                var document = new XmlDocument();
+                document.Load(path);
+
+                var transformer = new DataSourceTransformer();
+                if (!transformer.IsReportingService(document))
+                    throw new InvalidOperationException();
+            }
 
             Byte[] definition = null;
             try

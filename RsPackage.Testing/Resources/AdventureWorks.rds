@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<DataSourceDefinition xmlns="http://schemas.microsoft.com/sqlserver/reporting/2006/03/reportdatasource">
-  <Extension>SQL</Extension>
-  <ConnectString>Data Source=.\sql2016;Initial Catalog=AdventureWorks2012</ConnectString>
-  <CredentialRetrieval>Integrated</CredentialRetrieval>
-  <Enabled>True</Enabled>
-</DataSourceDefinition>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="LoftieBI_Reporting">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=ISOSQL287;Initial Catalog=AdventureWorks;Integrated Security=true</ConnectString>
+    <IntegratedSecurity>true</IntegratedSecurity>
+  </ConnectionProperties>
+  <DataSourceID>c8222fe0-ed0d-4c38-9930-5ced6fd99ce3</DataSourceID>
+</RptDataSource>
