@@ -11,6 +11,7 @@ using RsPackage.ReportingService;
 namespace RsPackage.Testing.Execution
 {
     [TestFixture]
+    [Category("NotAdvancedServices ")]
     public class SharedDatasetServiceTest
     {
         private string SharedDatasetPath { get; set; }
