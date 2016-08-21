@@ -39,7 +39,7 @@ namespace RsPackage.Execution
             var items = reportingService.GetItemReferences($"{parent}/{name}", referenceType);
 
             string label = string.Empty;
-            switch (referenceType.ToLower())
+            switch (referenceType)
             {
                 case "DataSet": label = "data set"; break;
                 case "DataSource": label = "data source"; break;
