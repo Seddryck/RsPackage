@@ -71,9 +71,9 @@
     <Compile Include="Logging\LoggerFactory.cs" />
     <Compile Include="Logging\NullLogger.cs" />
     <Compile Include="MessageEventArgs.cs" />
-    <Compile Include="CommandLine\BuildOptions.cs" />
-    <Compile Include="CommandLine\PublishOptions.cs" />
-    <Compile Include="CommandLine\Options.cs" />
+    <Compile Include="CommandLineArgs\BuildOptions.cs" />
+    <Compile Include="CommandLineArgs\PublishOptions.cs" />
+    <Compile Include="CommandLineArgs\Options.cs" />
     <Compile Include="Parser\IParserPathable.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="Parser\NamingConventions\INamingConvention.cs" />

@@ -1,6 +1,7 @@
 ﻿using RsPackage;
 using RsPackage.ReportingService;
 using RsPackage.Execution;
+using RsPackage.CommandLineArgs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace RsPackage.Factory
 {
     public class ServiceBuilder
     {
-        private Options options;
+        private PublishOptions options;
         private ReportingService2010 rs;
         private ILogger logger;
         private Dictionary<Type, BaseService> services;
@@ -25,7 +26,7 @@ namespace RsPackage.Factory
             this.isBuilt = false;
         }
             
-        public void Setup(Options options)
+        public void Setup(PublishOptions options)
         {
             this.options = options;
             this.isBuilt = false;
@@ -54,7 +55,7 @@ namespace RsPackage.Factory
             return loggerFactory.Build(options);
         }
 
-        protected virtual ReportingService2010 BuildReportingService(Options options)
+        protected virtual ReportingService2010 BuildReportingService(PublishOptions options)
         {
             var rs = new ReportingService2010();
             var urlBuilder = new UrlBuilder();

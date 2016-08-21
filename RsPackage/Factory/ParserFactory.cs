@@ -1,6 +1,7 @@
 ﻿using RsPackage.Parser;
 using RsPackage.Parser.NamingConventions;
 using RsPackage.Parser.Xml;
+using RsPackage.CommandLineArgs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,7 @@ namespace RsPackage.Factory
 {
     class ParserFactory
     {
-        public ProjectParser GetXmlParser(Options options)
+        public ProjectParser GetXmlParser(PublishOptions options)
         {
             var serviceBuilder = new ServiceBuilder();
             serviceBuilder.Setup(options);
@@ -42,19 +43,19 @@ namespace RsPackage.Factory
             return parser;
         }
 
-        protected virtual string GetRootPath(Options options)
+        protected virtual string GetRootPath(PublishOptions options)
         {
             var rootPath = options.ResourcePath ?? Path.GetDirectoryName(options.SourceFile);
             rootPath = rootPath.EndsWith(Path.DirectorySeparatorChar.ToString()) ? rootPath : rootPath + Path.DirectorySeparatorChar;
             return rootPath;
         }
 
-        protected virtual string GetParentFolder(Options options)
+        protected virtual string GetParentFolder(PublishOptions options)
         {
             return options.ParentFolder;
         }
 
-        protected virtual INamingConvention GetNamingConvention(Options options)
+        protected virtual INamingConvention GetNamingConvention(PublishOptions options)
         {
             return new TitleToUnderscoreWord();
         }
