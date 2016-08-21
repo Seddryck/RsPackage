@@ -148,6 +148,7 @@ namespace RsPackage.Testing.Execution
         }
 
         [Test]
+        [Category("NotAdvancedServices ")]
         public void CreateReportRedirectSharedDatasets()
         {
             var rs = GetReportingService();
