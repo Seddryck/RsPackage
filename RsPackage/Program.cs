@@ -2,6 +2,7 @@
 using RsPackage.Factory;
 using RsPackage.Parser.Xml;
 using RsPackage.Parser.NamingConventions;
+using RsPackage.CommandLineArgs;
 using System;
 using System.Collections.Generic;
 using System.IO;
