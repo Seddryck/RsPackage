@@ -14,6 +14,11 @@ namespace RsPackage.Testing.Execution
     public class ReportServiceTest
     {
         private string ProductCatalogPath { get; set; }
+        private string EmployeeSalesSummaryPath { get; set; }
+        private string SharedDatasetPath
+        {
+            get { return System.IO.Path.GetDirectoryName(EmployeeSalesSummaryPath) + System.IO.Path.DirectorySeparatorChar; }
+        }
 
         protected ReportingService.ReportingService2010 GetReportingService()
         {
@@ -34,6 +39,7 @@ namespace RsPackage.Testing.Execution
             rs.CreateFolder("ReportFolder", "/", null);
 
             ProductCatalogPath = FileOnDisk.CreatePhysicalFile("ProductCatalog.rdl", "RsPackage.Testing.Resources.Product Catalog.rdl");
+            EmployeeSalesSummaryPath = FileOnDisk.CreatePhysicalFile("Employee_Sales_Summary.rdl", "RsPackage.Testing.Resources.Employee_Sales_Summary.rdl");
 
             if (rs.GetItemType("/Data Sources") != "Folder")
                 rs.CreateFolder("Data Sources", "/", null);
@@ -64,7 +70,7 @@ namespace RsPackage.Testing.Execution
             var rs = GetReportingService();
 
             var service = new ReportService(rs);
-            service.Create("My First Report", "/ReportFolder", ProductCatalogPath);
+            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, string.Empty, false);
 
             Assert.That(rs.GetItemType("/ReportFolder/My First Report"), Is.EqualTo("Report"));
 
@@ -118,7 +124,7 @@ namespace RsPackage.Testing.Execution
             ds.Add("AdventureWorks", "/Data Sources/AdventureWorks");
 
             var service = new ReportService(rs);
-            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds);
+            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds, new Dictionary<string, string>());
 
             var dsRef = rs.GetItemDataSources("/ReportFolder/My First Report");
             Assert.That(dsRef.Count(), Is.EqualTo(1));
@@ -137,8 +143,36 @@ namespace RsPackage.Testing.Execution
             var error = false;
             service.MessageSent += (o, e) => error |= e.Level == MessageEventArgs.LevelOption.Error;
 
-            Assert.Catch<InvalidOperationException>(() => service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds));
+            Assert.Catch<InvalidOperationException>(() => service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds, new Dictionary<string, string>()));
             Assert.That(error, Is.True);
+        }
+
+        [Test]
+        [Category("NotAdvancedServices ")]
+        public void CreateReportRedirectSharedDatasets()
+        {
+            var rs = GetReportingService();
+
+            var dataSources = new Dictionary<string, string>();
+            dataSources.Add("AdventureWorks", "/Data Sources/AdventureWorks");
+
+            var dataSetNames = new[] { "EmployeeSalesDetail", "EmployeeSalesYearOverYear", "EmpSalesMonth", "SalesEmployees" };
+
+            var dsService = new SharedDatasetService(rs);
+            var dataSets = new Dictionary<string, string>();
+            foreach (var dataSetName in dataSetNames)
+            {
+                dsService.Create(dataSetName, "/ReportFolder", SharedDatasetPath + dataSetName + ".rsd", string.Empty, false);
+                dataSets.Add(dataSetName, "/ReportFolder/" + dataSetName);
+            }
+            
+            var service = new ReportService(rs);
+            service.Create("Employee sales summary", "/ReportFolder", EmployeeSalesSummaryPath, "My description", false, dataSources, dataSets);
+
+            var dsRef = rs.GetItemReferences("/ReportFolder/Employee sales summary", "DataSet");
+            Assert.That(dsRef.Count(), Is.EqualTo(4));
+            foreach (var dsRefItem in dsRef)
+                Assert.That(dsRefItem.Reference, Is.Not.Null.Or.Empty);
         }
 
     }

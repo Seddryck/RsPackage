@@ -56,7 +56,7 @@ namespace RsPackage.Parser.Xml
                 var description = reportNode.SelectSingleNode("./Description")?.InnerXml;
                 var hidden = bool.Parse(reportNode.Attributes["Hidden"]?.Value ?? bool.FalseString);
 
-                reportService.Create(name, ParentPath, path, description, hidden, Root?.DataSources);
+                reportService.Create(name, ParentPath, path, description, hidden, Root?.DataSources, Root?.SharedDatasets);
 
                 foreach (var childParser in ChildrenParsers)
                 {

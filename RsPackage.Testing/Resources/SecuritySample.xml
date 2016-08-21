@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Projet>
+<Project>
   <Role Name="Reader">
     <Task>Consume reports</Task>
     <Task>View reports</Task>
@@ -23,4 +23,4 @@
       </Membership>
     </Report>
   </Folder>
-</Projet>
+</Project>

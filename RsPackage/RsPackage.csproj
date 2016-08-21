@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Execution\BaseService.cs" />
+    <Compile Include="Execution\CatalogItemService.cs" />
+    <Compile Include="Execution\SharedDatasetService.cs" />
     <Compile Include="Execution\PolicyService.cs" />
     <Compile Include="Execution\DataSourceService.cs" />
     <Compile Include="Execution\RoleEqualityComparer.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Parser\NamingConventions\INamingConvention.cs" />
     <Compile Include="Parser\NamingConventions\TitleToUnderscoreWord.cs" />
     <Compile Include="Parser\NamingConventions\TitleToCamelCase.cs" />
+    <Compile Include="Parser\Xml\SharedDatasetParser.cs" />
     <Compile Include="Parser\Xml\DataSourceParser.cs" />
     <Compile Include="Parser\Xml\ReportParser.cs" />
     <Compile Include="Parser\Xml\RoleParser.cs" />
