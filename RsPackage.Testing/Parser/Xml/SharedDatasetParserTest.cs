@@ -12,6 +12,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 using RsPackage.Parser.NamingConventions;
+using RsPackage.Action;
 
 namespace RsPackage.Testing.Parser.Xml
 {
@@ -34,7 +35,7 @@ namespace RsPackage.Testing.Parser.Xml
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder");
-            parser.Root = new ProjectParser() { NamingConvention = new TitleToCamelCase() };
+            parser.Root = new MultipleFilesPublisher() { NamingConvention = new TitleToCamelCase() };
             parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IDictionary<string, string>>()), Times.Exactly(4));
@@ -56,7 +57,7 @@ namespace RsPackage.Testing.Parser.Xml
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder");
-            parser.Root = new ProjectParser() { NamingConvention = new TitleToCamelCase() };
+            parser.Root = new MultipleFilesPublisher() { NamingConvention = new TitleToCamelCase() };
             parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), true, It.IsAny<string>(), It.IsAny<IDictionary<string, string>>()), Times.Once);
@@ -79,7 +80,7 @@ namespace RsPackage.Testing.Parser.Xml
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder");
-            parser.Root = new ProjectParser() { NamingConvention = new TitleToCamelCase() };
+            parser.Root = new MultipleFilesPublisher() { NamingConvention = new TitleToCamelCase() };
             parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), "My description", It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IDictionary<string, string>>()), Times.Once);
@@ -103,7 +104,7 @@ namespace RsPackage.Testing.Parser.Xml
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling.SelectSingleNode("./Folder");
-            parser.Root = new ProjectParser() { NamingConvention = new TitleToCamelCase() };
+            parser.Root = new MultipleFilesPublisher() { NamingConvention = new TitleToCamelCase() };
             parser.ParentPath = "/Shared";
             parser.Execute(root);
 

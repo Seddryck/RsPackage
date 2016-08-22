@@ -1,4 +1,5 @@
 ﻿using RsPackage.Execution;
+using RsPackage.Parser;
 using RsPackage.Parser.NamingConventions;
 using System;
 using System.Collections.Generic;
@@ -8,33 +9,40 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace RsPackage.Parser.Xml
+namespace RsPackage.Action
 {
-    public class ProjectParser
+    public class MultipleFilesPublisher
     {
         public string RootPath { get; internal set; }
         public string ParentFolder { get; internal set; }
 
         public INamingConvention NamingConvention { get; set; }
 
-        private FolderService folderService;
+        internal string SourceFile { get; set; }
 
         internal IList<IParser> ChildParsers { get; set; }
         public IDictionary<string, string> DataSources { get; } = new Dictionary<string, string>();
         public IDictionary<string, string> SharedDatasets { get; } = new Dictionary<string, string>();
 
-        public ProjectParser()
+        public MultipleFilesPublisher()
         {
             ChildParsers = new List<IParser>();
         }
 
-        public void Execute(Stream stream)
+        public void Execute()
         {
-            var p = "/";
-            foreach(var f in ParentFolder.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries))
+            using (var stream = File.OpenRead(SourceFile))
+                this.Execute(stream);
+        }
+
+        internal void Execute(Stream stream)
+        {
+            var folderService = (FolderService)this.ChildParsers.Single(p => p.GetType() == typeof(FolderService));
+            var path = "/";
+            foreach(var folder in ParentFolder.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                folderService.Create(f, p);
-                p += p == "/" ? f: "/" + f;
+                folderService.Create(folder, path);
+                path += path == "/" ? folder: "/" + folder;
             }
 
             var xmlDoc = new XmlDocument();

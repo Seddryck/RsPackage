@@ -8,12 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RsPackage.Action;
 
 namespace RsPackage.Factory
 {
-    class ParserFactory
+    class PublisherFactory
     {
-        public ProjectParser GetXmlParser(PublishOptions options)
+        public MultipleFilesPublisher GetPublisher(PublishOptions options)
         {
             var serviceBuilder = new ServiceBuilder();
             serviceBuilder.Setup(options);
@@ -24,7 +25,7 @@ namespace RsPackage.Factory
             var namingConvention = GetNamingConvention(options);
 
 
-            var parser = new ProjectParser()
+            var parser = new MultipleFilesPublisher()
             {
                 ParentFolder = parentFolder,
                 RootPath = rootPath,

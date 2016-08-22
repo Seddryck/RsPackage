@@ -1,4 +1,5 @@
-﻿using RsPackage.Parser.Xml;
+﻿using RsPackage.Action;
+using RsPackage.Parser.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace RsPackage.Parser
 {
     public interface IParser
     {
-        ProjectParser Root { get; set; }
+        MultipleFilesPublisher Root { get; set; }
         
         IParser Parent { get; set; }
         string ParentPath { get; set; }

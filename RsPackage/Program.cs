@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RsPackage.Action;
 
 namespace RsPackage
 {
@@ -16,10 +17,11 @@ namespace RsPackage
     {
         static int Main(string[] args)
         {
-            var result = CommandLine.Parser.Default.ParseArguments<PublishOptions>(args);
+            var result = CommandLine.Parser.Default.ParseArguments<PublishOptions, PackageOptions>(args);
             var exitCode = result.MapResult(
-                o => { return Publish(o); },
-                e => { return 1; }
+                (PublishOptions o) => Publish(o),
+                (PackageOptions o) => Build(o),
+                e => 1
                 );
 
             return exitCode;
@@ -31,11 +33,23 @@ namespace RsPackage
             if (!string.IsNullOrEmpty(options.LogPath))
                 { Console.WriteLine($"Redirecting logs to {options.LogPath}"); }
 
-            var factory = new ParserFactory();
-            var parser = factory.GetXmlParser(options);
+            var factory = new PublisherFactory();
+            var parser = factory.GetPublisher(options);
 
-            using (var stream = File.OpenRead(options.SourceFile))
-                parser.Execute(stream);
+            parser.Execute();
+
+            return 0;
+        }
+
+        protected static int Build(PackageOptions options)
+        {
+            if (!string.IsNullOrEmpty(options.LogPath))
+            { Console.WriteLine($"Redirecting logs to {options.LogPath}"); }
+
+            var factory = new PackagerFactory();
+            var packager = factory.GetPackager(options);
+
+            packager.Execute();
 
             return 0;
         }

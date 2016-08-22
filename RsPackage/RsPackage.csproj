@@ -42,6 +42,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Services" />
@@ -62,7 +64,7 @@
     <Compile Include="Execution\RoleService.cs" />
     <Compile Include="Execution\ReportService.cs" />
     <Compile Include="Execution\FolderService.cs" />
-    <Compile Include="Factory\ParserFactory.cs" />
+    <Compile Include="Factory\PublisherFactory.cs" />
     <Compile Include="Factory\ServiceBuilder.cs" />
     <Compile Include="Factory\UrlBuilder.cs" />
     <Compile Include="Logging\ConsoleLogger.cs" />
@@ -71,9 +73,11 @@
     <Compile Include="Logging\LoggerFactory.cs" />
     <Compile Include="Logging\NullLogger.cs" />
     <Compile Include="MessageEventArgs.cs" />
-    <Compile Include="CommandLineArgs\BuildOptions.cs" />
+    <Compile Include="CommandLineArgs\PackageOptions.cs" />
     <Compile Include="CommandLineArgs\PublishOptions.cs" />
     <Compile Include="CommandLineArgs\Options.cs" />
+    <Compile Include="Action\Packager.cs" />
+    <Compile Include="Factory\PackagerFactory.cs" />
     <Compile Include="Parser\IParserPathable.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="Parser\NamingConventions\INamingConvention.cs" />
@@ -85,7 +89,7 @@
     <Compile Include="Parser\Xml\RoleParser.cs" />
     <Compile Include="Parser\Xml\PolicyParser.cs" />
     <Compile Include="Parser\Xml\FolderParser.cs" />
-    <Compile Include="Parser\Xml\ProjectParser.cs" />
+    <Compile Include="Action\MultipleFilesPublisher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

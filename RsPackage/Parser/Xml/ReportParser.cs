@@ -1,4 +1,5 @@
-﻿using RsPackage.Execution;
+﻿using RsPackage.Action;
+using RsPackage.Execution;
 using RsPackage.Parser.NamingConventions;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace RsPackage.Parser.Xml
         private ReportService reportService;
         private IEnumerable<IParser> ChildrenParsers;
 
-        public ProjectParser Root { get; set; }
+        public MultipleFilesPublisher Root { get; set; }
 
         public INamingConvention NamingConvention
         {
