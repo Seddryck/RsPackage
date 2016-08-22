@@ -11,31 +11,27 @@ using System.Xml;
 
 namespace RsPackage.Action
 {
-    public class MultipleFilesPublisher
+    public abstract class AbstractPublisher
     {
         public string RootPath { get; internal set; }
         public string ParentFolder { get; internal set; }
 
         public INamingConvention NamingConvention { get; set; }
 
-        internal string SourceFile { get; set; }
+        protected internal string SourceFile { get; set; }
 
         internal IList<IParser> ChildParsers { get; set; }
         public IDictionary<string, string> DataSources { get; } = new Dictionary<string, string>();
         public IDictionary<string, string> SharedDatasets { get; } = new Dictionary<string, string>();
 
-        public MultipleFilesPublisher()
+        public AbstractPublisher()
         {
             ChildParsers = new List<IParser>();
         }
 
-        public void Execute()
-        {
-            using (var stream = File.OpenRead(SourceFile))
-                this.Execute(stream);
-        }
+        public abstract void Execute();
 
-        internal void Execute(Stream stream)
+        protected internal void Execute(Stream stream)
         {
             var folderService = (FolderService)this.ChildParsers.Single(p => p.GetType() == typeof(FolderService));
             var path = "/";
@@ -64,5 +60,6 @@ namespace RsPackage.Action
                 
         }
 
+        public abstract Byte[] GetBytes(string path);
     }
 }
