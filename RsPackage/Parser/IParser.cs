@@ -11,7 +11,7 @@ namespace RsPackage.Parser
 {
     public interface IParser
     {
-        MultipleFilesPublisher Root { get; set; }
+        Publisher Root { get; set; }
         
         IParser Parent { get; set; }
         string ParentPath { get; set; }

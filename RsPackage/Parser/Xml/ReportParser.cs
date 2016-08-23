@@ -16,7 +16,7 @@ namespace RsPackage.Parser.Xml
         private ReportService reportService;
         private IEnumerable<IParser> ChildrenParsers;
 
-        public MultipleFilesPublisher Root { get; set; }
+        public Publisher Root { get; set; }
 
         public INamingConvention NamingConvention
         {

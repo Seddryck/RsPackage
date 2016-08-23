@@ -11,12 +11,13 @@ using System.Xml;
 
 namespace RsPackage.Action
 {
-    public abstract class AbstractPublisher
+    public class Publisher
     {
         public string RootPath { get; internal set; }
         public string ParentFolder { get; internal set; }
 
         public INamingConvention NamingConvention { get; set; }
+        public IStreamProvider StreamProvider { get; set; }
 
         protected internal string SourceFile { get; set; }
 
@@ -24,12 +25,16 @@ namespace RsPackage.Action
         public IDictionary<string, string> DataSources { get; } = new Dictionary<string, string>();
         public IDictionary<string, string> SharedDatasets { get; } = new Dictionary<string, string>();
 
-        public AbstractPublisher()
+        public Publisher()
         {
             ChildParsers = new List<IParser>();
         }
 
-        public abstract void Execute();
+        public virtual void Execute()
+        {
+            using (var stream = StreamProvider.GetSolutionStream(SourceFile))
+                this.Execute(stream);
+        }
 
         protected internal void Execute(Stream stream)
         {
@@ -60,6 +65,6 @@ namespace RsPackage.Action
                 
         }
 
-        public abstract Byte[] GetBytes(string path);
+        
     }
 }

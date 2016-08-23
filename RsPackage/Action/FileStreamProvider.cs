@@ -11,21 +11,22 @@ using System.Xml;
 
 namespace RsPackage.Action
 {
-    public class FilesPublisher : AbstractPublisher
+    public class FileStreamProvider : IStreamProvider
     {
+        public event EventHandler<MessageEventArgs> MessageSent;
 
-        public FilesPublisher()
+        public FileStreamProvider()
             : base()
         {
         }
 
-        public override void Execute()
+        public virtual Stream GetSolutionStream(string fileName)
         {
-            using (var stream = File.OpenRead(SourceFile))
-                this.Execute(stream);
+            using (var stream = File.OpenRead(fileName))
+                return stream;
         }
 
-        public override Byte[] GetBytes(string path)
+        public virtual byte[] GetBytes(string path)
         {
             if (!File.Exists(path))
             {
@@ -48,6 +49,25 @@ namespace RsPackage.Action
             }
 
             return definition;
+        }
+
+        protected virtual void OnInformation(string message)
+        {
+            var e = MessageEventArgs.Information(message);
+            MessageSent?.Invoke(this, e);
+        }
+
+        protected virtual void OnWarning(string message)
+        {
+            var e = MessageEventArgs.Warning(message);
+            MessageSent?.Invoke(this, e);
+        }
+
+        protected virtual void OnError(string message)
+        {
+            var e = MessageEventArgs.Error(message);
+            MessageSent?.Invoke(this, e);
+            throw new InvalidOperationException();
         }
     }
 }

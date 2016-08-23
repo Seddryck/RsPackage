@@ -14,7 +14,7 @@ namespace RsPackage.Factory
 {
     class PublisherFactory
     {
-        public MultipleFilesPublisher GetPublisher(PublishOptions options)
+        public Publisher GetPublisher(PublishOptions options)
         {
             var serviceBuilder = new ServiceBuilder();
             serviceBuilder.Setup(options);
@@ -25,7 +25,7 @@ namespace RsPackage.Factory
             var namingConvention = GetNamingConvention(options);
 
 
-            var parser = new MultipleFilesPublisher()
+            var parser = new Publisher()
             {
                 ParentFolder = parentFolder,
                 RootPath = rootPath,
@@ -36,11 +36,11 @@ namespace RsPackage.Factory
             var dataSourceParser = new DataSourceParser(serviceBuilder.GetDataSourceService());
             var reportParser = new ReportParser(serviceBuilder.GetReportService(), new[] { policyParser });
             var folderParser = new FolderParser(serviceBuilder.GetFolderService(), new IParser[] { policyParser, dataSourceParser, reportParser });
-            
+
             parser.ChildParsers.Add(dataSourceParser);
             parser.ChildParsers.Add(reportParser);
             parser.ChildParsers.Add(folderParser);
-            
+
             return parser;
         }
 

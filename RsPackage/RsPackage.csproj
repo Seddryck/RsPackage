@@ -55,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action\FileStreamProvider.cs" />
+    <Compile Include="Action\IStreamProvider.cs" />
+    <Compile Include="Action\ZipStreamProvider.cs" />
     <Compile Include="Execution\BaseService.cs" />
     <Compile Include="Execution\CatalogItemService.cs" />
     <Compile Include="Execution\SharedDatasetService.cs" />
@@ -89,7 +92,7 @@
     <Compile Include="Parser\Xml\RoleParser.cs" />
     <Compile Include="Parser\Xml\PolicyParser.cs" />
     <Compile Include="Parser\Xml\FolderParser.cs" />
-    <Compile Include="Action\MultipleFilesPublisher.cs" />
+    <Compile Include="Action\Publisher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

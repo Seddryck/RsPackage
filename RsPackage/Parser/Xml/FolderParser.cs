@@ -14,7 +14,7 @@ namespace RsPackage.Parser.Xml
         private FolderService folderService;
         private List<IParser> ChildrenParsers;
 
-        public MultipleFilesPublisher Root { get; set; }
+        public Publisher Root { get; set; }
         public IParser Parent { get; set; }
         public string ParentPath { get; set; }
 

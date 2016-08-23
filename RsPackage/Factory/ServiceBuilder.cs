@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RsPackage.Logging;
+using RsPackage.Action;
 
 namespace RsPackage.Factory
 {
@@ -15,6 +16,7 @@ namespace RsPackage.Factory
     {
         private PublishOptions options;
         private ReportingService2010 rs;
+        private IStreamProvider streamProvider;
         private ILogger logger;
         private Dictionary<Type, BaseService> services;
         private bool isBuilt;
@@ -35,11 +37,14 @@ namespace RsPackage.Factory
         public void Build()
         {
             this.rs = BuildReportingService(options);
+            this.streamProvider = BuildStreamProvider(options);
+            this.streamProvider.MessageSent += logger.WriteMessage;
             this.logger = BuildLogger(options);
-            AddService(new ReportService(rs));
+            AddService(new ReportService(rs, streamProvider));
             AddService(new FolderService(rs));
             AddService(new DataSourceService(rs));
             AddService(new PolicyService(rs));
+            AddService(new SharedDatasetService(rs, streamProvider));
             this.isBuilt = true;
         }
 
@@ -64,6 +69,14 @@ namespace RsPackage.Factory
             rs.Url = urlBuilder.GetUrl();
             rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
             return rs;
+        }
+
+        protected virtual IStreamProvider BuildStreamProvider(PublishOptions options)
+        {
+            if (options.SourceFile.EndsWith(".rspac"))
+                return new ZipStreamProvider();
+            else
+                return new FileStreamProvider();
         }
 
         protected virtual BaseService GetService(Type type)
@@ -95,6 +108,11 @@ namespace RsPackage.Factory
         public PolicyService GetPolicyService()
         {
             return (PolicyService)GetService(typeof(PolicyService));
+        }
+
+        public SharedDatasetService GetSharedDatasetService()
+        {
+            return (SharedDatasetService)GetService(typeof(SharedDatasetService));
         }
     }
 }

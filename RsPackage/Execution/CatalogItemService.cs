@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using RsPackage.ReportingService;
+using RsPackage.Action;
 
 namespace RsPackage.Execution
 {
@@ -12,6 +13,7 @@ namespace RsPackage.Execution
     {
         private readonly string labelItem;
         private readonly string itemType;
+        private readonly IStreamProvider StreamProvider;
 
         public CatalogItemService(string itemType, string labelItem)
             : base()
@@ -20,35 +22,18 @@ namespace RsPackage.Execution
             this.labelItem = labelItem;
         }
 
-        public CatalogItemService(ReportingService2010 reportingService, string itemType, string labelItem)
+        public CatalogItemService(ReportingService2010 reportingService, IStreamProvider streamProvider, string itemType, string labelItem)
             : base(reportingService)
         {
             this.itemType = itemType;
             this.labelItem = labelItem;
+            this.StreamProvider = streamProvider;
         }
 
         public  Warning[] Create(string name, string parent, string path, string description, bool hidden)
         {
-            if (!File.Exists(path))
-            {
-                OnError($"File '{path}' doesn't exist!");
-                return null;
-            }
-
-            Byte[] definition = null;
-            try
-            {
-                using (FileStream stream = File.OpenRead(path))
-                {
-                    definition = new Byte[stream.Length];
-                    stream.Read(definition, 0, (int)stream.Length);
-                }
-            }
-            catch (IOException e)
-            {
-                OnInformation(e.Message);
-            }
-
+            Byte[] definition = StreamProvider.GetBytes(path);
+            
             Warning[] warnings = null;
             OnInformation($"Creating {labelItem} '{name}' in '{parent}'");
 
@@ -62,7 +47,6 @@ namespace RsPackage.Execution
             }
             catch (Exception ex)
             {
-
                 OnError(ex.Message);
             }
 

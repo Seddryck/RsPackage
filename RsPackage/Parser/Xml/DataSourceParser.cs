@@ -15,7 +15,7 @@ namespace RsPackage.Parser.Xml
         private DataSourceService DataSourceService;
         private IEnumerable<IParser> ChildrenParsers;
 
-        public MultipleFilesPublisher Root { get; set; }
+        public Publisher Root { get; set; }
         public string RootPath { get; set; }
         public IParser Parent { get; set; }
         public string ParentPath { get; set; }
