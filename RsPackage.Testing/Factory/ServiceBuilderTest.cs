@@ -16,7 +16,7 @@ namespace RsPackage.Testing.Factory
         [Test]
         public void GetReportService_FullName()
         {
-            var options = new PublishOptions() { Url = "reporting.company.com", LogPath="C:\\"};
+            var options = new PublishOptions() { Url = "reporting.company.com", LogPath="C:\\", SourceFile="package.rspac"};
 
             var serviceBuilder = new ServiceBuilder();
             serviceBuilder.Setup(options);
@@ -30,7 +30,7 @@ namespace RsPackage.Testing.Factory
         [Test]
         public void GetFolderService_FullName()
         {
-            var options = new PublishOptions() { Url = "reporting.company.com", LogPath = "C:\\" };
+            var options = new PublishOptions() { Url = "reporting.company.com", LogPath = "C:\\", SourceFile = "package.rspac" };
 
             var serviceBuilder = new ServiceBuilder();
             serviceBuilder.Setup(options);
@@ -44,7 +44,7 @@ namespace RsPackage.Testing.Factory
         [Test]
         public void GetDataSourceService_FullName()
         {
-            var options = new PublishOptions() { Url = "reporting.company.com", LogPath = "C:\\" };
+            var options = new PublishOptions() { Url = "reporting.company.com", LogPath = "C:\\", SourceFile = "package.rspac" };
 
             var serviceBuilder = new ServiceBuilder();
             serviceBuilder.Setup(options);
@@ -58,7 +58,7 @@ namespace RsPackage.Testing.Factory
         [Test]
         public void GetPolicyService_FullName()
         {
-            var options = new PublishOptions() { Url = "reporting.company.com", LogPath = "C:\\" };
+            var options = new PublishOptions() { Url = "reporting.company.com", LogPath = "C:\\", SourceFile = "package.rspac" };
 
             var serviceBuilder = new ServiceBuilder();
             serviceBuilder.Setup(options);

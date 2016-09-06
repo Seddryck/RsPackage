@@ -73,7 +73,10 @@ namespace RsPackage.Factory
 
         protected virtual IStreamProvider BuildStreamProvider(PublishOptions options)
         {
-            if (options.SourceFile.EndsWith(".rspac"))
+            if (string.IsNullOrEmpty(options.SourceFile))
+                throw new ArgumentException("The parameter 'source' is mandatory");
+
+                if (options.SourceFile.EndsWith(".rspac"))
                 return new ZipStreamProvider();
             else
                 return new FileStreamProvider();
@@ -113,6 +116,11 @@ namespace RsPackage.Factory
         public SharedDatasetService GetSharedDatasetService()
         {
             return (SharedDatasetService)GetService(typeof(SharedDatasetService));
+        }
+
+        public IStreamProvider GetStreamProvider()
+        {
+            return streamProvider;
         }
     }
 }

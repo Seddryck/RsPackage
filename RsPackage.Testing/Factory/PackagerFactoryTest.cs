@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RsPackage.Testing.Packager
+namespace RsPackage.Testing.Factory
 {
     [TestFixture]
-    public class PackageFactoryTest
+    public class PackagerFactoryTest
     {
         [Test]
         public void AllInfoProvided()

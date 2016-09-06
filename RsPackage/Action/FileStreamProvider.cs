@@ -20,10 +20,15 @@ namespace RsPackage.Action
         {
         }
 
-        public virtual Stream GetSolutionStream(string fileName)
+        public virtual MemoryStream GetMemoryStream(string fileName)
         {
             using (var stream = File.OpenRead(fileName))
-                return stream;
+            {
+                var readerStream = new MemoryStream();
+                stream.CopyTo(readerStream);
+                readerStream.Position = 0;
+                return readerStream;
+            }
         }
 
         public virtual byte[] GetBytes(string path)

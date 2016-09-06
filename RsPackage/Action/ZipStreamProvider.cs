@@ -23,12 +23,16 @@ namespace RsPackage.Action
 
         }
 
-        public Stream GetSolutionStream(string fileName)
+     
+        public MemoryStream GetMemoryStream(string fileName)
         {
             using (archive = ZipFile.Open(fileName, ZipArchiveMode.Read))
             {
                 var entry = archive.GetEntry("@[Project].manifest");
-                return entry.Open();
+                var readerStream = new MemoryStream();
+                entry.Open().CopyTo(readerStream);
+                readerStream.Position = 0;
+                return readerStream;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using RsPackage.Execution;
 using RsPackage.Parser;
 using RsPackage.Parser.NamingConventions;
+using RsPackage.Parser.Xml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +22,7 @@ namespace RsPackage.Action
 
         protected internal string SourceFile { get; set; }
 
+        internal FolderService FolderService;
         internal IList<IParser> ChildParsers { get; set; }
         public IDictionary<string, string> DataSources { get; } = new Dictionary<string, string>();
         public IDictionary<string, string> SharedDatasets { get; } = new Dictionary<string, string>();
@@ -32,17 +34,16 @@ namespace RsPackage.Action
 
         public virtual void Execute()
         {
-            using (var stream = StreamProvider.GetSolutionStream(SourceFile))
+            using (var stream = StreamProvider.GetMemoryStream(SourceFile))
                 this.Execute(stream);
         }
 
-        protected internal void Execute(Stream stream)
+        protected internal void Execute(MemoryStream stream)
         {
-            var folderService = (FolderService)this.ChildParsers.Single(p => p.GetType() == typeof(FolderService));
-            var path = "/";
+            var path = "/";            
             foreach(var folder in ParentFolder.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                folderService.Create(folder, path);
+                FolderService.Create(folder, path);
                 path += path == "/" ? folder: "/" + folder;
             }
 

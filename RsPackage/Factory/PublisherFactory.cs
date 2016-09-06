@@ -27,6 +27,9 @@ namespace RsPackage.Factory
 
             var parser = new Publisher()
             {
+                FolderService = serviceBuilder.GetFolderService(),
+                StreamProvider = serviceBuilder.GetStreamProvider(),
+                SourceFile = options.SourceFile,
                 ParentFolder = parentFolder,
                 RootPath = rootPath,
                 NamingConvention = namingConvention

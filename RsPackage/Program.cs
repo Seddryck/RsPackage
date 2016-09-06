@@ -20,7 +20,7 @@ namespace RsPackage
             var result = CommandLine.Parser.Default.ParseArguments<PublishOptions, PackageOptions>(args);
             var exitCode = result.MapResult(
                 (PublishOptions o) => Publish(o),
-                (PackageOptions o) => Build(o),
+                (PackageOptions o) => Package(o),
                 e => 1
                 );
 
@@ -34,14 +34,14 @@ namespace RsPackage
                 { Console.WriteLine($"Redirecting logs to {options.LogPath}"); }
 
             var factory = new PublisherFactory();
-            var parser = factory.GetPublisher(options);
+            var publisher = factory.GetPublisher(options);
 
-            parser.Execute();
+            publisher.Execute();
 
             return 0;
         }
 
-        protected static int Build(PackageOptions options)
+        protected static int Package(PackageOptions options)
         {
             if (!string.IsNullOrEmpty(options.LogPath))
             { Console.WriteLine($"Redirecting logs to {options.LogPath}"); }
