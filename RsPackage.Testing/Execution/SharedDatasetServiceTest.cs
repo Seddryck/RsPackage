@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Services;
 using RsPackage.Execution;
 using RsPackage.ReportingService;
+using RsPackage.Action;
 
 namespace RsPackage.Testing.Execution
 {
@@ -71,7 +72,7 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new SharedDatasetService(rs);
+            var service = new SharedDatasetService(rs, new FileStreamProvider());
             service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", SharedDatasetPaths[0], string.Empty, false);
 
             Assert.That(rs.GetItemType("/SharedDatasetFolder/EmployeeSalesDetail"), Is.EqualTo("DataSet"));
@@ -83,7 +84,7 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new SharedDatasetService(rs);
+            var service = new SharedDatasetService(rs, new FileStreamProvider());
             service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", SharedDatasetPaths[0], "My description", false);
 
             Assert.That(rs.GetItemType("/SharedDatasetFolder/EmployeeSalesDetail"), Is.EqualTo("DataSet"));
@@ -96,7 +97,7 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new SharedDatasetService(rs);
+            var service = new SharedDatasetService(rs, new FileStreamProvider());
             service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", SharedDatasetPaths[0], string.Empty, true);
 
             Assert.That(rs.GetItemType("/SharedDatasetFolder/EmployeeSalesDetail"), Is.EqualTo("DataSet"));
@@ -110,7 +111,7 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new SharedDatasetService(rs);
+            var service = new SharedDatasetService(rs, new FileStreamProvider());
             service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", SharedDatasetPaths[0], "My description", false);
 
             Assert.That(rs.GetItemType("/SharedDatasetFolder/EmployeeSalesDetail"), Is.EqualTo("DataSet"));
@@ -126,7 +127,7 @@ namespace RsPackage.Testing.Execution
             var ds = new Dictionary<string, string>();
             ds.Add("AdventureWorks", "/Data Sources/AdventureWorks");
 
-            var service = new SharedDatasetService(rs);
+            var service = new SharedDatasetService(rs, new FileStreamProvider());
             service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", SharedDatasetPaths[0], "My description", false, "AdventureWorks", ds);
 
             var dsRef = rs.GetItemDataSources("/SharedDatasetFolder/EmployeeSalesDetail");
@@ -142,7 +143,7 @@ namespace RsPackage.Testing.Execution
 
             var ds = new Dictionary<string, string>();
 
-            var service = new SharedDatasetService(rs);
+            var service = new SharedDatasetService(rs, new FileStreamProvider());
             var error = false;
             service.MessageSent += (o, e) => error |= e.Level == MessageEventArgs.LevelOption.Error;
 

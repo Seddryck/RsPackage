@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Services;
 using RsPackage.Execution;
 using RsPackage.ReportingService;
+using RsPackage.Action;
 
 namespace RsPackage.Testing.Execution
 {
@@ -69,7 +70,7 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new ReportService(rs);
+            var service = new ReportService(rs, new FileStreamProvider());
             service.Create("My First Report", "/ReportFolder", ProductCatalogPath, string.Empty, false);
 
             Assert.That(rs.GetItemType("/ReportFolder/My First Report"), Is.EqualTo("Report"));
@@ -81,7 +82,7 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new ReportService(rs);
+            var service = new ReportService(rs, new FileStreamProvider());
             service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false);
 
             Assert.That(rs.GetItemType("/ReportFolder/My First Report"), Is.EqualTo("Report"));
@@ -94,7 +95,7 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new ReportService(rs);
+            var service = new ReportService(rs, new FileStreamProvider());
             service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false);
 
             Assert.That(rs.GetItemType("/ReportFolder/My First Report"), Is.EqualTo("Report"));
@@ -107,7 +108,7 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new ReportService(rs);
+            var service = new ReportService(rs, new FileStreamProvider());
             service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", true);
 
             Assert.That(rs.GetItemType("/ReportFolder/My First Report"), Is.EqualTo("Report"));
@@ -123,7 +124,7 @@ namespace RsPackage.Testing.Execution
             var ds = new Dictionary<string, string>();
             ds.Add("AdventureWorks", "/Data Sources/AdventureWorks");
 
-            var service = new ReportService(rs);
+            var service = new ReportService(rs, new FileStreamProvider());
             service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds, new Dictionary<string, string>());
 
             var dsRef = rs.GetItemDataSources("/ReportFolder/My First Report");
@@ -139,7 +140,7 @@ namespace RsPackage.Testing.Execution
 
             var ds = new Dictionary<string, string>();
 
-            var service = new ReportService(rs);
+            var service = new ReportService(rs, new FileStreamProvider());
             var error = false;
             service.MessageSent += (o, e) => error |= e.Level == MessageEventArgs.LevelOption.Error;
 
@@ -158,7 +159,7 @@ namespace RsPackage.Testing.Execution
 
             var dataSetNames = new[] { "EmployeeSalesDetail", "EmployeeSalesYearOverYear", "EmpSalesMonth", "SalesEmployees" };
 
-            var dsService = new SharedDatasetService(rs);
+            var dsService = new SharedDatasetService(rs, new FileStreamProvider());
             var dataSets = new Dictionary<string, string>();
             foreach (var dataSetName in dataSetNames)
             {
@@ -166,7 +167,7 @@ namespace RsPackage.Testing.Execution
                 dataSets.Add(dataSetName, "/ReportFolder/" + dataSetName);
             }
             
-            var service = new ReportService(rs);
+            var service = new ReportService(rs, new FileStreamProvider());
             service.Create("Employee sales summary", "/ReportFolder", EmployeeSalesSummaryPath, "My description", false, dataSources, dataSets);
 
             var dsRef = rs.GetItemReferences("/ReportFolder/Employee sales summary", "DataSet");

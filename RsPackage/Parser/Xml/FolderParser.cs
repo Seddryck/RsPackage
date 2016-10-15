@@ -1,4 +1,5 @@
-﻿using RsPackage.Execution;
+﻿using RsPackage.Action;
+using RsPackage.Execution;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace RsPackage.Parser.Xml
         private FolderService folderService;
         private List<IParser> ChildrenParsers;
 
-        public ProjectParser Root { get; set; }
+        public Publisher Root { get; set; }
         public IParser Parent { get; set; }
         public string ParentPath { get; set; }
 

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RsPackage.CommandLineArgs;
 
 namespace RsPackage.Factory
 {
     public class UrlBuilder
     {
-        private Options options;
+        private PublishOptions options;
         private UriBuilder builder;
 
-        public void Setup(Options options)
+        public void Setup(PublishOptions options)
         {
             this.options = options;
         }

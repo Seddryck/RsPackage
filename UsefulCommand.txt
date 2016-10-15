@@ -1,0 +1,2 @@
+publish -u "https://isosql287.belgrid.net" -s "D:\Projects\RsDeploy\RsPackage\SubFolder.xml" -f "/" -r "D:\Projects\RsDeploy\RsPackage.Testing\Resources" -l "D:\Projects\RsDeploy\RsPackage.Testing\bin\debug\log.txt"
+package -s "D:\Projects\RsDeploy\RsPackage\SubFolder.xml" -r "D:\Projects\RsDeploy\RsPackage.Testing\Resources" 

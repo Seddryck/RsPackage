@@ -1,4 +1,5 @@
-﻿using RsPackage.ReportingService;
+﻿using RsPackage.Action;
+using RsPackage.ReportingService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace RsPackage.Execution
             : base("Report", "report")
         { }
 
-        public ReportService(ReportingService2010 reportingService)
-            : base(reportingService, "Report", "report")
+        public ReportService(ReportingService2010 reportingService, IStreamProvider streamProvider)
+            : base(reportingService, streamProvider, "Report", "report")
         { }
 
         public virtual void Create(string name, string parent, string path, string description, bool hidden, IDictionary<string, string> dataSources, IDictionary<string, string> sharedDatasets)
@@ -29,7 +30,6 @@ namespace RsPackage.Execution
                         OnWarning(warning.Message);
                 }
             }
-
             ReferenceItem(name, parent, "DataSource", dataSources);
             ReferenceItem(name, parent, "DataSet", sharedDatasets);
         }

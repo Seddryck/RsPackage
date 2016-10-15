@@ -1,18 +1,20 @@
 ﻿using RsPackage.Parser;
 using RsPackage.Parser.NamingConventions;
 using RsPackage.Parser.Xml;
+using RsPackage.CommandLineArgs;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RsPackage.Action;
 
 namespace RsPackage.Factory
 {
-    class ParserFactory
+    class PublisherFactory
     {
-        public ProjectParser GetXmlParser(Options options)
+        public Publisher GetPublisher(PublishOptions options)
         {
             var serviceBuilder = new ServiceBuilder();
             serviceBuilder.Setup(options);
@@ -23,8 +25,11 @@ namespace RsPackage.Factory
             var namingConvention = GetNamingConvention(options);
 
 
-            var parser = new ProjectParser()
+            var parser = new Publisher()
             {
+                FolderService = serviceBuilder.GetFolderService(),
+                StreamProvider = serviceBuilder.GetStreamProvider(),
+                SourceFile = options.SourceFile,
                 ParentFolder = parentFolder,
                 RootPath = rootPath,
                 NamingConvention = namingConvention
@@ -34,27 +39,27 @@ namespace RsPackage.Factory
             var dataSourceParser = new DataSourceParser(serviceBuilder.GetDataSourceService());
             var reportParser = new ReportParser(serviceBuilder.GetReportService(), new[] { policyParser });
             var folderParser = new FolderParser(serviceBuilder.GetFolderService(), new IParser[] { policyParser, dataSourceParser, reportParser });
-            
+
             parser.ChildParsers.Add(dataSourceParser);
             parser.ChildParsers.Add(reportParser);
             parser.ChildParsers.Add(folderParser);
-            
+
             return parser;
         }
 
-        protected virtual string GetRootPath(Options options)
+        protected virtual string GetRootPath(PublishOptions options)
         {
             var rootPath = options.ResourcePath ?? Path.GetDirectoryName(options.SourceFile);
             rootPath = rootPath.EndsWith(Path.DirectorySeparatorChar.ToString()) ? rootPath : rootPath + Path.DirectorySeparatorChar;
             return rootPath;
         }
 
-        protected virtual string GetParentFolder(Options options)
+        protected virtual string GetParentFolder(PublishOptions options)
         {
             return options.ParentFolder;
         }
 
-        protected virtual INamingConvention GetNamingConvention(Options options)
+        protected virtual INamingConvention GetNamingConvention(PublishOptions options)
         {
             return new TitleToUnderscoreWord();
         }

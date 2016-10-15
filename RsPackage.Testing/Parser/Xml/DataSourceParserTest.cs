@@ -12,6 +12,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 using RsPackage.Parser.NamingConventions;
+using RsPackage.Action;
 
 namespace RsPackage.Testing.Parser.Xml
 {
@@ -34,7 +35,7 @@ namespace RsPackage.Testing.Parser.Xml
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling;
-            parser.Root = new ProjectParser() { NamingConvention = new TitleToCamelCase() };
+            parser.Root = new Publisher() { NamingConvention = new TitleToCamelCase() };
             parser.Execute(root);
 
             Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
@@ -56,7 +57,7 @@ namespace RsPackage.Testing.Parser.Xml
                 xmlDoc.Load(reader);
 
             var root = xmlDoc.FirstChild.NextSibling;
-            parser.Root = new ProjectParser() { NamingConvention = new TitleToCamelCase() };
+            parser.Root = new Publisher() { NamingConvention = new TitleToCamelCase() };
             parser.Execute(root);
 
             Assert.That(parser.Root.DataSources.ContainsKey("MyDataSource"), Is.True);

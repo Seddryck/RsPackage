@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using System.IO;
 using RsPackage.ReportingService;
+using RsPackage.Action;
 
 namespace RsPackage.Execution
 {
@@ -15,8 +16,8 @@ namespace RsPackage.Execution
             : base("DataSet", "data set")
         { }
 
-        public SharedDatasetService(ReportingService2010 reportingService)
-            : base(reportingService, "DataSet", "data set")
+        public SharedDatasetService(ReportingService2010 reportingService, IStreamProvider streamProvider)
+            : base(reportingService, streamProvider, "DataSet", "data set")
         { }
 
         public virtual void Create(string name, string parent, string path, string description, bool hidden, string dataSourceName, IDictionary<string, string> dataSources)

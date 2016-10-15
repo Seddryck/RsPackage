@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 using System.IO;
+using RsPackage.Action;
 
 namespace RsPackage.Parser.Xml
 {
@@ -14,7 +15,7 @@ namespace RsPackage.Parser.Xml
         private DataSourceService DataSourceService;
         private IEnumerable<IParser> ChildrenParsers;
 
-        public ProjectParser Root { get; set; }
+        public Publisher Root { get; set; }
         public string RootPath { get; set; }
         public IParser Parent { get; set; }
         public string ParentPath { get; set; }

@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using RsPackage.Factory;
+using RsPackage.CommandLineArgs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace RsPackage.Testing
         [Test]
         public void GetUrl_FullName()
         {
-            var options = new Options() { Url = "http://reporting.company.com/ReportServer/ReportService2010.asmx" };
+            var options = new PublishOptions() { Url = "http://reporting.company.com/ReportServer/ReportService2010.asmx" };
             var urlBuilder = new UrlBuilder();
             urlBuilder.Setup(options);
             urlBuilder.Build();
@@ -26,7 +27,7 @@ namespace RsPackage.Testing
         [Test]
         public void GetUrl_Host()
         {
-            var options = new Options() { Url = "reporting.company.com" };
+            var options = new PublishOptions() { Url = "reporting.company.com" };
             var urlBuilder = new UrlBuilder();
             urlBuilder.Setup(options);
             urlBuilder.Build();
@@ -38,7 +39,7 @@ namespace RsPackage.Testing
         [Test]
         public void GetUrl_SchemeHost()
         {
-            var options = new Options() { Url = "http://reporting.company.com" };
+            var options = new PublishOptions() { Url = "http://reporting.company.com" };
             var urlBuilder = new UrlBuilder();
             urlBuilder.Setup(options);
             urlBuilder.Build();
@@ -50,7 +51,7 @@ namespace RsPackage.Testing
         [Test]
         public void GetUrl_HostPath()
         {
-            var options = new Options() { Url = "reporting.company.com/ReportServer" };
+            var options = new PublishOptions() { Url = "reporting.company.com/ReportServer" };
             var urlBuilder = new UrlBuilder();
             urlBuilder.Setup(options);
             urlBuilder.Build();
@@ -62,7 +63,7 @@ namespace RsPackage.Testing
         [Test]
         public void GetUrl_HostPathSlash()
         {
-            var options = new Options() { Url = "reporting.company.com/ReportServer/" };
+            var options = new PublishOptions() { Url = "reporting.company.com/ReportServer/" };
             var urlBuilder = new UrlBuilder();
             urlBuilder.Setup(options);
             urlBuilder.Build();
@@ -74,7 +75,7 @@ namespace RsPackage.Testing
         [Test]
         public void GetUrl_HostPathFile()
         {
-            var options = new Options() { Url = "reporting.company.com/ReportServer/ReportService2010.asmx" };
+            var options = new PublishOptions() { Url = "reporting.company.com/ReportServer/ReportService2010.asmx" };
             var urlBuilder = new UrlBuilder();
             urlBuilder.Setup(options);
             urlBuilder.Build();
@@ -86,7 +87,7 @@ namespace RsPackage.Testing
         [Test]
         public void GetUrl_SchemeHostPort()
         {
-            var options = new Options() { Url = "http://reporting.company.com:8080" };
+            var options = new PublishOptions() { Url = "http://reporting.company.com:8080" };
             var urlBuilder = new UrlBuilder();
             urlBuilder.Setup(options);
             urlBuilder.Build();
