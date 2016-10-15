@@ -13,27 +13,31 @@ namespace RsPackage.Factory
     {
         public Packager GetPackager(PackageOptions options)
         {
-            var solutionFile = options.SourceFile;
+            string solutionFile;
+            if (!Path.IsPathRooted(options.SourceFile))
+                solutionFile = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + options.SourceFile;
+            else
+                solutionFile = options.SourceFile;
 
             string resourcePath;
             if (string.IsNullOrEmpty(options.ResourcePath))
-                resourcePath = Path.GetDirectoryName(options.SourceFile) + Path.DirectorySeparatorChar;
+                resourcePath = Path.GetDirectoryName(solutionFile) + Path.DirectorySeparatorChar;
             else if (!Path.IsPathRooted(options.ResourcePath))
-                resourcePath = Path.GetDirectoryName(options.SourceFile) + Path.DirectorySeparatorChar + options.ResourcePath;
+                resourcePath = Path.GetDirectoryName(solutionFile) + Path.DirectorySeparatorChar + options.ResourcePath;
             else
                 resourcePath = options.ResourcePath;
 
 
             string targetFile;
             if (string.IsNullOrEmpty(options.TargetFile))
-                targetFile = Path.GetDirectoryName(options.SourceFile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(options.SourceFile);
+                targetFile = Path.GetDirectoryName(solutionFile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(solutionFile);
             else if (Path.IsPathRooted(options.TargetFile))
                 targetFile = options.TargetFile;
             else
-                targetFile = Path.GetDirectoryName(options.SourceFile) + Path.DirectorySeparatorChar + options.TargetFile;
+                targetFile = Path.GetDirectoryName(solutionFile) + Path.DirectorySeparatorChar + options.TargetFile;
 
             if (targetFile.EndsWith(Path.DirectorySeparatorChar.ToString()))
-                targetFile += Path.GetFileNameWithoutExtension(options.SourceFile);
+                targetFile += Path.GetFileNameWithoutExtension(solutionFile);
 
             if (string.IsNullOrEmpty(Path.GetExtension(targetFile)))
                 targetFile += ".rspac";
