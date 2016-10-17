@@ -49,8 +49,8 @@ namespace RsPackage.Factory
 
         protected virtual string GetRootPath(PublishOptions options)
         {
-            var rootPath = options.ResourcePath ?? Path.GetDirectoryName(options.SourceFile);
-            rootPath = rootPath.EndsWith(Path.DirectorySeparatorChar.ToString()) ? rootPath : rootPath + Path.DirectorySeparatorChar;
+            var rootPath = options.SourceFile.EndsWith(".rspac") ? string.Empty : (options.ResourcePath ?? Path.GetDirectoryName(options.SourceFile));
+            rootPath = rootPath.EndsWith(Path.DirectorySeparatorChar.ToString()) || string.IsNullOrEmpty(rootPath) ? rootPath : rootPath + Path.DirectorySeparatorChar;
             return rootPath;
         }
 
