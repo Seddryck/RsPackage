@@ -44,7 +44,9 @@ namespace RsPackage.Testing.StreamProvider
         {
             var provider = new FileStreamProvider(fileDirectory);
             var bytes = provider.GetBytes("EmployeeSalesDetail.rsd");
-            Assert.That(bytes.Length, Is.EqualTo(3697));
+            //Due to changes at github for CrLf, difficult to give exact length
+            Assert.That(bytes.Length, Is.GreaterThanOrEqualTo(3600));
+            Assert.That(bytes.Length, Is.LessThanOrEqualTo(3700));
         }
 
         [Test]
@@ -52,7 +54,9 @@ namespace RsPackage.Testing.StreamProvider
         {
             var provider = new FileStreamProvider(fileDirectory);
             var memory = provider.GetMemoryStream("EmployeeSalesDetail.rsd");
-            Assert.That(memory.Length, Is.EqualTo(3697));
+            //Due to changes at github for CrLf, difficult to give exact length
+            Assert.That(memory.Length, Is.GreaterThanOrEqualTo(3600));
+            Assert.That(memory.Length, Is.LessThanOrEqualTo(3700));
         }
 
         [Test]
