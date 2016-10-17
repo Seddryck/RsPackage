@@ -29,7 +29,7 @@ namespace RsPackage.Factory
             {
                 FolderService = serviceBuilder.GetFolderService(),
                 StreamProvider = serviceBuilder.GetStreamProvider(),
-                SourceFile = options.SourceFile.EndsWith(".rspac") ? "@[Project].manifest" : options.SourceFile,
+                SourceFile = options.SourceFile.EndsWith(".rspac") ? "@[Project].manifest" : Path.GetFileName(options.SourceFile),
                 ParentFolder = parentFolder,
                 RootPath = rootPath,
                 NamingConvention = namingConvention

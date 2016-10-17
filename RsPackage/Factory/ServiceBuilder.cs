@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using RsPackage.Logging;
 using RsPackage.StreamProvider;
 
@@ -79,7 +80,10 @@ namespace RsPackage.Factory
                 if (options.SourceFile.EndsWith(".rspac"))
                 return new ZipStreamProvider(options.SourceFile);
             else
-                return new FileStreamProvider(options.ResourcePath);
+                if (!string.IsNullOrEmpty(options.ResourcePath))
+                    return new FileStreamProvider(options.ResourcePath);
+                else
+                    return new FileStreamProvider(Path.GetDirectoryName(options.SourceFile));
         }
 
         protected virtual BaseService GetService(Type type)
