@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
+using RsPackage.StreamProvider;
+
 namespace RsPackage.Action
 {
     public class Publisher
@@ -18,7 +20,7 @@ namespace RsPackage.Action
         public string ParentFolder { get; internal set; }
 
         public INamingConvention NamingConvention { get; set; }
-        public IStreamProvider StreamProvider { get; set; }
+        public RsPackage.StreamProvider.IStreamProvider StreamProvider { get; set; }
 
         protected internal string SourceFile { get; set; }
 

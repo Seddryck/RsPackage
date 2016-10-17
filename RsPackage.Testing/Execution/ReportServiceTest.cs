@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Services;
+using System.IO;
 using RsPackage.Execution;
 using RsPackage.ReportingService;
-using RsPackage.Action;
+using RsPackage.StreamProvider;
 
 namespace RsPackage.Testing.Execution
 {
@@ -70,8 +71,8 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new ReportService(rs, new FileStreamProvider());
-            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, string.Empty, false);
+            var service = new ReportService(rs, new FileStreamProvider(Path.GetDirectoryName(ProductCatalogPath)));
+            service.Create("My First Report", "/ReportFolder", Path.GetFileName(ProductCatalogPath), string.Empty, false);
 
             Assert.That(rs.GetItemType("/ReportFolder/My First Report"), Is.EqualTo("Report"));
 
@@ -82,8 +83,8 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new ReportService(rs, new FileStreamProvider());
-            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false);
+            var service = new ReportService(rs, new FileStreamProvider(Path.GetDirectoryName(ProductCatalogPath)));
+            service.Create("My First Report", "/ReportFolder", Path.GetFileName(ProductCatalogPath), "My description", false);
 
             Assert.That(rs.GetItemType("/ReportFolder/My First Report"), Is.EqualTo("Report"));
             var properties = rs.GetProperties("/ReportFolder/My First Report", new[] { new Property() { Name = "Hidden" } });
@@ -95,8 +96,8 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new ReportService(rs, new FileStreamProvider());
-            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false);
+            var service = new ReportService(rs, new FileStreamProvider(Path.GetDirectoryName(ProductCatalogPath)));
+            service.Create("My First Report", "/ReportFolder", Path.GetFileName(ProductCatalogPath), "My description", false);
 
             Assert.That(rs.GetItemType("/ReportFolder/My First Report"), Is.EqualTo("Report"));
             var properties = rs.GetProperties("/ReportFolder/My First Report", new[] { new Property() { Name = "Description" } });
@@ -108,8 +109,8 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new ReportService(rs, new FileStreamProvider());
-            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", true);
+            var service = new ReportService(rs, new FileStreamProvider(Path.GetDirectoryName(ProductCatalogPath)));
+            service.Create("My First Report", "/ReportFolder", Path.GetFileName(ProductCatalogPath), "My description", true);
 
             Assert.That(rs.GetItemType("/ReportFolder/My First Report"), Is.EqualTo("Report"));
             var properties = rs.GetProperties("/ReportFolder/My First Report", new[] { new Property() { Name = "Hidden" } });
@@ -124,8 +125,8 @@ namespace RsPackage.Testing.Execution
             var ds = new Dictionary<string, string>();
             ds.Add("AdventureWorks", "/Data Sources/AdventureWorks");
 
-            var service = new ReportService(rs, new FileStreamProvider());
-            service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds, new Dictionary<string, string>());
+            var service = new ReportService(rs, new FileStreamProvider(Path.GetDirectoryName(ProductCatalogPath)));
+            service.Create("My First Report", "/ReportFolder", Path.GetFileName(ProductCatalogPath), "My description", false, ds, new Dictionary<string, string>());
 
             var dsRef = rs.GetItemDataSources("/ReportFolder/My First Report");
             Assert.That(dsRef.Count(), Is.EqualTo(1));
@@ -140,11 +141,11 @@ namespace RsPackage.Testing.Execution
 
             var ds = new Dictionary<string, string>();
 
-            var service = new ReportService(rs, new FileStreamProvider());
+            var service = new ReportService(rs, new FileStreamProvider(Path.GetDirectoryName(ProductCatalogPath)));
             var error = false;
             service.MessageSent += (o, e) => error |= e.Level == MessageEventArgs.LevelOption.Error;
 
-            Assert.Catch<InvalidOperationException>(() => service.Create("My First Report", "/ReportFolder", ProductCatalogPath, "My description", false, ds, new Dictionary<string, string>()));
+            Assert.Catch<InvalidOperationException>(() => service.Create("My First Report", "/ReportFolder", Path.GetFileName(ProductCatalogPath), "My description", false, ds, new Dictionary<string, string>()));
             Assert.That(error, Is.True);
         }
 
@@ -159,16 +160,16 @@ namespace RsPackage.Testing.Execution
 
             var dataSetNames = new[] { "EmployeeSalesDetail", "EmployeeSalesYearOverYear", "EmpSalesMonth", "SalesEmployees" };
 
-            var dsService = new SharedDatasetService(rs, new FileStreamProvider());
+            var dsService = new SharedDatasetService(rs, new FileStreamProvider(Path.GetDirectoryName(ProductCatalogPath)));
             var dataSets = new Dictionary<string, string>();
             foreach (var dataSetName in dataSetNames)
             {
-                dsService.Create(dataSetName, "/ReportFolder", SharedDatasetPath + dataSetName + ".rsd", string.Empty, false);
+                dsService.Create(dataSetName, "/ReportFolder", dataSetName + ".rsd", string.Empty, false);
                 dataSets.Add(dataSetName, "/ReportFolder/" + dataSetName);
             }
             
-            var service = new ReportService(rs, new FileStreamProvider());
-            service.Create("Employee sales summary", "/ReportFolder", EmployeeSalesSummaryPath, "My description", false, dataSources, dataSets);
+            var service = new ReportService(rs, new FileStreamProvider(Path.GetDirectoryName(ProductCatalogPath)));
+            service.Create("Employee sales summary", "/ReportFolder", Path.GetFileName(EmployeeSalesSummaryPath), "My description", false, dataSources, dataSets);
 
             var dsRef = rs.GetItemReferences("/ReportFolder/Employee sales summary", "DataSet");
             Assert.That(dsRef.Count(), Is.EqualTo(4));

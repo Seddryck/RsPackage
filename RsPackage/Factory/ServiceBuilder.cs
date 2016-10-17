@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RsPackage.Logging;
-using RsPackage.Action;
+using RsPackage.StreamProvider;
 
 namespace RsPackage.Factory
 {
@@ -42,7 +42,7 @@ namespace RsPackage.Factory
             this.logger = BuildLogger(options);
             AddService(new ReportService(rs, streamProvider));
             AddService(new FolderService(rs));
-            AddService(new DataSourceService(rs));
+            AddService(new DataSourceService(rs, streamProvider));
             AddService(new PolicyService(rs));
             AddService(new SharedDatasetService(rs, streamProvider));
             this.isBuilt = true;
@@ -77,9 +77,9 @@ namespace RsPackage.Factory
                 throw new ArgumentException("The parameter 'source' is mandatory");
 
                 if (options.SourceFile.EndsWith(".rspac"))
-                return new ZipStreamProvider();
+                return new ZipStreamProvider(options.SourceFile);
             else
-                return new FileStreamProvider();
+                return new FileStreamProvider(options.ResourcePath);
         }
 
         protected virtual BaseService GetService(Type type)

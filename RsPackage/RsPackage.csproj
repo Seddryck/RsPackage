@@ -55,9 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action\FileStreamProvider.cs" />
-    <Compile Include="Action\IStreamProvider.cs" />
-    <Compile Include="Action\ZipStreamProvider.cs" />
+    <Compile Include="StreamProvider\FileStreamProvider.cs" />
+    <Compile Include="StreamProvider\IStreamProvider.cs" />
+    <Compile Include="StreamProvider\ZipStreamProvider.cs" />
     <Compile Include="Execution\BaseService.cs" />
     <Compile Include="Execution\CatalogItemService.cs" />
     <Compile Include="Execution\SharedDatasetService.cs" />

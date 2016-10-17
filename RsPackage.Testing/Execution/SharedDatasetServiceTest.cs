@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Services;
+using System.IO;
 using RsPackage.Execution;
 using RsPackage.ReportingService;
-using RsPackage.Action;
+using RsPackage.StreamProvider;
 
 namespace RsPackage.Testing.Execution
 {
@@ -72,8 +73,8 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new SharedDatasetService(rs, new FileStreamProvider());
-            service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", SharedDatasetPaths[0], string.Empty, false);
+            var service = new SharedDatasetService(rs, new FileStreamProvider(Path.GetDirectoryName(SharedDatasetPaths[0])));
+            service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", Path.GetFileName(SharedDatasetPaths[0]), string.Empty, false);
 
             Assert.That(rs.GetItemType("/SharedDatasetFolder/EmployeeSalesDetail"), Is.EqualTo("DataSet"));
 
@@ -84,8 +85,8 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new SharedDatasetService(rs, new FileStreamProvider());
-            service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", SharedDatasetPaths[0], "My description", false);
+            var service = new SharedDatasetService(rs, new FileStreamProvider(Path.GetDirectoryName(SharedDatasetPaths[0])));
+            service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", Path.GetFileName(SharedDatasetPaths[0]), "My description", false);
 
             Assert.That(rs.GetItemType("/SharedDatasetFolder/EmployeeSalesDetail"), Is.EqualTo("DataSet"));
             var properties = rs.GetProperties("/SharedDatasetFolder/EmployeeSalesDetail", new[] { new Property() { Name = "Hidden" } });
@@ -97,8 +98,8 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new SharedDatasetService(rs, new FileStreamProvider());
-            service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", SharedDatasetPaths[0], string.Empty, true);
+            var service = new SharedDatasetService(rs, new FileStreamProvider(Path.GetDirectoryName(SharedDatasetPaths[0])));
+            service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", Path.GetFileName(SharedDatasetPaths[0]), string.Empty, true);
 
             Assert.That(rs.GetItemType("/SharedDatasetFolder/EmployeeSalesDetail"), Is.EqualTo("DataSet"));
             var properties = rs.GetProperties("/SharedDatasetFolder/EmployeeSalesDetail", new[] { new Property() { Name = "Hidden" } });
@@ -111,8 +112,8 @@ namespace RsPackage.Testing.Execution
         {
             var rs = GetReportingService();
 
-            var service = new SharedDatasetService(rs, new FileStreamProvider());
-            service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", SharedDatasetPaths[0], "My description", false);
+            var service = new SharedDatasetService(rs, new FileStreamProvider(Path.GetDirectoryName(SharedDatasetPaths[0])));
+            service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", Path.GetFileName(SharedDatasetPaths[0]), "My description", false);
 
             Assert.That(rs.GetItemType("/SharedDatasetFolder/EmployeeSalesDetail"), Is.EqualTo("DataSet"));
             var properties = rs.GetProperties("/SharedDatasetFolder/EmployeeSalesDetail", new[] { new Property() { Name = "Description" } });
@@ -127,8 +128,8 @@ namespace RsPackage.Testing.Execution
             var ds = new Dictionary<string, string>();
             ds.Add("AdventureWorks", "/Data Sources/AdventureWorks");
 
-            var service = new SharedDatasetService(rs, new FileStreamProvider());
-            service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", SharedDatasetPaths[0], "My description", false, "AdventureWorks", ds);
+            var service = new SharedDatasetService(rs, new FileStreamProvider(Path.GetDirectoryName(SharedDatasetPaths[0])));
+            service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", Path.GetFileName(SharedDatasetPaths[0]), "My description", false, "AdventureWorks", ds);
 
             var dsRef = rs.GetItemDataSources("/SharedDatasetFolder/EmployeeSalesDetail");
             Assert.That(dsRef.Count(), Is.EqualTo(1));
@@ -143,11 +144,11 @@ namespace RsPackage.Testing.Execution
 
             var ds = new Dictionary<string, string>();
 
-            var service = new SharedDatasetService(rs, new FileStreamProvider());
+            var service = new SharedDatasetService(rs, new FileStreamProvider(Path.GetDirectoryName(SharedDatasetPaths[0])));
             var error = false;
             service.MessageSent += (o, e) => error |= e.Level == MessageEventArgs.LevelOption.Error;
 
-            Assert.Catch<InvalidOperationException>(() => service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", SharedDatasetPath, string.Empty, false, "AdventureWorks", ds));
+            Assert.Catch<InvalidOperationException>(() => service.Create("EmployeeSalesDetail", "/SharedDatasetFolder", Path.GetFileName(SharedDatasetPath), string.Empty, false, "AdventureWorks", ds));
             Assert.That(error, Is.True);
         }
 

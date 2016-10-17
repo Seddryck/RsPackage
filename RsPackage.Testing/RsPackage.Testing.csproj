@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="Factory\PackagerFactoryTest.cs" />
+    <Compile Include="StreamProvider\FileStreamProviderTest.cs" />
+    <Compile Include="StreamProvider\ZipStreamProviderTest.cs" />
     <Compile Include="Transform\DataSourceTransformTest.cs" />
     <Compile Include="Execution\PolicyServiceTest.cs" />
     <Compile Include="Execution\SharedDatasetServiceTest.cs" />
@@ -105,6 +107,7 @@
     <EmbeddedResource Include="Resources\SalesEmployees.rsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyPackage.rspac" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\BasicSample.xml">

@@ -9,20 +9,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace RsPackage.Action
+namespace RsPackage.StreamProvider
 {
     public class FileStreamProvider : IStreamProvider
     {
+        private string rootDirectory;
         public event EventHandler<MessageEventArgs> MessageSent;
 
-        public FileStreamProvider()
+        public FileStreamProvider(string rootDirectory)
             : base()
         {
+            this.rootDirectory = rootDirectory.EndsWith(@"\") ? rootDirectory : rootDirectory + @"\";
         }
 
         public virtual MemoryStream GetMemoryStream(string fileName)
         {
-            using (var stream = File.OpenRead(fileName))
+            using (var stream = File.OpenRead(rootDirectory + fileName))
             {
                 var readerStream = new MemoryStream();
                 stream.CopyTo(readerStream);
@@ -33,16 +35,16 @@ namespace RsPackage.Action
 
         public virtual byte[] GetBytes(string path)
         {
-            if (!File.Exists(path))
+            if (!File.Exists(rootDirectory + path))
             {
-                OnError($"File '{path}' doesn't exist!");
+                OnError($"File '{rootDirectory + path}' doesn't exist!");
                 return null;
             }
 
             Byte[] definition = null;
             try
             {
-                using (FileStream stream = File.OpenRead(path))
+                using (FileStream stream = File.OpenRead(rootDirectory + path))
                 {
                     definition = new Byte[stream.Length];
                     stream.Read(definition, 0, (int)stream.Length);
@@ -54,6 +56,11 @@ namespace RsPackage.Action
             }
 
             return definition;
+        }
+
+        public bool Exists(string fileName)
+        {
+            return File.Exists(rootDirectory + fileName);
         }
 
         protected virtual void OnInformation(string message)

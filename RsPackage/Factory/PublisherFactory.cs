@@ -29,7 +29,7 @@ namespace RsPackage.Factory
             {
                 FolderService = serviceBuilder.GetFolderService(),
                 StreamProvider = serviceBuilder.GetStreamProvider(),
-                SourceFile = options.SourceFile,
+                SourceFile = options.SourceFile.EndsWith(".rspac") ? "@[Project].manifest" : options.SourceFile,
                 ParentFolder = parentFolder,
                 RootPath = rootPath,
                 NamingConvention = namingConvention
@@ -56,7 +56,12 @@ namespace RsPackage.Factory
 
         protected virtual string GetParentFolder(PublishOptions options)
         {
-            return options.ParentFolder;
+            if (options.ParentFolder.Trim() == ".")
+                return "/";
+            else if (options.ParentFolder.Trim().StartsWith("/"))
+                return options.ParentFolder.Trim();
+            else
+                return "/" + options.ParentFolder.Trim();
         }
 
         protected virtual INamingConvention GetNamingConvention(PublishOptions options)

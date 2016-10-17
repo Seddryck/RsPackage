@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using RsPackage.ReportingService;
 using RsPackage.Action;
+using RsPackage.StreamProvider;
 
 namespace RsPackage.Execution
 {
@@ -13,7 +14,7 @@ namespace RsPackage.Execution
     {
         private readonly string labelItem;
         private readonly string itemType;
-        private readonly IStreamProvider StreamProvider;
+        protected readonly IStreamProvider StreamProvider;
 
         public CatalogItemService(string itemType, string labelItem)
             : base()

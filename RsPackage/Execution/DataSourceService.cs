@@ -5,72 +5,75 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.IO;
+using System.Xml;
+
 using RsPackage.ReportingService;
 using RsPackage.Transform;
-using System.Xml;
+using RsPackage.StreamProvider;
+
 
 namespace RsPackage.Execution
 {
-    public class DataSourceService : BaseService
+    public class DataSourceService : CatalogItemService
     {
         public DataSourceService()
-        {}
+            : base("Data source", "datasource")
+        { }
 
-        public DataSourceService(ReportingService2010 ReportingService) 
-            : base(ReportingService)
-        {}
+        public DataSourceService(ReportingService2010 reportingService, RsPackage.StreamProvider.IStreamProvider streamProvider)
+            : base(reportingService, streamProvider, "Data source", "datasource")
+        { }
 
         public virtual void Create(string name, string parent, string path)
         {
             //If file extension is not specied we need to check the existence of both
             if (Path.GetExtension(path)!=".rsds" && Path.GetExtension(path) != ".rds")
             {
-                if (File.Exists($"{path}.rsds"))
+                if (StreamProvider.Exists($"{path}.rsds"))
                     path = $"{path}.rsds";
                 else
                     path = $"{path}.rds";
             }
 
             //If file is not found then we must throw an error
-            if (!File.Exists(path))
+            if (!StreamProvider.Exists(path))
             {
                 OnError($"File '{path}' doesn't exist!");
                 return;
             }
 
             // If file is a Visual Studio connection-string then we need to transform it
+            XmlDocument dataSourceDocument = null;
             if (Path.GetExtension(path) == ".rds")
             {
                 var document = new XmlDocument();
-                document.Load(path);
+                document.Load(StreamProvider.GetMemoryStream(path));
 
                 var transformer = new DataSourceTransformer();
                 if (transformer.IsVisualStudio(document))
-                {
-                    var newDocument = transformer.ToReportingService(document);
-                    path = Path.ChangeExtension(path, ".rsds");
-                    newDocument.Save(path);
-                }
+                    dataSourceDocument = transformer.ToReportingService(document);
                 else
                     throw new InvalidOperationException();
             }
 
             //If it's a rsds file we need to ensure it's a valid Reporting Server connection string
-            if (Path.GetExtension(path) == ".rsds")
+            else if (Path.GetExtension(path) == ".rsds")
             {
-                var document = new XmlDocument();
-                document.Load(path);
+                dataSourceDocument.Load(StreamProvider.GetMemoryStream(path));
 
                 var transformer = new DataSourceTransformer();
-                if (!transformer.IsReportingService(document))
+                if (!transformer.IsReportingService(dataSourceDocument))
                     throw new InvalidOperationException();
             }
 
             Byte[] definition = null;
             try
             {
-                using (FileStream stream = File.OpenRead(path))
+                using (var stream = new MemoryStream())
                 {
+                    dataSourceDocument.Save(stream);
+                    stream.Flush();
+                    stream.Position = 0;
                     definition = new Byte[stream.Length];
                     stream.Read(definition, 0, (int)stream.Length);
                 }
