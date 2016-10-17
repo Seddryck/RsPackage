@@ -11,12 +11,18 @@ RsPackage is a tool to facilitate the automation of the deployment of reports, d
 #How-to
 
 ## Command line arguments
-
-* ```-u``` or ```/url``` specifies the url of the target server for the deployment
-* ```-f``` or ```/folder``` specifies the folder of the target server as the top-level folder for this deployment
+For the verb ```package```
+* ```-t``` or ```/target``` specifies the filename for the package .rspac
 * ```-s``` or ```/source``` specifies the path to the file containing the manifest for this deployment
 * ```-r``` or ```/resources``` specifies the folder containing all the artefacts (rdl, rds and other files)
-* ```-l``` or ```/logPath``` specifies the file where the log will be redirected. If missing logs are displayed in the console
+* ```-l``` or ```/logPath``` [optional] specifies the file where the log will be redirected. If missing logs are displayed in the console.
+
+For the verb ```publish```
+* ```-u``` or ```/url``` specifies the url of the target server for the deployment
+* ```-f``` or ```/folder``` specifies the folder of the target server as the top-level folder for this deployment
+* ```-s``` or ```/source``` specifies the path to the rspac archive or to the file containing the manifest for this deployment
+* ```-r``` or ```/resources``` [optional] specifies the folder containing all the artefacts (rdl, rds and other files) if the ```source``` is not an .rspac file.
+* ```-l``` or ```/logPath``` [optional] specifies the file where the log will be redirected. If missing logs are displayed in the console.
 
 ## Elements in the manifest of deployment
 
@@ -59,5 +65,14 @@ RsPackage is a tool to facilitate the automation of the deployment of reports, d
       <Member>Domain\User1<Member>
       <Member>Domain\User2<Member>
     </Membership>
+</Folder>
+```
+* ```<SharedDataset>``` defines the name of a shared dataset and optionaly its filename (Element ```Path```), description (Element ```Description```), visibility (attribute ```Hidden```) and data source (attribute ```DataSource```)
+``` xml
+<Folder>
+   <SharedDataset Name="My first report" Hidden="True" DataSource="My Data Source">
+      <Description>This is my first shared dataset to be published</Descritpion>
+      <Path>My1stSharedDataSet.rsd<Path>
+   </SharedDataset>
 </Folder>
 ```
