@@ -41,7 +41,7 @@ RsPackage is a tool to facilitate the automation of the deployment of reports, d
 <Folder Name="1">
    <Report Name="My first report" Hidden="True">
       <Description>This is my first report to be published</Descritpion>
-      <Path>My1stReport.rdl<Path>
+      <Path>My1stReport.rdl</Path>
    </Report>
    <Report Name="My second report"/>
 </Folder>
@@ -49,15 +49,15 @@ RsPackage is a tool to facilitate the automation of the deployment of reports, d
 * ```<DataSource>``` defines the name of data source and optionaly its filename (Element ```Path```)
 ``` xml
 <DataSource Name="My data source">
-  <Path>MyDS.rds<Path>
+  <Path>MyDS.rds</Path>
 </DataSource>
 ```
 * ```<Membership>``` defines the overload of a ```Role``` for the specific catalog item (and children). Additional members in the overloaded ```Role``` are specified in ```<Member>``` elements.
 ``` xml
 <Folder>
    <Membership Role="Browser">
-      <Member>Domain\User1<Member>
-      <Member>Domain\User2<Member>
+      <Member>Domain\User1</Member>
+      <Member>Domain\User2</Member>
     </Membership>
 </Folder>
 ```
