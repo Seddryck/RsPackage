@@ -20,7 +20,7 @@ namespace RsPackage.Execution
             : base(ReportingService)
         {}
 
-        public virtual void Create(string name, string parent, string path)
+        public virtual void Create(string name, string parent, string path, bool overwrite)
         {
             //If file extension is not specied we need to check the existence of both
             if (Path.GetExtension(path)!=".rsds" && Path.GetExtension(path) != ".rds")
@@ -82,7 +82,7 @@ namespace RsPackage.Execution
 
             Warning[] warnings = null;
             OnInformation($"Creating DataSource '{name}' in '{parent}'");
-            reportingService.CreateCatalogItem("DataSource", name, parent, true, definition, null, out warnings);
+            reportingService.CreateCatalogItem("DataSource", name, parent, overwrite, definition, null, out warnings);
 
             if (warnings != null)
                 foreach (var warning in warnings)

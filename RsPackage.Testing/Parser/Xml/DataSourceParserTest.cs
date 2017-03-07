@@ -22,7 +22,7 @@ namespace RsPackage.Testing.Parser.Xml
         public void ParseDataSourceNode()
         {
             var mock = new Mock<DataSourceService>();
-            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            mock.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
             var service = mock.Object;
 
             var parser = new DataSourceParser(service);
@@ -37,14 +37,14 @@ namespace RsPackage.Testing.Parser.Xml
             parser.Root = new ProjectParser() { NamingConvention = new TitleToCamelCase() };
             parser.Execute(root);
 
-            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            Mock.Get(service).Verify(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Once);
         }
 
         [Test]
         public void ParseDataSourceNodeAndForwardToRoot()
         {
             var stub = new Mock<DataSourceService>();
-            stub.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            stub.Setup(s => s.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).Verifiable();
             var service = stub.Object;
 
             var parser = new DataSourceParser(service);

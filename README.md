@@ -46,11 +46,17 @@ RsPackage is a tool to facilitate the automation of the deployment of reports, d
    <Report Name="My second report"/>
 </Folder>
 ```
-* ```<DataSource>``` defines the name of data source and optionaly its filename (Element ```Path```)
+* ```<DataSource>``` defines the name of data source and optionaly its filename (Element ```Path```), and  preserve (attribute ```overwrite```)
 ``` xml
-<DataSource Name="My data source">
+<DataSource Name="My data source" overwrite="false">
   <Path>MyDS.rds</Path>
 </DataSource>
+```
+* ```<DataSet>``` defines the name of Shared Dataset and optionaly its filename (Element ```Path```)
+``` xml
+<DataSet Name="My datasets">
+  <Path>MyDS.rsd<Path>
+</DataSet>
 ```
 * ```<Membership>``` defines the overload of a ```Role``` for the specific catalog item (and children). Additional members in the overloaded ```Role``` are specified in ```<Member>``` elements.
 ``` xml
