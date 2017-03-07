@@ -37,7 +37,7 @@ namespace RsPackage.Parser.Xml
                 if (!Path.IsPathRooted(path))
                     path = Path.Combine(RootPath ?? string.Empty, path);
 
-                var overwrite = bool.Parse(DataSourceNode.Attributes["overwrite"]?.Value ?? bool.FalseString);
+                var overwrite = bool.Parse(DataSourceNode.Attributes["overwrite"]?.Value ?? bool.TrueString);
 
                 DataSourceService.Create(name, ParentPath, path, overwrite);
                 Root.DataSources.Add(name, $"{ParentPath}/{name}");
