@@ -81,8 +81,18 @@ namespace RsPackage.Execution
             }
 
             Warning[] warnings = null;
-            OnInformation($"Creating DataSource '{name}' in '{parent}'");
-            reportingService.CreateCatalogItem("DataSource", name, parent, overwrite, definition, null, out warnings);
+            OnInformation($"Creating DataSource '{name}' in '{parent}' with overwrite:{overwrite}");
+
+            try
+            { 
+                reportingService.CreateCatalogItem("DataSource", name, parent, overwrite, definition, null, out warnings);
+            }
+            catch (Exception e)
+            {
+                //Not sure how to catch only Microsoft.ReportingServices.Diagnostics.Utilities.ItemAlreadyExistsException
+                OnWarning(e.Message);    
+            }
+
 
             if (warnings != null)
                 foreach (var warning in warnings)
