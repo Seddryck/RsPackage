@@ -1,0 +1,160 @@
+repo_name: Seddryck/RsPackage
+report_id: 587c05358cd7bfe800d50ddf29df36cc
+repo_type: Public
+timestamp: '2023-11-12T20:21:38+00:00'
+requested_by: Seddryck
+provider: github
+branch: master
+detected_tools_count: 13
+tools:
+- name: ASP.NET
+  description: An open source web framework for building modern web apps and services
+    with .NET
+  website_url: https://www.asp.net/
+  version: 4.5.2
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/6755/2c45151a4a11d3a3c8e71bb34dd069d6_400x400.png
+  detection_source_url: RsPackage.Testing/RsPackage.Testing.csproj
+  detection_source: RsPackage/RsPackage.csproj
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2016-06-14 22:05:26.000000000 Z
+- name: C#
+  description: Simple, general-purpose, object-oriented programming language for the
+    .NET platform
+  website_url: http://csharp.net
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1015/1200px-C_Sharp_wordmark.svg.png
+  detection_source: Repo Metadata
+- name: ".NET"
+  description: A free, cross-platform, open source developer platform for building
+    many different types of applications
+  website_url: http://www.microsoft.com/net/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Frameworks (Full Stack)
+  image_url: https://img.stackshare.io/service/1014/IoPy1dce_400x400.png
+  detection_source: RsPackage/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2016-06-14 22:05:26.000000000 Z
+- name: Castle Core
+  description: It provides common Castle Project abstractions including logging services
+  website_url: https://github.com/castleproject/Core
+  open_source: true
+  hosted_saas: false
+  category: Monitoring
+  sub_category: Logging Tools
+  image_url: https://img.stackshare.io/service/20916/default_6d17162c9963bc83521ee29cf394f349c95173f3.png
+  detection_source: RsPackage.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2016-06-16 15:13:39.000000000 Z
+- name: Fody
+  description: Extensible tool for weaving .net assemblies
+  website_url: https://github.com/Fody/Fody
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Code Review
+  image_url: https://img.stackshare.io/service/20932/default_0d33a14bfbacce3a8e941836ff542881b7e5223e.png
+  detection_source: RsPackage/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2016-07-11 19:23:01.000000000 Z
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source: Repo Metadata
+- name: Moq
+  description: The most popular and friendly mocking framework for .NET
+  website_url: https://github.com/Moq/moq4
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Testing Frameworks
+  image_url: https://img.stackshare.io/service/1628/1434934.png
+  detection_source: RsPackage.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2016-06-14 22:05:26.000000000 Z
+- name: NUnit
+  description: An open-source unit testing framework
+  website_url: http://www.nunit.org/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Testing Frameworks
+  image_url: https://img.stackshare.io/service/2371/jZ6MYx5Y_400x400.png
+  detection_source: RsPackage.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2016-06-14 22:05:26.000000000 Z
+- name: NuGet
+  description: The package manager for .NET
+  website_url: https://www.nuget.org/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/service/2637/6I3oEOP4_400x400.jpg
+  detection_source: RsPackage/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2016-06-14 22:05:26.000000000 Z
+- name: Visual Studio
+  description: State-of-the-art tools and services that you can use to create great
+    apps for devices, the cloud, and everything in between.
+  website_url: http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Integrated Development Environment
+  image_url: https://img.stackshare.io/service/1451/SR2hUhQN.png
+  detection_source: RsPackage.sln
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2016-06-14 22:05:26.000000000 Z
+- name: PowerShell
+  description: A task automation and configuration management framework
+  website_url: https://docs.microsoft.com/en-us/powershell/
+  open_source: false
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/3681/powershell-logo.png
+  detection_source: Repo Metadata
+- name: CommandLineParser
+  description: Terse syntax C# command line parser for .NET
+  package_url: https://www.nuget.org/CommandLineParser
+  version: 2.0.275
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13122/default_a5e8cd728170fc92850284a53a17ff7deb73f318.png
+  detection_source_url: RsPackage/packages.config
+  detection_source: RsPackage/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2016-06-14 22:05:26.000000000 Z
+- name: Costura.Fody
+  description: Fody add-in for embedding references as resources
+  package_url: https://www.nuget.org/Costura.Fody
+  version: 1.3.3
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13752/default_1ec7b75e4d233f940c213992649575a79a936406.png
+  detection_source_url: RsPackage/packages.config
+  detection_source: RsPackage/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2016-07-11 19:23:01.000000000 Z
