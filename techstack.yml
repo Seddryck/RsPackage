@@ -1,7 +1,8 @@
 repo_name: Seddryck/RsPackage
 report_id: 587c05358cd7bfe800d50ddf29df36cc
+version: 0.1
 repo_type: Public
-timestamp: '2023-11-12T20:21:38+00:00'
+timestamp: '2024-01-05T08:47:56+00:00'
 requested_by: Seddryck
 provider: github
 branch: master
@@ -17,8 +18,8 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/6755/2c45151a4a11d3a3c8e71bb34dd069d6_400x400.png
-  detection_source_url: RsPackage.Testing/RsPackage.Testing.csproj
-  detection_source: RsPackage/RsPackage.csproj
+  detection_source_url: https://github.com/Seddryck/RsPackage/blob/master/RsPackage.Testing/RsPackage.Testing.csproj
+  detection_source: RsPackage.Testing/RsPackage.Testing.csproj
   last_updated_by: Cédric L. Charlier
   last_updated_on: 2016-06-14 22:05:26.000000000 Z
 - name: C#
@@ -30,6 +31,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/1015/1200px-C_Sharp_wordmark.svg.png
+  detection_source_url: https://github.com/Seddryck/RsPackage
   detection_source: Repo Metadata
 - name: ".NET"
   description: A free, cross-platform, open source developer platform for building
@@ -41,6 +43,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Frameworks (Full Stack)
   image_url: https://img.stackshare.io/service/1014/IoPy1dce_400x400.png
+  detection_source_url: https://github.com/Seddryck/RsPackage/blob/master/RsPackage/packages.config
   detection_source: RsPackage/packages.config
   last_updated_by: Cédric L. Charlier
   last_updated_on: 2016-06-14 22:05:26.000000000 Z
@@ -52,6 +55,7 @@ tools:
   category: Monitoring
   sub_category: Logging Tools
   image_url: https://img.stackshare.io/service/20916/default_6d17162c9963bc83521ee29cf394f349c95173f3.png
+  detection_source_url: https://github.com/Seddryck/RsPackage/blob/master/RsPackage.Testing/packages.config
   detection_source: RsPackage.Testing/packages.config
   last_updated_by: Cédric L. Charlier
   last_updated_on: 2016-06-16 15:13:39.000000000 Z
@@ -64,6 +68,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Code Review
   image_url: https://img.stackshare.io/service/20932/default_0d33a14bfbacce3a8e941836ff542881b7e5223e.png
+  detection_source_url: https://github.com/Seddryck/RsPackage/blob/master/RsPackage/packages.config
   detection_source: RsPackage/packages.config
   last_updated_by: Cédric L. Charlier
   last_updated_on: 2016-07-11 19:23:01.000000000 Z
@@ -75,6 +80,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Version Control System
   image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/Seddryck/RsPackage
   detection_source: Repo Metadata
 - name: Moq
   description: The most popular and friendly mocking framework for .NET
@@ -84,6 +90,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Testing Frameworks
   image_url: https://img.stackshare.io/service/1628/1434934.png
+  detection_source_url: https://github.com/Seddryck/RsPackage/blob/master/RsPackage.Testing/packages.config
   detection_source: RsPackage.Testing/packages.config
   last_updated_by: Cédric L. Charlier
   last_updated_on: 2016-06-14 22:05:26.000000000 Z
@@ -95,6 +102,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Testing Frameworks
   image_url: https://img.stackshare.io/service/2371/jZ6MYx5Y_400x400.png
+  detection_source_url: https://github.com/Seddryck/RsPackage/blob/master/RsPackage.Testing/packages.config
   detection_source: RsPackage.Testing/packages.config
   last_updated_by: Cédric L. Charlier
   last_updated_on: 2016-06-14 22:05:26.000000000 Z
@@ -106,6 +114,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Package Managers
   image_url: https://img.stackshare.io/service/2637/6I3oEOP4_400x400.jpg
+  detection_source_url: https://github.com/Seddryck/RsPackage/blob/master/RsPackage/packages.config
   detection_source: RsPackage/packages.config
   last_updated_by: Cédric L. Charlier
   last_updated_on: 2016-06-14 22:05:26.000000000 Z
@@ -118,6 +127,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Integrated Development Environment
   image_url: https://img.stackshare.io/service/1451/SR2hUhQN.png
+  detection_source_url: https://github.com/Seddryck/RsPackage/blob/master/RsPackage.sln
   detection_source: RsPackage.sln
   last_updated_by: Cédric L. Charlier
   last_updated_on: 2016-06-14 22:05:26.000000000 Z
@@ -129,6 +139,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/3681/powershell-logo.png
+  detection_source_url: https://github.com/Seddryck/RsPackage
   detection_source: Repo Metadata
 - name: CommandLineParser
   description: Terse syntax C# command line parser for .NET
@@ -140,7 +151,7 @@ tools:
   category: Libraries
   sub_category: NuGet Packages
   image_url: https://img.stackshare.io/package/13122/default_a5e8cd728170fc92850284a53a17ff7deb73f318.png
-  detection_source_url: RsPackage/packages.config
+  detection_source_url: https://github.com/Seddryck/RsPackage/blob/master/RsPackage/packages.config
   detection_source: RsPackage/packages.config
   last_updated_by: Cédric L. Charlier
   last_updated_on: 2016-06-14 22:05:26.000000000 Z
@@ -154,7 +165,7 @@ tools:
   category: Libraries
   sub_category: NuGet Packages
   image_url: https://img.stackshare.io/package/13752/default_1ec7b75e4d233f940c213992649575a79a936406.png
-  detection_source_url: RsPackage/packages.config
+  detection_source_url: https://github.com/Seddryck/RsPackage/blob/master/RsPackage/packages.config
   detection_source: RsPackage/packages.config
   last_updated_by: Cédric L. Charlier
   last_updated_on: 2016-07-11 19:23:01.000000000 Z
